@@ -4,7 +4,7 @@
 
 Prepared by the Environmental Compliance Subcommittee of the **Nevada County Quarterly Wildfire Stakeholders Group (QWSG)**.
 
-🌐 **Live site:** https://ceqa-pathways-chris-friedels-projects.vercel.app
+🌐 **Live site:** https://ceqa-pathways.vercel.app
 📄 **Printable PDF:** see [Print handout](#print--pdf-handout) below
 📅 **Current as of:** May 2026
 
