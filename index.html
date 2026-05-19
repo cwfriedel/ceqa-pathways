@@ -1,0 +1,1338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CEQA Decision Pathways · Forest Health &amp; Fuels Reduction · Nevada County QWSG</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ---------- tokens ---------- */
+:root {
+  --bg:        oklch(98% 0.008 95);
+  --bg-warm:   oklch(96% 0.012 90);
+  --bg-card:   oklch(99.5% 0.005 95);
+  --ink:       oklch(22% 0.015 150);
+  --ink-soft:  oklch(35% 0.012 150);
+  --ink-mute:  oklch(50% 0.010 150);
+  --ink-faint: oklch(70% 0.008 150);
+  --rule:      oklch(88% 0.010 95);
+  --rule-soft: oklch(93% 0.008 95);
+
+  /* pathway accents — shared chroma 0.09 ish, varying hue */
+  --streamlined:    oklch(48% 0.09 150); /* forest green */
+  --streamlined-bg: oklch(94% 0.035 150);
+  --standard:       oklch(55% 0.10 65);  /* amber */
+  --standard-bg:    oklch(94% 0.040 75);
+  --expired:        oklch(50% 0.06 25);  /* muted slate-red */
+  --expired-bg:     oklch(93% 0.020 25);
+  --programmatic:   oklch(48% 0.09 245); /* blue */
+  --programmatic-bg:oklch(94% 0.035 240);
+
+  --serif: "Newsreader", Georgia, serif;
+  --sans:  "IBM Plex Sans", system-ui, sans-serif;
+  --mono:  "IBM Plex Mono", ui-monospace, monospace;
+
+  --max: 1180px;
+  --gutter: clamp(20px, 4vw, 56px);
+}
+
+/* ---------- base ---------- */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+a.ext {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+  transition: border-color .15s, color .15s;
+}
+a.ext:hover { border-bottom-color: var(--ink); }
+a.ext::after {
+  content: " ↗";
+  font-family: var(--sans);
+  color: var(--ink-mute);
+  font-size: 0.85em;
+  letter-spacing: -0.02em;
+}
+
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+code, .mono { font-family: var(--mono); font-size: 0.92em; }
+
+/* ---------- masthead ---------- */
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  padding: 22px 0 18px;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+  background: oklch(98% 0.008 95 / 0.92);
+}
+.masthead-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.brand {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.brand strong { color: var(--ink); font-weight: 500; }
+.masthead-nav {
+  display: flex;
+  gap: 22px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.masthead-nav a {
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+}
+.masthead-nav a:hover { border-bottom-color: var(--ink); color: var(--ink); }
+
+/* ---------- hero ---------- */
+.hero {
+  padding: 80px 0 60px;
+  border-bottom: 1px solid var(--rule);
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 24px;
+}
+h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(40px, 6.2vw, 80px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0 0 28px;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+h1 em {
+  font-style: italic;
+  color: var(--streamlined);
+  font-weight: 300;
+}
+.hero-lede {
+  font-family: var(--serif);
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 62ch;
+  font-weight: 300;
+  text-wrap: pretty;
+}
+.hero-meta {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 28px;
+  font-size: 13px;
+  max-width: 880px;
+}
+.hero-meta dt {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 6px;
+}
+.hero-meta dd {
+  margin: 0;
+  color: var(--ink);
+}
+
+/* ---------- section scaffold ---------- */
+section { padding: 80px 0; border-bottom: 1px solid var(--rule); }
+.section-head { margin-bottom: 48px; max-width: 720px; }
+.section-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 16px;
+}
+h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0 0 16px;
+  text-wrap: balance;
+}
+.section-lede {
+  color: var(--ink-soft);
+  font-size: 16px;
+  max-width: 64ch;
+  text-wrap: pretty;
+}
+
+/* ---------- key context strip ---------- */
+.context {
+  background: var(--bg-warm);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 56px 0;
+}
+.context-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.context-head h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 24px;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.context-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0;
+}
+.ctx {
+  padding: 0 28px;
+  border-left: 1px solid var(--rule);
+}
+.ctx:first-child { padding-left: 0; border-left: 0; }
+.ctx-tag {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.ctx-tag.green { color: var(--streamlined); }
+.ctx-tag.amber { color: var(--standard); }
+.ctx-tag.red   { color: var(--expired); }
+.ctx-tag.blue  { color: var(--programmatic); }
+.ctx-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.ctx-body {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.ctx-date {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-mute);
+  letter-spacing: 0.05em;
+}
+
+/* ---------- decision tree ---------- */
+.tree-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+}
+@media (max-width: 880px) { .tree-shell { grid-template-columns: 1fr; gap: 32px; } }
+
+.tree-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.node {
+  border: 1px solid var(--rule);
+  background: var(--bg-card);
+  padding: 22px 24px;
+  position: relative;
+  transition: border-color .2s, background .2s;
+}
+.node + .node { border-top: 0; }
+.node[data-state="active"] {
+  border-color: var(--ink);
+  z-index: 2;
+}
+.node[data-state="resolved"] {
+  background: var(--bg);
+}
+.node-step {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 8px;
+}
+.node-q {
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.3;
+  font-weight: 500;
+  margin-bottom: 4px;
+  text-wrap: pretty;
+}
+.node-sub {
+  font-size: 13px;
+  color: var(--ink-mute);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.node-choices {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.choice {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: all .15s;
+}
+.choice:hover { border-color: var(--ink); }
+.choice[data-picked="yes"] {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+/* ---------- result card (right side) ---------- */
+.result {
+  position: sticky;
+  top: 100px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 32px;
+  min-height: 320px;
+}
+.result-empty {
+  color: var(--ink-mute);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.5;
+  font-style: italic;
+}
+.result-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  margin-bottom: 16px;
+}
+.result-tag.streamlined  { background: var(--streamlined-bg);  color: var(--streamlined);  }
+.result-tag.standard     { background: var(--standard-bg);     color: var(--standard);     }
+.result-tag.expired      { background: var(--expired-bg);      color: var(--expired);      }
+.result-tag.programmatic { background: var(--programmatic-bg); color: var(--programmatic); }
+.result-tag.none         { background: var(--rule-soft);       color: var(--ink-mute);     }
+
+.result h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 1.15;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.result-body { color: var(--ink-soft); font-size: 14.5px; line-height: 1.6; }
+.result-body p { margin: 0 0 12px; }
+.result-body strong { color: var(--ink); font-weight: 500; }
+.result-next {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  font-family: var(--mono);
+  letter-spacing: 0.03em;
+}
+.result-next a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+}
+.result-reset {
+  background: none;
+  border: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  cursor: pointer;
+  padding: 0;
+  margin-top: 18px;
+  border-bottom: 1px solid transparent;
+}
+.result-reset:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* ---------- legend ---------- */
+.legend {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+}
+.legend-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 16px;
+}
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px 28px;
+}
+.legend-item {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.legend-dot {
+  width: 18px; height: 12px;
+  display: inline-block;
+  margin-top: 4px;
+  border-left: 3px solid;
+}
+.legend-dot.streamlined  { background: var(--streamlined-bg);  border-left-color: var(--streamlined); }
+.legend-dot.standard     { background: var(--standard-bg);     border-left-color: var(--standard); }
+.legend-dot.expired      { background: var(--expired-bg);      border-left-color: var(--expired); }
+.legend-dot.programmatic { background: var(--programmatic-bg); border-left-color: var(--programmatic); }
+.legend-label {
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.legend-desc {
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  line-height: 1.45;
+}
+
+/* ---------- exemption cards ---------- */
+.exemptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+}
+.ex {
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 32px;
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ex-row1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+.ex-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  line-height: 1;
+  color: var(--ink-faint);
+  font-weight: 300;
+}
+.ex-chip {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 0;
+  align-self: flex-start;
+}
+.ex-chip.streamlined  { background: var(--streamlined-bg);  color: var(--streamlined);  }
+.ex-chip.standard     { background: var(--standard-bg);     color: var(--standard);     }
+.ex-chip.expired      { background: var(--expired-bg);      color: var(--expired);      }
+.ex-chip.programmatic { background: var(--programmatic-bg); color: var(--programmatic); }
+
+.ex h3 {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.ex h3 .cite { display: block; font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--ink-mute); letter-spacing: 0.02em; margin-top: 6px; text-transform: none; }
+.ex-sub {
+  font-size: 13px;
+  color: var(--ink-mute);
+  line-height: 1.5;
+  font-style: italic;
+}
+.ex-body { font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+.ex-body p { margin: 0 0 10px; }
+.ex-body strong { color: var(--ink); font-weight: 500; }
+.ex dl {
+  margin: 8px 0 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 14px;
+  font-size: 13px;
+}
+.ex dl dt {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  padding-top: 3px;
+}
+.ex dl dd { margin: 0; color: var(--ink-soft); line-height: 1.5; }
+.ex-foot {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px dashed var(--rule);
+  font-size: 12px;
+  color: var(--ink-mute);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.ex-foot a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+}
+.ex-foot a:hover { border-bottom-color: var(--ink); }
+
+/* ---------- strategic notes ---------- */
+.notes-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 60px;
+}
+@media (max-width: 880px) { .notes-wrap { grid-template-columns: 1fr; gap: 24px; } }
+.notes-list { counter-reset: note; display: flex; flex-direction: column; gap: 0; }
+.note {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--rule-soft);
+  counter-increment: note;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 16px;
+}
+.note:first-child { padding-top: 0; }
+.note:last-child { border-bottom: 0; }
+.note::before {
+  content: counter(note, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink-mute);
+  letter-spacing: 0.05em;
+  padding-top: 4px;
+}
+.note h4 {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0 0 6px;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+.note p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.note .tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  margin-bottom: 8px;
+  background: var(--bg-warm);
+  color: var(--ink-soft);
+}
+
+/* ---------- resources ---------- */
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 36px 48px;
+}
+.resgroup h4 {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 500;
+}
+.resgroup ul { list-style: none; margin: 0; padding: 0; }
+.resgroup li { padding: 6px 0; font-size: 14px; line-height: 1.4; }
+.resgroup li a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+}
+.resgroup li a:hover { border-bottom-color: var(--ink); }
+.resgroup li .meta {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- footer ---------- */
+footer {
+  padding: 60px 0 80px;
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 24px;
+  align-items: end;
+}
+@media (max-width: 700px) { footer { grid-template-columns: 1fr; } }
+footer .disclaimer { max-width: 60ch; line-height: 1.5; }
+footer .colophon {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: right;
+}
+@media (max-width: 700px) { footer .colophon { text-align: left; } }
+
+/* print niceties */
+@media print {
+  .masthead, .result-reset { display: none; }
+  section { padding: 32px 0; border-bottom: 1px solid #ddd; break-inside: avoid; }
+  .ex, .note, .ctx { break-inside: avoid; }
+  body { background: #fff; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============ MASTHEAD ============ -->
+<header class="masthead">
+  <div class="wrap masthead-row">
+    <div class="brand"><strong>Nevada County QWSG</strong> · Environmental Compliance Subcommittee</div>
+    <nav class="masthead-nav">
+      <a href="#tree">Decision tree</a>
+      <a href="#exemptions">Exemptions</a>
+      <a href="#notes">Working notes</a>
+      <a href="#resources">Resources</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">Reference · current through May 2026</div>
+    <h1>CEQA decision pathways for <em>forest health &amp; fuels reduction</em> projects.</h1>
+    <p class="hero-lede">A working map of the streamlined exemptions, programmatic tiers, and standard CEQA documents available to California forest projects — updated for SB&nbsp;131 (2025), AB&nbsp;404 (2025), and the March&nbsp;2025 Emergency Proclamation framework.</p>
+    <dl class="hero-meta">
+      <div><dt>Master tree</dt><dd>7 decision points</dd></div>
+      <div><dt>Exemption menu</dt><dd>8 pathways</dd></div>
+      <div><dt>Status</dt><dd>Current as of May 2026</dd></div>
+      <div><dt>Prepared by</dt><dd>Env. Compliance Subcommittee, Nevada County QWSG</dd></div>
+    </dl>
+  </div>
+</div>
+
+<!-- ============ KEY CONTEXT ============ -->
+<div class="context">
+  <div class="wrap">
+    <div class="context-head">
+      <h3>What changed recently</h3>
+      <span class="mono" style="font-size:11px;color:var(--ink-mute);letter-spacing:.08em;text-transform:uppercase;">Four updates that reshape the menu</span>
+    </div>
+    <div class="context-grid">
+
+      <div class="ctx">
+        <div class="ctx-tag red">Closed · May 1, 2026</div>
+        <div class="ctx-title">March 2025 Emergency Proclamation window has closed</div>
+        <div class="ctx-body">Suspension of CEQA, CESA, and Coastal Act for projects ≤3,000 ac. Application window closed; over 350 projects (~80,000 ac) were approved. On-the-ground work for approved projects must begin by <strong>Oct&nbsp;15, 2026</strong>. Maintenance treatments need a separate CEQA pathway afterward.</div>
+        <div class="ctx-date">EO N-38-25</div>
+      </div>
+
+      <div class="ctx">
+        <div class="ctx-tag green">Extended · Jan 1, 2028</div>
+        <div class="ctx-title">AB 404 extends the NEPA-federal exemption</div>
+        <div class="ctx-body">SB 901 / PRC §4799.05(d) is extended through Jan&nbsp;1, 2028 and broadened to expressly cover <strong>reforestation and habitat restoration</strong> in addition to prescribed fire, thinning, and fuel reduction. NEPA-EIS impacts must be avoided or mitigated.</div>
+        <div class="ctx-date">AB 404 (2025)</div>
+      </div>
+
+      <div class="ctx">
+        <div class="ctx-tag green">New · Eff. June 30, 2025</div>
+        <div class="ctx-title">SB 131 adds a permanent wildfire exemption</div>
+        <div class="ctx-body">PRC §21080.49 — four categories: small prescribed fire, evacuation-route clearance, home hardening / defensible space, and 200&#8209;ft fuel breaks. As a statutory exemption, the §15300.2 exceptions <strong>do not apply</strong>.</div>
+        <div class="ctx-date">SB 131 (2025)</div>
+      </div>
+
+      <div class="ctx">
+        <div class="ctx-tag blue">In progress · 2026</div>
+        <div class="ctx-title">CalVTP PEIR update underway</div>
+        <div class="ctx-body">AB 52 tribal consultations were open through Dec&nbsp;19, 2025; type-conversion analysis is being added per the June&nbsp;2025 Court of Appeal remand. The current PEIR <strong>remains in effect</strong> for new Project-Specific Analyses in the meantime.</div>
+        <div class="ctx-date">Board of Forestry</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ DECISION TREE ============ -->
+<section id="tree">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 01 · Master decision tree</div>
+      <h2>Walk the decision tree.</h2>
+      <p class="section-lede">Answer the questions in order. Each click narrows the path; the recommended pathway appears on the right. The tree captures the master flow only — see the exemption menu below for the full detail on each statutory and categorical option.</p>
+    </div>
+
+    <div class="tree-shell">
+      <!-- left: nodes -->
+      <div class="tree-flow" id="treeFlow"></div>
+
+      <!-- right: result card -->
+      <aside class="result" id="result" aria-live="polite">
+        <div class="result-empty">Your recommended pathway will appear here as you answer the questions to the left.</div>
+      </aside>
+    </div>
+
+    <div class="legend" aria-label="Pathway type legend">
+      <div class="legend-title">The four pathway types — color-coded throughout this reference</div>
+      <div class="legend-grid">
+        <div class="legend-item">
+          <span class="legend-dot streamlined"></span>
+          <div>
+            <div class="legend-label">Streamlined pathway</div>
+            <div class="legend-desc">A statutory or categorical exemption from CEQA. File a Notice of Exemption — no Initial Study, no EIR. Statutory exemptions (AB 404, SB 131, SERP) are the strongest because the §15300.2 exceptions don’t apply.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot programmatic"></span>
+          <div>
+            <div class="legend-label">Programmatic pathway</div>
+            <div class="legend-desc">Tier from an existing Program EIR (e.g. CalVTP PEIR) by preparing a Project-Specific Analysis, or proceed under a Forest Practice document (THP / NTMP / PTEIR / FPR exemption) that serves as a CEQA functional equivalent.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot standard"></span>
+          <div>
+            <div class="legend-label">Standard CEQA document</div>
+            <div class="legend-desc">Full project-specific review: Initial Study → Negative Declaration, Mitigated Negative Declaration, or Environmental Impact Report. Lead agency files a Notice of Determination.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot expired"></span>
+          <div>
+            <div class="legend-label">Expired / closed pathway</div>
+            <div class="legend-desc">No longer available for new applications. Shown for context — e.g. the March 2025 Emergency Proclamation, whose application window closed May 1, 2026 (approved projects remain valid).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXEMPTION MENU ============ -->
+<section id="exemptions">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 02 · Exemption menu</div>
+      <h2>Which exemption fits your project?</h2>
+      <p class="section-lede">Expanded detail for the “statutory or categorical exemption” branch of the master tree. <strong>Apply the most protective / durable exemption first.</strong> Statutory exemptions (①②③) are stronger than categorical — they are not subject to the §15300.2 exceptions.</p>
+    </div>
+  </div>
+
+  <div class="exemptions">
+
+    <!-- ① AB 404 / PRC §4799.05(d) -->
+    <article class="ex">
+      <div class="ex-row1">
+        <span class="ex-num">①</span>
+        <span class="ex-chip streamlined">Statutory · sunset Jan 1, 2028</span>
+      </div>
+      <h3>NEPA-reviewed federal projects
+        <span class="cite">AB 404 · <a class="ext" href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=4799.05&amp;lawCode=PRC" target="_blank" rel="noopener">PRC §4799.05(d)</a></span>
+      </h3>
+      <div class="ex-sub">The cleanest pathway for BLM / USFS partner work.</div>
+      <div class="ex-body">
+        <p><strong>Eligible activities.</strong> Prescribed fire, reforestation, habitat restoration, thinning, fuel reduction, and related activities.</p>
+        <p><strong>Eligible lands.</strong> Federal lands (in whole or in part).</p>
+        <p><strong>Trigger.</strong> NEPA review complete (ROD, FONSI, CatEx). Significant impacts identified in a NEPA EIS must be avoided or mitigated.</p>
+        <p><strong>Funding.</strong> State grants on federal land, including Good Neighbor Authority projects.</p>
+      </div>
+      <div class="ex-foot">
+        <span>Example use: BLM / USFS projects with completed NEPA review</span>
+        <a href="https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260AB404" target="_blank" rel="noopener">AB 404 bill text</a>
+      </div>
+    </article>
+
+    <!-- ② SB 131 / PRC §21080.49 -->
+    <article class="ex">
+      <div class="ex-row1">
+        <span class="ex-num">②</span>
+        <span class="ex-chip streamlined">Statutory · no sunset</span>
+      </div>
+      <h3>Wildfire risk reduction
+        <span class="cite">SB 131 · <a class="ext" href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=21080.49&amp;lawCode=PRC" target="_blank" rel="noopener">PRC §21080.49</a></span>
+      </h3>
+      <div class="ex-sub">New in 2025. Project must fit one of four categories cleanly.</div>
+      <div class="ex-body">
+        <dl>
+          <dt>(a)</dt><dd>Prescribed fire / fuel reduction to restore fire return interval: <strong>≤50 contiguous acres</strong>, within ½&nbsp;mile of a subdivision of ≥30 dwelling units. Excludes coastal sage scrub &amp; other sensitive habitat. CDFW consultation required.</dd>
+          <dt>(b)</dt><dd>Vegetation clearance along evacuation routes.</dd>
+          <dt>(c)</dt><dd>Home hardening / defensible space: within <strong>200 ft of a legal structure</strong> in a High or Very High Fire Hazard Severity Zone.</dd>
+          <dt>(d)</dt><dd>Fuel break: up to 200 ft from structures, clearing flammable vegetation and trees <strong>&lt;12″ DBH</strong>.</dd>
+        </dl>
+        <p style="margin-top:10px"><strong>§15300.2 exceptions do not apply.</strong> Project must comply with all other laws, ordinances, zoning.</p>
+      </div>
+      <div class="ex-foot">
+        <a href="https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB131" target="_blank" rel="noopener">SB 131 bill text</a>
+        <a href="https://osfm.fire.ca.gov/divisions/community-wildfire-preparedness-and-mitigation/wildland-hazards-and-building-codes/fire-hazard-severity-zones" target="_blank" rel="noopener">FHSZ maps</a>
+      </div>
+    </article>
+
+    <!-- ③ SERP / PRC §21080.56 -->
+    <article class="ex">
+      <div class="ex-row1">
+        <span class="ex-num">③</span>
+        <span class="ex-chip streamlined">Statutory · sunset Jan 1, 2030</span>
+      </div>
+      <h3>SERP — Habitat restoration
+        <span class="cite">“Cutting the Green Tape” · <a class="ext" href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=21080.56&amp;lawCode=PRC" target="_blank" rel="noopener">PRC §21080.56</a></span>
+      </h3>
+      <div class="ex-sub">No acreage cap. No location-based exceptions.</div>
+      <div class="ex-body">
+        <p><strong>Eligible activities.</strong> Projects to conserve, restore, protect, or enhance California native fish, wildlife, and their habitat — or to restore or provide such habitat.</p>
+        <p><strong>“Exclusively” requirement.</strong> Project must be exclusively restoration. Incidental public benefits (access, recreation) allowed; construction must be solely habitat-related.</p>
+        <p><strong>Process.</strong> Lead agency findings (subdivisions a–d) → CDFW Director concurrence → file NOE with OPR within 48 hours. CDFW target: <strong>60 days</strong>.</p>
+      </div>
+      <div class="ex-foot">
+        <span>Recent precedent: SNC CHIRP fuels-reduction grant amendment, Oct 2025</span>
+        <a href="https://wildlife.ca.gov/Conservation/Cutting-Green-Tape" target="_blank" rel="noopener">CDFW SERP program</a>
+      </div>
+    </article>
+
+    <!-- ④ Class 4 — Minor Alterations -->
+    <article class="ex">
+      <div class="ex-row1">
+        <span class="ex-num">④</span>
+        <span class="ex-chip streamlined">Categorical · §15300.2 applies</span>
+      </div>
+      <h3>Class 4 — Minor Alterations to Land
+        <span class="cite"><a class="ext" href="https://califaep.org/docs/CEQA_Handbook_2024.pdf" target="_blank" rel="noopener">CEQA Guidelines §15304</a></span>
+      </h3>
+      <div class="ex-sub">The workhorse for small fuels &amp; forestry projects.</div>
+      <div class="ex-body">
+        <p><strong>Scope.</strong> Minor public/private alterations to land, water, and vegetation that do not result in removal of healthy, mature, scenic trees except for <em>forestry or agricultural purposes</em>. Forestry purposes are expressly included.</p>
+        <p><strong>Common uses.</strong> Fuels treatment within 30 ft of structures (100 ft in extra-hazardous zones); roadside brushing; understory thinning; small-diameter conifer removal in oak woodland.</p>
+        <p><strong>NOE basis.</strong> Include RPF attestation that activities meet <a class="ext" href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=753&amp;lawCode=PRC" target="_blank" rel="noopener">PRC §753</a> “forestry” definition and impacts are less-than-significant.</p>
+      </div>
+      <div class="ex-foot">
+        <span>Most common documented use for hand-crew fuel-reduction NOEs</span>
+      </div>
+    </article>
+
+    <!-- ⑤ Other Categorical -->
+    <article class="ex">
+      <div class="ex-row1">
+        <span class="ex-num">⑤</span>
+        <span class="ex-chip streamlined">Categorical · §15300.2 applies</span>
+      </div>
+      <h3>Other categorical exemptions
+        <span class="cite">Classes 1, 7, 8, 33</span>
+      </h3>
+      <div class="ex-sub">Worth knowing — narrower scope or specific agency triggers.</div>
+      <div class="ex-body">
+        <dl>
+          <dt>Class 1</dt><dd><strong>§15301 Existing Facilities.</strong> Operation, repair, maintenance, minor alteration with negligible expansion. Useful for ongoing maintenance of previously cleared fuel breaks.</dd>
+          <dt>Class 7</dt><dd><strong>§15307 Natural Resources.</strong> Regulatory agency actions to assure maintenance, restoration, enhancement of a natural resource.</dd>
+          <dt>Class 8</dt><dd><strong>§15308 Environment.</strong> Regulatory agency actions to assure protection of the environment.</dd>
+          <dt>Class 33</dt><dd><strong>§15333 Small Habitat Restoration.</strong> ≤5 acres for fish/plant/wildlife habitat. Per the 2021 Crowfoot memo, T&amp;E species presence and mechanized equipment use do not per se preclude use. Categorical counterpart to SERP for small projects.</dd>
+        </dl>
+      </div>
+      <div class="ex-foot">
+        <a href="https://califaep.org/statute_and_guidelines.php" target="_blank" rel="noopener">CEQA Guidelines (AEP)</a>
+      </div>
+    </article>
+
+    <!-- ⑥ Forest Practice Act -->
+    <article class="ex">
+      <div class="ex-row1">
+        <span class="ex-num">⑥</span>
+        <span class="ex-chip programmatic">Forest Practice · CAL FIRE</span>
+      </div>
+      <h3>Forest Practice Act exemptions
+        <span class="cite">14 CCR §1038</span>
+      </h3>
+      <div class="ex-sub">Functional CEQA equivalent for commercial timber projects.</div>
+      <div class="ex-body">
+        <dl>
+          <dt>§1038(i)/(j)</dt><dd><strong>Forest Fire Prevention.</strong> Up to 300 ac in Moderate/High/Very High FHSZ. Trees up to 30″ stump diameter (36″ if blocking road alignment). RPF required.</dd>
+          <dt>§1038(b)/(k)</dt><dd><strong>Dead, Dying, or Diseased.</strong> Up to 10% of volume per acre, or only trees affected by drought mortality.</dd>
+          <dt>§1038(c)</dt><dd><strong>Structure Protection.</strong> Up to 300 ft from occupied structures.</dd>
+        </dl>
+        <p style="margin-top:10px"><strong>For non-exempt commercial work:</strong> THP (5-yr), NTMP (≤2,500 ac), or PTEIR.</p>
+      </div>
+      <div class="ex-foot">
+        <a href="https://bof.fire.ca.gov/regulations/" target="_blank" rel="noopener">Board of Forestry regs</a>
+      </div>
+    </article>
+
+    <!-- ⑦ March 2025 Emergency Proclamation -->
+    <article class="ex">
+      <div class="ex-row1">
+        <span class="ex-num">⑦</span>
+        <span class="ex-chip expired">Closed to new apps · May 1, 2026</span>
+      </div>
+      <h3>March 2025 Emergency Proclamation
+        <span class="cite">EO N-18-25 / EO N-38-25</span>
+      </h3>
+      <div class="ex-sub">Historic record only — approved projects remain valid.</div>
+      <div class="ex-body">
+        <p><strong>What it did.</strong> Suspended CEQA, CESA, Coastal Act, and other state environmental laws for fuels projects ≤3,000 ac meeting one of six wildfire-risk-reduction objectives.</p>
+        <p><strong>Status.</strong> &gt;350 projects approved (≈80,000 ac). On-the-ground work must begin by <strong>Oct&nbsp;15, 2026</strong>; completion within 2 years (extensions to 5 years for CAL FIRE Wildfire Prevention, Forest Health, and some Prop&nbsp;4 grants).</p>
+        <p><strong>Compliance.</strong> Statewide Fuels Reduction Environmental Protection Plan (Nov 2025) governs BMPs for all approved projects.</p>
+        <p><strong>Replacement.</strong> No direct successor yet. The Wildfire &amp; Forest Resilience Task Force 2026 Action Plan update is expected to recommend a long-term framework.</p>
+      </div>
+      <div class="ex-foot">
+        <a href="https://wildfiretaskforce.org/" target="_blank" rel="noopener">Wildfire Task Force</a>
+      </div>
+    </article>
+
+    <!-- ⑧ Oak / Emergency / Planning -->
+    <article class="ex">
+      <div class="ex-row1">
+        <span class="ex-num">⑧</span>
+        <span class="ex-chip streamlined">Special considerations &amp; narrow-use exemptions</span>
+      </div>
+      <h3>Oak woodland, declared emergency, planning studies
+        <span class="cite">Narrow-use exemptions &amp; checks</span>
+      </h3>
+      <div class="ex-sub">Read these before signing off on the primary pathway.</div>
+      <div class="ex-body">
+        <dl>
+          <dt>Oak — §21083.4</dt><dd><strong>Not an exemption.</strong> Public agency must determine whether a project may convert oak woodlands and, if significant, apply specified mitigation. Thinning encroaching conifers / removing ladder fuels generally not “conversion” — proceeds under Class 4. Check county ORMP.</dd>
+          <dt>§15269(a)</dt><dd><strong>Declared emergency.</strong> Work to prevent or mitigate damage from a sudden, unexpected occurrence. The 2015 statewide tree mortality proclamation remains active for high-hazard zones.</dd>
+          <dt>§15262</dt><dd><strong>Feasibility / planning study.</strong> Useful for CWPP-style documents that don’t commit the agency to physical action.</dd>
+          <dt>§15061(b)(3)</dt><dd><strong>“Common-sense” exemption.</strong> Available where it can be seen with certainty that a project has no possibility of significant effect.</dd>
+        </dl>
+      </div>
+      <div class="ex-foot">
+        <a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=21083.4&amp;lawCode=PRC" target="_blank" rel="noopener">PRC §21083.4</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ STRATEGIC NOTES ============ -->
+<section id="notes">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 03 · Working notes for Nevada County practitioners</div>
+      <h2>Applying the pathways on the ground.</h2>
+    </div>
+
+    <div class="notes-wrap">
+      <p style="font-family:var(--serif);font-size:18px;line-height:1.5;color:var(--ink-soft);font-weight:300;max-width:34ch;text-wrap:pretty;">Practitioner notes from the Environmental Compliance Subcommittee — how the pathways map to the kinds of projects QWSG participants are running across the county.</p>
+
+      <div class="notes-list">
+        <div class="note">
+          <div>
+            <span class="tag">Federal land partnerships</span>
+            <h4>For projects on BLM / USFS land with completed NEPA: lead with AB 404 / §4799.05(d).</h4>
+            <p>Cleanest pathway through Jan&nbsp;1, 2028, including Good Neighbor Authority projects. Document the NEPA basis carefully and confirm any EIS-identified impacts are addressed in project design.</p>
+          </div>
+        </div>
+        <div class="note">
+          <div>
+            <span class="tag">Restoration-primary</span>
+            <h4>SERP is now the strongest tool for exclusively-restoration work.</h4>
+            <p>No acreage cap, no §15300.2 exceptions. Requires CDFW Director concurrence (60-day target). Recent Sierra Nevada Conservancy grant amendments for fuels-reduction-with-restoration objectives have used SERP. For projects ≤5 acres, Class 33 is the lighter-weight categorical alternative.</p>
+          </div>
+        </div>
+        <div class="note">
+          <div>
+            <span class="tag">Private / WUI</span>
+            <h4>SB 131 §21080.49 is powerful for the urban interface, but geographically limited.</h4>
+            <p>Particularly (c) home hardening / defensible space and (d) 200-ft fuel breaks — strong fits for projects adjacent to Grass Valley, Nevada City, Penn Valley, and other county subdivisions. The ≤50-ac + ½-mile-from-30-DU constraint on subdivision (a) prescribed fire will limit applicability for more remote sites in the county.</p>
+          </div>
+        </div>
+        <div class="note">
+          <div>
+            <span class="tag">Oak woodland</span>
+            <h4>Conifer encroachment removal generally proceeds under Class 4.</h4>
+            <p>Ladder fuel reduction that maintains the woodland is generally not “conversion” under PRC §21083.4. Review Nevada County’s local oak ordinance treatment before filing — many counties expressly exempt fire-safe activities from local mitigation requirements.</p>
+          </div>
+        </div>
+        <div class="note">
+          <div>
+            <span class="tag">Mid-sized landscape · 50–3,000 ac</span>
+            <h4>If you can’t fit SB 131 or §4799.05(d): CalVTP PEIR.</h4>
+            <p>Still the best fit for landscape projects in that band. Watch for the updated PEIR (expected late 2026 / 2027) — intended to expand the treatable landscape and streamline PSA preparation.</p>
+          </div>
+        </div>
+        <div class="note">
+          <div>
+            <span class="tag">Commercial timber component</span>
+            <h4>If the project includes a commercial sale: Forest Practice is the foundation.</h4>
+            <p>THP, NTMP, PTEIR, or a 14 CCR §1038 exemption sits beneath the project. A CEQA exemption (e.g. SB 131 wildfire category) may layer on top depending on funding source and land status.</p>
+          </div>
+        </div>
+        <div class="note">
+          <div>
+            <span class="tag">Process · always</span>
+            <h4>Document the exemption basis with a memo to file.</h4>
+            <p>For statutory exemptions, file a Notice of Exemption with OPR or the county clerk to start the 35-day statute of limitations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESOURCES ============ -->
+<section id="resources">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 04 · Resources &amp; outbound links</div>
+      <h2>Where to read the underlying authority.</h2>
+      <p class="section-lede">Direct links to statutes, regulations, agency programs, and current policy documents cited above. Verify currency at the source before relying on any of these — statutes change.</p>
+    </div>
+
+    <div class="resources-grid">
+
+      <div class="resgroup">
+        <h4>Statutes — Public Resources Code</h4>
+        <ul>
+          <li><a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=21080.49&amp;lawCode=PRC" target="_blank" rel="noopener">PRC §21080.49</a><span class="meta">SB 131 — wildfire risk reduction</span></li>
+          <li><a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=21080.56&amp;lawCode=PRC" target="_blank" rel="noopener">PRC §21080.56</a><span class="meta">SERP — habitat restoration</span></li>
+          <li><a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=4799.05&amp;lawCode=PRC" target="_blank" rel="noopener">PRC §4799.05</a><span class="meta">NEPA-federal forest projects</span></li>
+          <li><a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=21083.4&amp;lawCode=PRC" target="_blank" rel="noopener">PRC §21083.4</a><span class="meta">Oak woodlands conversion</span></li>
+          <li><a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=753&amp;lawCode=PRC" target="_blank" rel="noopener">PRC §753</a><span class="meta">“Forestry” definition</span></li>
+        </ul>
+      </div>
+
+      <div class="resgroup">
+        <h4>Bills — 2025 session</h4>
+        <ul>
+          <li><a href="https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB131" target="_blank" rel="noopener">SB 131 (Wiener)</a><span class="meta">Wildfire risk reduction exemption</span></li>
+          <li><a href="https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260AB404" target="_blank" rel="noopener">AB 404 (Pellerin)</a><span class="meta">Extends §4799.05(d) to 2028</span></li>
+          <li><a href="https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB174" target="_blank" rel="noopener">SB 174</a><span class="meta">Extends SERP to 2030</span></li>
+        </ul>
+      </div>
+
+      <div class="resgroup">
+        <h4>CEQA Guidelines (14 CCR)</h4>
+        <ul>
+          <li><a href="https://califaep.org/statute_and_guidelines.php" target="_blank" rel="noopener">§15301 · Class 1 Existing Facilities</a></li>
+          <li><a href="https://califaep.org/statute_and_guidelines.php" target="_blank" rel="noopener">§15304 · Class 4 Minor Alterations</a></li>
+          <li><a href="https://califaep.org/statute_and_guidelines.php" target="_blank" rel="noopener">§15307 · Class 7 Natural Resources</a></li>
+          <li><a href="https://califaep.org/statute_and_guidelines.php" target="_blank" rel="noopener">§15308 · Class 8 Environment</a></li>
+          <li><a href="https://califaep.org/statute_and_guidelines.php" target="_blank" rel="noopener">§15333 · Class 33 Small Habitat Restoration</a></li>
+          <li><a href="https://califaep.org/statute_and_guidelines.php" target="_blank" rel="noopener">§15269 · Declared emergency</a></li>
+          <li><a href="https://califaep.org/statute_and_guidelines.php" target="_blank" rel="noopener">§15262 · Feasibility / planning study</a></li>
+        </ul>
+      </div>
+
+      <div class="resgroup">
+        <h4>Programmatic &amp; agency</h4>
+        <ul>
+          <li><a href="https://bof.fire.ca.gov/projects-and-programs/calvtp/" target="_blank" rel="noopener">CalVTP PEIR</a><span class="meta">Board of Forestry</span></li>
+          <li><a href="https://bof.fire.ca.gov/regulations/" target="_blank" rel="noopener">Forest Practice Rules (14 CCR §1038)</a><span class="meta">CAL FIRE / Board of Forestry</span></li>
+          <li><a href="https://wildlife.ca.gov/Conservation/Cutting-Green-Tape" target="_blank" rel="noopener">CDFW — Cutting the Green Tape</a><span class="meta">SERP program</span></li>
+          <li><a href="https://osfm.fire.ca.gov/divisions/community-wildfire-preparedness-and-mitigation/wildland-hazards-and-building-codes/fire-hazard-severity-zones" target="_blank" rel="noopener">Fire Hazard Severity Zones</a><span class="meta">OSFM mapper</span></li>
+        </ul>
+      </div>
+
+      <div class="resgroup">
+        <h4>Emergency Proclamation</h4>
+        <ul>
+          <li><a href="https://www.gov.ca.gov/2025/03/01/governor-newsom-issues-emergency-proclamation-to-fast-track-wildfire-prevention/" target="_blank" rel="noopener">Mar 2025 Proclamation (EO N-18-25)</a></li>
+          <li><a href="https://wildfiretaskforce.org/" target="_blank" rel="noopener">Wildfire &amp; Forest Resilience Task Force</a><span class="meta">2026 Action Plan update forthcoming</span></li>
+        </ul>
+      </div>
+
+      <div class="resgroup">
+        <h4>Filing</h4>
+        <ul>
+          <li><a href="https://ceqanet.opr.ca.gov/" target="_blank" rel="noopener">CEQAnet (OPR)</a><span class="meta">File NOEs / NODs; search prior filings</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="wrap">
+  <div class="disclaimer">
+    This reference is prepared by the Environmental Compliance Subcommittee of the Nevada County Quarterly Wildfire Stakeholders Group as a working summary for QWSG participants and the general public. It is <strong>not legal advice</strong>. Statutes and guidelines change; verify the current text and consult counsel before relying on any pathway for a specific project.
+  </div>
+  <div class="colophon">
+    Current as of May&nbsp;2026<br>
+    Env. Compliance Subcommittee<br>
+    Nevada County QWSG
+  </div>
+</footer>
+
+<!-- ============ DECISION TREE LOGIC ============ -->
+<script>
+(function () {
+  // ----- tree definition -----
+  // Each step has a question, optional sub, and yes/no edges (next: id) or a terminal result.
+  const STEPS = [
+    {
+      id: 'project',
+      q: 'Is this a “project” under CEQA?',
+      sub: 'A discretionary action by a California public agency that may cause a direct or reasonably foreseeable physical change.',
+      yes: 'federal',
+      no:  { result: 'not-ceqa' }
+    },
+    {
+      id: 'federal',
+      q: 'On federal land AND NEPA review complete?',
+      sub: 'Prescribed fire, thinning, fuel reduction, reforestation, or habitat restoration with a ROD, FONSI, or CatEx.',
+      yes: { result: 'ab404' },
+      no:  'exemption'
+    },
+    {
+      id: 'exemption',
+      q: 'Does the project fit a statutory or categorical exemption?',
+      sub: 'See the exemption menu below for the full set — SB 131 wildfire, SERP, Class 4, Class 33, declared emergency, planning study, common-sense.',
+      yes: { result: 'noe' },
+      no:  'peir'
+    },
+    {
+      id: 'peir',
+      q: 'Within the scope of a Program EIR (PEIR)?',
+      sub: 'CalVTP PEIR (up to 20.3M ac in SRA), a PTEIR, or another applicable program EIR.',
+      yes: { result: 'peir-tier' },
+      no:  'commercial'
+    },
+    {
+      id: 'commercial',
+      q: 'Commercial sale of timber or biomass?',
+      sub: 'Triggers Forest Practice Act / Rules — CAL FIRE jurisdiction.',
+      yes: { result: 'forest-practice' },
+      no:  { result: 'standard-ceqa' }
+    }
+  ];
+
+  // ----- terminal results -----
+  const RESULTS = {
+    'not-ceqa': {
+      tag: 'none', tagLabel: 'Not subject to CEQA',
+      title: 'Not a CEQA project.',
+      body: '<p>If the action is purely federal, or is a planning study under <code>§15262</code> that does not commit the agency to physical action, CEQA does not apply. Document the basis with a memo to file.</p>',
+      next: '→ See §15262 in the exemption menu'
+    },
+    'ab404': {
+      tag: 'streamlined', tagLabel: 'Streamlined · AB 404',
+      title: 'AB 404 / PRC §4799.05(d) statutory exemption.',
+      body: '<p>NEPA-reviewed federal forest projects (prescribed fire, thinning, fuel reduction, reforestation, habitat restoration).</p><p><strong>Sunset: Jan 1, 2028.</strong> NEPA-EIS impacts must be avoided or mitigated. §15300.2 exceptions do not apply.</p>',
+      next: '→ See ① in the exemption menu'
+    },
+    'noe': {
+      tag: 'streamlined', tagLabel: 'Streamlined · Notice of Exemption',
+      title: 'File a Notice of Exemption.',
+      body: '<p>Apply the most protective / durable exemption first — statutory ahead of categorical. For categorical exemptions, check the <code>§15300.2</code> exceptions (cumulative impact, unusual circumstances, historical resources). These exceptions <strong>do not</strong> apply to statutory exemptions.</p>',
+      next: '→ See the full exemption menu ↓'
+    },
+    'peir-tier': {
+      tag: 'programmatic', tagLabel: 'Programmatic · tier from PEIR',
+      title: 'Tier from the Program EIR.',
+      body: '<p>For the CalVTP PEIR: prepare a Project-Specific Analysis (PSA), apply SPRs and mitigation measures, and file an NOD.</p><p><strong>Note:</strong> CalVTP PEIR update is underway following the March 2025 Emergency Proclamation and the June 2025 type-conversion remand. The current PEIR remains in effect for PSAs in the meantime.</p>',
+      next: '→ Board of Forestry CalVTP page'
+    },
+    'forest-practice': {
+      tag: 'programmatic', tagLabel: 'Forest Practice pathway',
+      title: 'Forest Practice Act document.',
+      body: '<p>The applicable CEQA-functional-equivalent document depends on scale and ownership:</p><p><strong>THP</strong> (5-yr) · <strong>NTMP</strong> (≤2,500 ac) · <strong>PTEIR</strong> (multi-owner) · <strong>FPR Exemption</strong> (14 CCR §1038).</p><p>Commercial timber projects may also use SB 131 wildfire categories if otherwise qualifying.</p>',
+      next: '→ See ⑥ in the exemption menu'
+    },
+    'standard-ceqa': {
+      tag: 'standard', tagLabel: 'Standard CEQA document',
+      title: 'Prepare a project-specific CEQA document.',
+      body: '<p>Initial Study → Negative Declaration, Mitigated Negative Declaration, or Environmental Impact Report. Lead agency files a Notice of Determination on adoption.</p>',
+      next: '→ CEQAnet for filing'
+    }
+  };
+
+  // ----- state -----
+  const state = {
+    answers: {},       // {stepId: 'yes' | 'no'}
+    revealed: ['project'], // ids in order
+    resolution: null   // result key when terminal reached
+  };
+
+  // ----- render -----
+  const flowEl = document.getElementById('treeFlow');
+  const resultEl = document.getElementById('result');
+
+  function renderFlow () {
+    flowEl.innerHTML = '';
+    state.revealed.forEach((id, idx) => {
+      const step = STEPS.find(s => s.id === id);
+      const ans = state.answers[id];
+      const isActive = !ans && idx === state.revealed.length - 1 && !state.resolution;
+      const node = document.createElement('div');
+      node.className = 'node';
+      node.dataset.state = isActive ? 'active' : (ans ? 'resolved' : '');
+      node.innerHTML = `
+        <div class="node-step">Step ${String(idx + 1).padStart(2, '0')}</div>
+        <div class="node-q">${step.q}</div>
+        <div class="node-sub">${step.sub}</div>
+        <div class="node-choices">
+          <button class="choice" data-id="${id}" data-pick="yes" data-picked="${ans === 'yes' ? 'yes' : 'no'}">Yes</button>
+          <button class="choice" data-id="${id}" data-pick="no"  data-picked="${ans === 'no'  ? 'yes' : 'no'}">No</button>
+        </div>
+      `;
+      flowEl.appendChild(node);
+    });
+
+    flowEl.querySelectorAll('.choice').forEach(btn => {
+      btn.addEventListener('click', () => pick(btn.dataset.id, btn.dataset.pick));
+    });
+  }
+
+  function pick (stepId, answer) {
+    // truncate downstream history if user revisits an earlier step
+    const idx = state.revealed.indexOf(stepId);
+    state.revealed = state.revealed.slice(0, idx + 1);
+    Object.keys(state.answers).forEach(k => {
+      if (state.revealed.indexOf(k) === -1 || k === stepId) {
+        if (k !== stepId) delete state.answers[k];
+      }
+    });
+    state.resolution = null;
+
+    state.answers[stepId] = answer;
+    const step = STEPS.find(s => s.id === stepId);
+    const edge = answer === 'yes' ? step.yes : step.no;
+
+    if (typeof edge === 'string') {
+      // next question
+      if (state.revealed.indexOf(edge) === -1) state.revealed.push(edge);
+    } else if (edge && edge.result) {
+      state.resolution = edge.result;
+    }
+    renderFlow();
+    renderResult();
+  }
+
+  function renderResult () {
+    if (!state.resolution) {
+      const answered = Object.keys(state.answers).length;
+      const total = state.revealed.length;
+      if (answered === 0) {
+        resultEl.innerHTML = `<div class="result-empty">Your recommended pathway will appear here as you answer the questions to the left.</div>`;
+        return;
+      }
+      resultEl.innerHTML = `
+        <span class="result-tag none">In progress · ${answered} / ${total} answered</span>
+        <h3>Keep going.</h3>
+        <div class="result-body"><p>Answer the remaining question${total - answered === 1 ? '' : 's'} to land on a pathway recommendation.</p></div>
+        <button class="result-reset" type="button">Reset</button>
+      `;
+      resultEl.querySelector('.result-reset').addEventListener('click', reset);
+      return;
+    }
+    const r = RESULTS[state.resolution];
+    resultEl.innerHTML = `
+      <span class="result-tag ${r.tag}">${r.tagLabel}</span>
+      <h3>${r.title}</h3>
+      <div class="result-body">${r.body}</div>
+      <div class="result-next">${r.next}</div>
+      <button class="result-reset" type="button">Reset and start over</button>
+    `;
+    resultEl.querySelector('.result-reset').addEventListener('click', reset);
+  }
+
+  function reset () {
+    state.answers = {};
+    state.revealed = ['project'];
+    state.resolution = null;
+    renderFlow();
+    renderResult();
+  }
+
+  // initial paint
+  renderFlow();
+  renderResult();
+})();
+</script>
+
+</body>
+</html>
