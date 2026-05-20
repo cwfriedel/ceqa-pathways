@@ -830,7 +830,8 @@ footer .colophon {
     <div class="section-head">
       <div class="section-num">§ 02 · Exemption menu</div>
       <h2>Which exemption fits your project?</h2>
-      <p class="section-lede">Expanded detail for the “statutory or categorical exemption” branch of the master tree. <strong>Apply the most protective / durable exemption first.</strong> Statutory exemptions (①②③) are stronger than categorical — they are not subject to the §15300.2 exceptions.</p>
+      <p class=”section-lede”>Expanded detail for the “statutory or categorical exemption” branch of the master tree. <strong>Apply the most protective / durable exemption first.</strong> Statutory exemptions (①②③) are stronger than categorical — they are not subject to the §15300.2 exceptions.</p>
+      <p class=”section-lede” style=”margin-top:8px;”><strong>If your project involves a commercial timber or biomass sale on private or state land, start with ⑧</strong> (Forest Practice Act) — THP/NTMP/PTEIR review is the functional CEQA equivalent and governs before any of the exemptions below apply.</p>
     </div>
   </div>
 
@@ -1183,6 +1184,13 @@ footer .colophon {
   // Each step has a question, optional sub, and yes/no edges (next: id) or a terminal result.
   const STEPS = [
     {
+      id: 'commercial',
+      q: 'Commercial sale of timber or biomass?',
+      sub: 'On private or state land — triggers Forest Practice Act / Rules under CAL FIRE jurisdiction, regardless of CEQA status.',
+      yes: { result: 'forest-practice' },
+      no:  'project'
+    },
+    {
       id: 'project',
       q: 'Is this a “project” under CEQA?',
       sub: 'A discretionary action by a California public agency that may cause a direct or reasonably foreseeable physical change.',
@@ -1194,13 +1202,6 @@ footer .colophon {
       q: 'On federal land AND NEPA review complete?',
       sub: 'Prescribed fire, thinning, fuel reduction, reforestation, or habitat restoration with a ROD, FONSI, or CatEx.',
       yes: { result: 'ab404' },
-      no:  'commercial'
-    },
-    {
-      id: 'commercial',
-      q: 'Commercial sale of timber or biomass?',
-      sub: 'Triggers Forest Practice Act / Rules — CAL FIRE jurisdiction.',
-      yes: { result: 'forest-practice' },
       no:  'exemption'
     },
     {
