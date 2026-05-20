@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "CEQA static",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4242"],
+      "runtimeExecutable": "/Users/cfriedel/.nvm/versions/node/v20.19.5/bin/npx",
+      "runtimeArgs": ["serve", "-l", "4242", "/Users/cfriedel/Documents/GitHub/ceqa-pathways"],
       "port": 4242
     }
   ]
