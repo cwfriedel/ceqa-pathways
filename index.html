@@ -812,7 +812,7 @@ footer .colophon {
           <span class="legend-dot programmatic"></span>
           <div>
             <div class="legend-label">Programmatic pathway</div>
-            <div class="legend-desc">Tier from an existing Program EIR (e.g. CalVTP PEIR) by preparing a Project-Specific Analysis, or proceed under a Forest Practice document (THP / NTMP / PTEIR / FPR exemption) that serves as a CEQA functional equivalent.</div>
+            <div class="legend-desc">Tier from an existing Program EIR — most commonly the CalVTP PEIR (Project-Specific Analysis), a Working Forest Management Plan PTEIR, or an active CAL FIRE Vegetation Management Program (VMP) project coordinated through the local Unit. Or proceed under a Forest Practice document (THP / NTMP / PTEIR / FPR exemption) that serves as a CEQA functional equivalent. Some regions also have local or agency PEIRs (fire district or park district vegetation management plans) that can be tiered from within their jurisdiction.</div>
           </div>
         </div>
         <div class="legend-item">
@@ -1155,6 +1155,7 @@ footer .colophon {
         <h4>Programmatic &amp; agency</h4>
         <ul>
           <li><a href="https://bof.fire.ca.gov/projects-and-programs/calvtp/" target="_blank" rel="noopener">CalVTP PEIR</a><span class="meta">Board of Forestry</span></li>
+          <li><a href="https://www.fire.ca.gov/what-we-do/natural-resource-management/vegetation-management-program" target="_blank" rel="noopener">CAL FIRE Vegetation Management Program (VMP)</a><span class="meta">Unit-coordinated · 1981 VMP EIR</span></li>
           <li><a href="https://bof.fire.ca.gov/regulations/" target="_blank" rel="noopener">Forest Practice Rules (14 CCR §1038)</a><span class="meta">CAL FIRE / Board of Forestry</span></li>
           <li><a href="https://wildlife.ca.gov/Conservation/Cutting-Green-Tape" target="_blank" rel="noopener">CDFW — Cutting the Green Tape</a><span class="meta">SERP program</span></li>
           <li><a href="https://osfm.fire.ca.gov/divisions/community-wildfire-preparedness-and-mitigation/wildland-hazards-and-building-codes/fire-hazard-severity-zones" target="_blank" rel="noopener">Fire Hazard Severity Zones</a><span class="meta">OSFM mapper</span></li>
@@ -1229,7 +1230,7 @@ footer .colophon {
     {
       id: 'peir',
       q: 'Within the scope of a Program EIR (PEIR)?',
-      sub: 'CalVTP PEIR (up to 20.3M ac in SRA), a PTEIR, or another applicable program EIR.',
+      sub: 'CalVTP PEIR (up to 20.3M ac in SRA), a Working Forest Management Plan PTEIR, an active CAL FIRE VMP project in your area, or a local/agency PEIR with jurisdiction over your site.',
       yes: { result: 'peir-tier' },
       no:  { result: 'standard-ceqa' }
     }
@@ -1258,7 +1259,7 @@ footer .colophon {
     'peir-tier': {
       tag: 'programmatic', tagLabel: 'Programmatic · tier from PEIR',
       title: 'Tier from the Program EIR.',
-      body: '<p>For the CalVTP PEIR: prepare a Project-Specific Analysis (PSA), apply SPRs and mitigation measures, and file an NOD.</p><p><strong>Note:</strong> CalVTP PEIR update is underway following the March 2025 Emergency Proclamation and the June 2025 type-conversion remand. The current PEIR remains in effect for PSAs in the meantime.</p>',
+      body: '<p>For the CalVTP PEIR: prepare a Project-Specific Analysis (PSA), apply SPRs and mitigation measures, and file an NOD.</p><p>Other Program EIR pathways: a <strong>Working Forest Management Plan PTEIR</strong> covers timberland-based fuels work on enrolled lands; the <strong>1981 CAL FIRE VMP EIR</strong> remains in use but is Unit-driven — proponents should check whether an active VMP project (through NEU for our region) already covers their planning area rather than initiate one; and some jurisdictions have local or agency PEIRs (e.g. fire district or park district vegetation management plans) that can be tiered from within their boundaries.</p><p><strong>Note:</strong> CalVTP PEIR update is underway following the March 2025 Emergency Proclamation and the June 2025 type-conversion remand. The current PEIR remains in effect for PSAs in the meantime.</p>',
       next: '→ Board of Forestry CalVTP page'
     },
     'forest-practice': {
