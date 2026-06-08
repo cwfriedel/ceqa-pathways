@@ -2,7 +2,7 @@
 
 ## What this is
 
-A single-page web reference, **"CEQA Decision Pathways,"** mapping every available CEQA pathway for forest health & fuels reduction projects in California. Built by **Chris Friedel** as the CEQA exemptions deliverable for the **Permitting and Environmental Compliance subcommittee** of the Nevada County **Quarterly Wildfire Stakeholders Group (QWSG)**. It is the digital form of the subcommittee's CEQA flowchart product.
+A single-page web reference, **"CEQA Decision Pathways,"** mapping every available CEQA pathway for forest health & fuels reduction projects in California. Built by **Chris Friedel** as the CEQA exemptions deliverable for the **Permitting & Environmental Compliance subcommittee** of the Nevada County **Quarterly Wildfire Stakeholders Group (QWSG)**. It is the digital form of the subcommittee's CEQA flowchart product.
 
 **Work in progress — updated periodically.** Framed as a working summary, **not legal advice**.
 
