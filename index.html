@@ -6,6 +6,9 @@
 <title>CEQA Decision Pathways · Forest Health &amp; Fuels Reduction · Nevada County QWSG</title>
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<!-- The Yuba Watershed Institute site serves this page at its own URL (proxied from the
+     standalone deployment); point search engines there so the two addresses don't compete. -->
+<link rel="canonical" href="https://www.yubawatershedinstitute.org/ceqa-pathways/index.html">
 <!-- Fonts are self-hosted below via @font-face (site CSP is font-src 'self', so Google Fonts is blocked). -->
 
 <!-- Vercel Web Analytics -->
@@ -813,6 +816,19 @@ footer {
 }
 @media (max-width: 700px) { footer { grid-template-columns: 1fr; } }
 footer .disclaimer { max-width: 60ch; line-height: 1.5; }
+footer .feedback { margin-top: 10px; }
+footer .feedback a { color: inherit; }
+
+/* ---------- preview / draft banner ---------- */
+/* Shown only on Vercel preview deployments (see the script at the end of <body>). */
+.review-banner {
+  position: sticky; top: 0; z-index: 1000;
+  background: #f6d860; color: #2b2200;
+  font-family: var(--sans, system-ui, sans-serif); font-size: 13.5px; line-height: 1.4;
+  padding: 8px 16px; text-align: center;
+  border-bottom: 1px solid #c9a92c;
+}
+.review-banner strong { font-weight: 600; }
 footer .colophon {
   font-family: var(--mono);
   font-size: 10.5px;
@@ -1426,6 +1442,7 @@ footer .colophon {
 <footer class="wrap">
   <div class="disclaimer">
     This reference is prepared by the Permitting &amp; Environmental Compliance Subcommittee of the Nevada County Quarterly Wildfire Stakeholders Group as a working summary for QWSG participants and the general public. It is <strong>not legal advice</strong>. Statutes and guidelines change; verify the current text and consult counsel before relying on any pathway for a specific project.
+    <div class="feedback">Spotted an error, or have a suggestion? <a href="https://github.com/cwfriedel/ceqa-pathways/issues/new/choose" target="_blank" rel="noopener">Suggest a change</a> (GitHub), or raise it with the subcommittee through the QWSG. The source is public at <a href="https://github.com/cwfriedel/ceqa-pathways" target="_blank" rel="noopener">github.com/cwfriedel/ceqa-pathways</a> (content CC&nbsp;BY&nbsp;4.0, code MIT).</div>
   </div>
   <div class="colophon">
     Current as of October&nbsp;2026<br>
@@ -2257,6 +2274,20 @@ footer .colophon {
   function render () { renderFlow(); renderResult(); }
 
   render();
+})();
+</script>
+<script>
+// Draft banner for review copies. Vercel preview deployments live on *.vercel.app
+// hostnames other than the production alias; the live reference is served from
+// ceqa-pathways.vercel.app and (proxied) from yubawatershedinstitute.org.
+(function () {
+  var h = location.hostname;
+  if (!/\.vercel\.app$/.test(h) || h === 'ceqa-pathways.vercel.app') return;
+  var b = document.createElement('div');
+  b.className = 'review-banner';
+  b.setAttribute('role', 'note');
+  b.innerHTML = '<strong>Draft for subcommittee review.</strong> This is a preview of proposed changes, not the published reference.';
+  document.body.insertBefore(b, document.body.firstChild);
 })();
 </script>
 <script>

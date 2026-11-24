@@ -1,0 +1,19 @@
+name: Suggestion
+description: Ideas for new content, a missing pathway, a clearer explanation, or a usability improvement.
+labels: ["suggestion"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your suggestion
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Who would it help, and how?
+      description: For example, a kind of project or landowner the page doesn't serve well today.
+  - type: input
+    id: source
+    attributes:
+      label: Sources (optional)

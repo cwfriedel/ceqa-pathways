@@ -2,10 +2,9 @@
 
 **A working reference for forest health & fuels reduction projects in California.**
 
-Prepared by the Environmental Compliance Subcommittee of the **Nevada County Quarterly Wildfire Stakeholders Group (QWSG)**.
+Prepared by the Permitting & Environmental Compliance Subcommittee of the **Nevada County Quarterly Wildfire Stakeholders Group (QWSG)**.
 
-🌐 **Live site:** https://ceqa-pathways.vercel.app
-📄 **Printable PDF:** see [Print handout](#print--pdf-handout) below
+🌐 **Live site:** https://www.yubawatershedinstitute.org/resources/ceqa-decision-pathways (also at https://ceqa-pathways.vercel.app)
 📅 **Current as of:** October 2026
 
 ---
@@ -39,8 +38,9 @@ If you're outside Nevada County, most of the content still applies statewide; on
 ├── README.md                              ← you are here
 ├── index.html                             ← the live site (entry point)
 ├── fonts/                                 ← self-hosted woff2 fonts
-├── CEQA Pathways Reference-print.html     ← print-optimized variant (auto-opens print dialog)
-└── ...
+├── docs/                                  ← design notes (pathway-finder rule matrix)
+├── CONTRIBUTING.md                        ← how to suggest changes; review process
+└── LICENSE, LICENSE-CONTENT.md            ← MIT (code) + CC BY 4.0 (content)
 ```
 
 The site is one self-contained HTML file plus self-hosted fonts (Newsreader, IBM Plex Sans, IBM Plex Mono) in `fonts/`. No external dependencies, no build step, no framework, no package manager.
@@ -63,42 +63,24 @@ python3 -m http.server 8000
 # then visit http://localhost:8000
 ```
 
-## Deploying
+## How it's published
 
-The site is static HTML — host it anywhere. Three easy options:
+This repo is the **source of truth**. It is connected to a Vercel project:
 
-### Netlify Drop (fastest — under a minute)
+- Every merge to `main` deploys to <https://ceqa-pathways.vercel.app>.
+- The Yuba Watershed Institute website proxies that deployment at
+  `yubawatershedinstitute.org/ceqa-pathways/`, and embeds it on its Resources page, so a merge here
+  updates the YWI site too. Nothing needs to be copied into the YWI repo.
+- Every pull request gets its own Vercel **preview link**, which shows a "draft for
+  subcommittee review" banner. That link is what reviewers look at (see `CONTRIBUTING.md`).
 
-1. Go to <https://app.netlify.com/drop>
-2. Drag the repo folder onto the upload zone
-3. Get a public URL immediately. Sign in to make it permanent and add a custom subdomain.
+Because the page is plain static HTML, you can also host a copy anywhere else (GitHub Pages,
+Netlify Drop, any web server) without a build step.
 
-### GitHub Pages (free, lives next to the repo)
+## Printing
 
-1. Push the repo to GitHub
-2. **Settings → Pages → Source: `main` branch / `/` root → Save**
-3. The site publishes at `https://<your-org>.github.io/ceqa-pathways/`
-4. To use a custom domain (e.g. `ceqa.qwsg.org`), add a `CNAME` file containing the domain and configure DNS at your registrar.
-
-### Vercel
-
-1. Go to <https://vercel.com/new>
-2. Import this repo (or drag the folder)
-3. Vercel auto-detects the static site, builds nothing, and deploys
-
-All three options give you HTTPS automatically and redeploy on every push.
-
-## Print / PDF handout
-
-`CEQA Pathways Reference-print.html` contains the same content with print-specific CSS that strips the interactive chrome, lays the decision tree out as a static flowchart, and prints full URLs alongside link text in the Resources section so the PDF works offline.
-
-It also auto-opens the print dialog when loaded. To produce a PDF handout:
-
-1. Open the print file in Chrome or Safari
-2. The print dialog will appear on its own
-3. **Destination: Save as PDF**, paper size **US Letter**, margins **Default**, scale **Default**
-
-The result is a multi-page handout suitable for QWSG meeting packets.
+Print straight from the browser (**Save as PDF**, US Letter). The page's print styles hide the
+interactive chrome and expand every "What changed recently" card so the full text prints.
 
 ## Updating the content
 
@@ -113,28 +95,27 @@ The HTML is hand-written and structured for direct editing — no templating, no
 | A working note | The `<div class="notes-list">` inside the `#notes` section |
 | Outbound link URLs | The `<section id="resources">` block, and the various `.ex-foot` links inside each card |
 
-Preview by opening `index.html` in a browser. Commit and push to redeploy.
-
-> The canonical copy now lives in the Yuba Watershed Institute site repo (`cwfriedel/ywi-nextjs`, under `public/ceqa-pathways/`). Edit there first, then mirror `index.html` and `fonts/` here.
+Preview by opening `index.html` in a browser. Changes go live when a pull request is merged to `main`.
 
 ## Contributing
 
-Updates from QWSG members and partner agencies are welcome. The preferred workflow:
-
-1. **Open an issue** describing the statute change, broken link, or content gap
-2. **Submit a pull request** for review by the Environmental Compliance Subcommittee
-3. **Subcommittee approval** before merging — content changes touch a public-facing reference, so review is intentional
-
-For non-trivial changes (new pathway, restructured pathway finder, major reframing), please flag it at the next Subcommittee meeting before opening the PR.
+Corrections and suggestions from QWSG members, partner agencies, and the public are welcome:
+[open an issue](https://github.com/cwfriedel/ceqa-pathways/issues/new/choose), or propose an edit
+in a pull request. Every content change is reviewed by the Permitting & Environmental Compliance
+Subcommittee before it is merged. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the details.
 
 ## Credits & license
 
-Maintained by the Environmental Compliance Subcommittee of the Nevada County Quarterly Wildfire Stakeholders Group.
+Maintained by the Permitting & Environmental Compliance Subcommittee of the Nevada County Quarterly
+Wildfire Stakeholders Group, with the Yuba Watershed Institute.
 
-Released to the public for re-use and adaptation by other stakeholder groups, RCDs, fire safe councils, and agencies. Please retain attribution to the Subcommittee and link back to this repo when redistributing or adapting.
+- **Content** (text, pathway descriptions, fit rules, notes, `docs/`): [CC BY 4.0](LICENSE-CONTENT.md).
+  Reuse and adapt it freely, including for other regions, with attribution and a link back here.
+- **Code** (HTML, CSS, JavaScript): [MIT](LICENSE).
+- **Fonts** in `fonts/`: SIL Open Font License 1.1, from their authors.
 
 ## Contact
 
-For questions about the content, statute interpretation, or how a pathway applies to a specific project, contact the Environmental Compliance Subcommittee through the Nevada County QWSG.
+For questions about the content, statute interpretation, or how a pathway applies to a specific project, contact the Permitting & Environmental Compliance Subcommittee through the Nevada County QWSG.
 
 For website issues (broken links, typos, display problems), please open a GitHub issue.
