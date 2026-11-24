@@ -6,9 +6,7 @@
 <title>CEQA Decision Pathways · Forest Health &amp; Fuels Reduction · Nevada County QWSG</title>
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Fonts are self-hosted below via @font-face (site CSP is font-src 'self', so Google Fonts is blocked). -->
 
 <!-- Vercel Web Analytics -->
 <script>
@@ -17,6 +15,14 @@
 <script defer src="/_vercel/insights/script.js"></script>
 
 <style>
+/* ---------- fonts (self-hosted, latin subset, files under /ceqa-pathways/fonts/) ---------- */
+@font-face { font-family: "Newsreader"; font-style: normal; font-weight: 300 600; font-display: swap; src: url("fonts/newsreader-latin.woff2") format("woff2"); }
+@font-face { font-family: "Newsreader"; font-style: italic; font-weight: 400; font-display: swap; src: url("fonts/newsreader-italic-latin.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 300 700; font-display: swap; src: url("fonts/ibm-plex-sans-latin.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/ibm-plex-mono-400-latin.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/ibm-plex-mono-500-latin.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 600; font-display: swap; src: url("fonts/ibm-plex-mono-600-latin.woff2") format("woff2"); }
+
 /* ---------- tokens ---------- */
 :root {
   --bg:        oklch(98% 0.008 95);
@@ -235,9 +241,15 @@ h2 {
 }
 .context-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   column-gap: 0;
   row-gap: 40px;
+}
+@media (max-width: 900px) {
+  .context-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .context-grid { grid-template-columns: 1fr; }
 }
 .ctx {
   padding: 0 28px;
@@ -269,6 +281,82 @@ h2 {
   font-size: 13.5px;
   line-height: 1.5;
   color: var(--ink-soft);
+}
+.ctx-body p { margin: 0 0 8px; }
+.ctx-body p:last-child { margin-bottom: 0; }
+
+/* one-line summary + "Read more" disclosure on the standard cards */
+.ctx-sum {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0;
+}
+.ctx-more { margin-top: 10px; }
+.ctx-more > summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.ctx-more > summary::-webkit-details-marker { display: none; }
+.ctx-more > summary::before { content: "+"; }
+.ctx-more[open] > summary::before { content: "\2212"; }
+.ctx-more > summary .less,
+.ctx-more[open] > summary .more { display: none; }
+.ctx-more[open] > summary .less { display: inline; }
+.ctx-more > summary:hover { color: var(--ink); }
+.ctx-more > summary:focus-visible { outline: 2px solid var(--programmatic); outline-offset: 3px; }
+.ctx-more .ctx-body { margin-top: 10px; }
+
+/* featured full-width card (the biggest change of the period) */
+.ctx-feature {
+  grid-column: 1 / -1;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--streamlined);
+  padding: 28px 32px;
+}
+.ctx-feature .ctx-title { font-size: 24px; margin-bottom: 10px; }
+.ctx-feature-lede {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 78ch;
+  margin: 0 0 22px;
+}
+.ctx-feature-cols {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 20px 28px;
+  border-top: 1px solid var(--rule-soft);
+  padding-top: 18px;
+}
+@media (max-width: 900px) {
+  .ctx-feature-cols { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .ctx-feature { padding: 22px 20px; }
+  .ctx-feature-cols { grid-template-columns: 1fr; }
+}
+.ctx-feature-label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.ctx-feature-cols p {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
 }
 .ctx-date {
   margin-top: 10px;
@@ -352,6 +440,62 @@ h2 {
   color: var(--bg);
   border-color: var(--ink);
 }
+
+
+/* ---------- pathway finder: option buttons ---------- */
+.node-choices.stack { display: grid; grid-template-columns: 1fr; gap: 6px; }
+@media (min-width: 1100px) { .node-choices.stack { grid-template-columns: 1fr 1fr; } }
+.choice { text-align: left; display: inline-flex; flex-direction: column; gap: 2px; line-height: 1.3; }
+.choice.stack { width: 100%; padding: 10px 14px; }
+.choice-l { font-weight: 500; }
+.choice-d { font-size: 12px; font-weight: 400; color: var(--ink-mute); }
+.choice[data-picked="yes"] .choice-d { color: oklch(98% 0.008 95 / 0.75); }
+.choice.next { background: var(--bg-card); border-color: var(--ink); font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.choice.next:disabled { opacity: .4; cursor: not-allowed; border-color: var(--rule); }
+.node-cta { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
+.node-hint { font-size: 12px; color: var(--ink-mute); }
+
+/* ---------- pathway finder: fit list ---------- */
+.result-progress { font-size: 13px; color: var(--ink-mute); margin: 0 0 14px; }
+.result-alt { font-size: 13px; }
+.result-alt a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.result-shelf { font-size: 12.5px; color: var(--ink-soft); padding: 10px 12px; background: var(--bg-warm); border-left: 2px solid var(--standard); margin: 4px 0 18px; line-height: 1.5; }
+.result-shelf .mono { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-mute); margin-right: 8px; }
+.fit-group { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--rule); }
+.fit-group-title { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; }
+.fit-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.fit { border: 1px solid var(--rule); background: var(--bg); padding: 12px 14px; border-left-width: 3px; }
+.fit[data-fit="likely"]   { border-left-color: var(--streamlined); }
+.fit[data-fit="possible"] { border-left-color: var(--standard); }
+.fit[data-fit="unlikely"] { border-left-color: var(--rule); opacity: .78; }
+.fit-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.fit-name { font-family: var(--serif); font-size: 16.5px; font-weight: 500; color: var(--ink); text-decoration: none; line-height: 1.25; }
+.fit-name:hover { text-decoration: underline; }
+.fit-cite { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); margin-top: 2px; }
+.fit-chip { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; white-space: nowrap; }
+.fit-chip.likely   { background: var(--streamlined-bg); color: var(--streamlined); }
+.fit-chip.possible { background: var(--standard-bg); color: var(--standard); }
+.fit-chip.unlikely { background: var(--rule-soft); color: var(--ink-mute); }
+.fit-more { margin-top: 8px; }
+.fit-more summary { cursor: pointer; font-size: 12px; color: var(--ink-mute); list-style: none; }
+.fit-more summary::-webkit-details-marker { display: none; }
+.fit-more summary::before { content: "▸ "; font-size: 10px; }
+.fit-more[open] summary::before { content: "▾ "; }
+.fit-why { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 5px; font-size: 13px; line-height: 1.45; color: var(--ink-soft); }
+.fit-why li { padding-left: 20px; position: relative; }
+.fit-why li::before { position: absolute; left: 0; top: 0; font-family: var(--mono); font-size: 12px; }
+.fit-why li[data-s="ok"]::before  { content: "✓"; color: var(--streamlined); }
+.fit-why li[data-s="chk"]::before { content: "○"; color: var(--standard); }
+.fit-why li[data-s="no"]::before  { content: "✕"; color: var(--expired); }
+.fit-why li[data-s="doc"]::before { content: "→"; color: var(--ink-faint); }
+.fit-why li[data-s="doc"] { color: var(--ink-mute); }
+.fit-fallback { margin-top: 14px; font-size: 12.5px; color: var(--ink-mute); }
+.fit-fallback a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.result-notes { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--rule); }
+.result-notes ul { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.5; color: var(--ink-soft); display: flex; flex-direction: column; gap: 6px; }
+.result-notes strong { color: var(--ink); font-weight: 500; }
+.result-actions { display: flex; gap: 18px; flex-wrap: wrap; }
+@media (min-width: 881px) { .result { max-height: calc(100vh - 120px); overflow-y: auto; } }
 
 /* ---------- result card (right side) ---------- */
 .result {
@@ -680,7 +824,7 @@ footer .colophon {
 
 /* print niceties */
 @media print {
-  .masthead, .result-reset { display: none; }
+  .masthead, .result-reset, .ctx-more > summary { display: none; }
   section { padding: 32px 0; border-bottom: 1px solid #ddd; break-inside: avoid; }
   .ex, .note, .ctx { break-inside: avoid; }
   body { background: #fff; }
@@ -695,7 +839,7 @@ footer .colophon {
   <div class="wrap masthead-row">
     <div class="brand"><strong>Nevada County QWSG</strong> · Permitting &amp; Environmental Compliance Subcommittee</div>
     <nav class="masthead-nav">
-      <a href="#tree">Decision tree</a>
+      <a href="#tree">Pathway finder</a>
       <a href="#exemptions">Exemptions</a>
       <a href="#notes">Working notes</a>
       <a href="#resources">Resources</a>
@@ -710,8 +854,8 @@ footer .colophon {
     <h1>CEQA decision pathways for <em>forest health &amp; fuels reduction</em> projects.</h1>
     <p class="hero-lede">A working map of the streamlined exemptions, programmatic tiers, and standard CEQA documents available to California forest projects — updated for SB&nbsp;131 (2025), the March&nbsp;2025 Emergency Proclamation framework and its 2026 statutory successor SB&nbsp;1370, and the June&nbsp;2026 draft state Wildfire and Landscape Resilience Action Plan.</p>
     <dl class="hero-meta">
-      <div><dt>Master tree</dt><dd>5 decision points</dd></div>
-      <div><dt>Exemption menu</dt><dd>8 pathways</dd></div>
+      <div><dt>Pathway finder</dt><dd>Up to 14 profile questions</dd></div>
+      <div><dt>Exemption menu</dt><dd>8 cards · 20+ pathways scored</dd></div>
       <div><dt>Status</dt><dd>Current as of October 2026</dd></div>
       <div><dt>Prepared by</dt><dd>Permitting &amp; Env. Compliance Subcommittee, Nevada County QWSG</dd></div>
     </dl>
@@ -723,87 +867,133 @@ footer .colophon {
   <div class="wrap">
     <div class="context-head">
       <h3>What changed recently</h3>
-      <span class="mono" style="font-size:11px;color:var(--ink-mute);letter-spacing:.08em;text-transform:uppercase;">Eleven updates that reshape the menu</span>
+      <span class="mono" style="font-size:11px;color:var(--ink-mute);letter-spacing:.08em;text-transform:uppercase;">Ten updates that reshape the menu</span>
     </div>
     <div class="context-grid">
+
+      <div class="ctx ctx-feature">
+        <div class="ctx-tag green">Enacted · Sept 29, 2026 · takes effect Jan 1, 2027</div>
+        <div class="ctx-title">SB 1370 codifies the emergency fuels-streamlining process</div>
+        <p class="ctx-feature-lede"><strong>SB 1370 (Stern; Ch.&nbsp;777, Stats. 2026)</strong> adds PRC §§4240–4243: a <strong>single consolidated state review</strong> (CNRA with CalEPA, through a CAL&nbsp;FIRE-led project review team) for <em>covered wildfire mitigation projects</em>. <strong>CEQA does not apply</strong> to authorized projects (§4240(d)). It is a time-limited version of the durable successor to the March 2025 emergency process that the June&nbsp;2026 draft Action Plan (Key Action 3.7) called for.</p>
+        <div class="ctx-feature-cols">
+          <div>
+            <div class="ctx-feature-label">Covered work</div>
+            <p>Hazard-tree removal, strategic fuel breaks (≤300&nbsp;ft wide), defensible space (≤200&nbsp;ft from a structure), evacuation-route clearance (≤100&nbsp;ft from centerline), forest resilience treatments, nonnative removal in shrublands and grasslands, fuel-break maintenance, utility vegetation management, and prescribed or cultural fire in fire-deficit ecosystems (not chaparral or coastal sage scrub). The project must be required by law or identified in a utility wildfire mitigation plan, community wildfire preparedness plan, local-agency plan, or CAL&nbsp;FIRE plan. Size caps: &lt;1,000&nbsp;ac forest, &lt;3,000&nbsp;ac utility right-of-way, &lt;50&nbsp;ac shrubland nonnative-grass removal.</p>
+          </div>
+          <div>
+            <div class="ctx-feature-label">Limits</div>
+            <p>Projects that use pesticides, or that would need a CESA or Native Plant Protection Act take permit, are ineligible. An <em>expedited authorization</em> can waive other state requirements within CNRA/CalEPA jurisdiction, but <strong>not</strong> Clean Water Act–delegated permits, water-rights requirements (Water Code Div.&nbsp;2), the Forest Practice Act for timber operations, or local ordinances.</p>
+          </div>
+          <div>
+            <div class="ctx-feature-label">Process</div>
+            <p>20-day public comment on each application; decision within 60 days of a complete application; work done within 2&nbsp;years (5 for prescribed fire). Compliance with the Statewide Fuels Reduction Environmental Protection Plan is mandatory (civil penalties up to $10,000 per violation).</p>
+          </div>
+          <div>
+            <div class="ctx-feature-label">Timing</div>
+            <p><strong>Authority to issue expedited authorizations ends Jan&nbsp;1, 2029</strong>; the chapter is repealed Jan&nbsp;1, 2034. SB&nbsp;1370 also directs the Board of Forestry to build a <strong>Nontimber Vegetation Management Program</strong> as a CEQA certified regulatory program (emergency regulations due by July&nbsp;1, 2028). Agencies have not yet posted the application process, and the final Action Plan (expected fall 2026) had not been released as of Oct&nbsp;1, 2026.</p>
+          </div>
+        </div>
+        <div class="ctx-date">SB 1370 (Stern, 2026) · Draft Action Plan (June 2026)</div>
+      </div>
 
       <div class="ctx">
         <div class="ctx-tag red">Closed · May 1, 2026</div>
         <div class="ctx-title">March 2025 Emergency Proclamation window has closed</div>
-        <div class="ctx-body">Suspension of CEQA, CESA, and Coastal Act for projects ≤3,000 ac. Application window closed; more than 500 projects (nearly 130,000 footprint acres) were fast-tracked, per the Governor’s Sept&nbsp;29, 2026 release. On-the-ground work for approved projects must begin by <strong>Oct&nbsp;15, 2026</strong>. Maintenance treatments need a separate CEQA pathway afterward — from Jan&nbsp;1, 2027 that can include <strong>SB&nbsp;1370</strong> (below).</div>
+        <p class="ctx-sum">The emergency fast-track is closed to new projects. Approved projects had to start work by Oct&nbsp;15, 2026, and later maintenance needs its own CEQA pathway.</p>
+        <details class="ctx-more">
+          <summary><span class="more">Read more</span><span class="less">Show less</span></summary>
+          <div class="ctx-body">Suspension of CEQA, CESA, and Coastal Act for projects ≤3,000 ac. Application window closed; more than 500 projects (nearly 130,000 footprint acres) were fast-tracked, per the Governor’s Sept&nbsp;29, 2026 release. On-the-ground work for approved projects must begin by <strong>Oct&nbsp;15, 2026</strong>. Maintenance treatments need a separate CEQA pathway afterward — from Jan&nbsp;1, 2027 that can include <strong>SB&nbsp;1370</strong> (above).</div>
+        </details>
         <div class="ctx-date">EO N-38-25</div>
       </div>
 
       <div class="ctx">
         <div class="ctx-tag amber">Sunsets · Jan 1, 2028</div>
         <div class="ctx-title">Federal-NEPA exemption is set to expire Jan 1, 2028</div>
-        <div class="ctx-body">PRC §4799.05(d) — created by <strong>SB 901 (2018)</strong>, with the sunset extended to Jan&nbsp;1, 2028 by <strong>AB 211 (2022)</strong> — exempts NEPA-reviewed federal-land prescribed fire, reforestation, habitat restoration, thinning, and fuel reduction projects. A 2025 bill to remove the sunset (<strong>AB 404, Sanchez</strong>) <strong>failed in committee</strong> (Feb 2026), so the exemption is currently scheduled to expire absent further legislation.</div>
+        <p class="ctx-sum">The CEQA exemption for NEPA-reviewed federal-land projects (PRC §4799.05(d)) expires Jan&nbsp;1, 2028. A bill to remove the sunset failed.</p>
+        <details class="ctx-more">
+          <summary><span class="more">Read more</span><span class="less">Show less</span></summary>
+          <div class="ctx-body">PRC §4799.05(d) — created by <strong>SB 901 (2018)</strong>, with the sunset extended to Jan&nbsp;1, 2028 by <strong>AB 211 (2022)</strong> — exempts NEPA-reviewed federal-land prescribed fire, reforestation, habitat restoration, thinning, and fuel reduction projects. A 2025 bill to remove the sunset (<strong>AB 404, Sanchez</strong>) <strong>failed in committee</strong> (Feb 2026), so the exemption is currently scheduled to expire absent further legislation.</div>
+        </details>
         <div class="ctx-date">SB 901 (2018) · AB 211 (2022)</div>
       </div>
 
       <div class="ctx">
         <div class="ctx-tag green">New · Eff. June 30, 2025</div>
         <div class="ctx-title">SB 131 adds a permanent wildfire exemption</div>
-        <div class="ctx-body">PRC §21080.49 — four categories: small prescribed fire, evacuation-route clearance, home hardening / defensible space, and 200&#8209;ft fuel breaks. As a statutory exemption, the §15300.2 exceptions <strong>do not apply</strong>.</div>
+        <p class="ctx-sum">PRC §21080.49 permanently exempts small prescribed fire, evacuation-route clearance, home hardening / defensible space, and 200&#8209;ft fuel breaks.</p>
+        <details class="ctx-more">
+          <summary><span class="more">Read more</span><span class="less">Show less</span></summary>
+          <div class="ctx-body">PRC §21080.49 — four categories: small prescribed fire, evacuation-route clearance, home hardening / defensible space, and 200&#8209;ft fuel breaks. As a statutory exemption, the §15300.2 exceptions <strong>do not apply</strong>.</div>
+        </details>
         <div class="ctx-date">SB 131 (2025)</div>
       </div>
 
       <div class="ctx">
         <div class="ctx-tag green">Extended · Jan 1, 2030</div>
         <div class="ctx-title">SB 174 extended SERP</div>
-        <div class="ctx-body">The Statutory Exemption for Restoration Projects (PRC §21080.56) was extended from its original 2025 sunset to Jan&nbsp;1, 2030. No acreage cap; requires CDFW Director concurrence.</div>
+        <p class="ctx-sum">SERP (PRC §21080.56) now runs to Jan&nbsp;1, 2030, with no acreage cap. CDFW Director concurrence is still required.</p>
+        <details class="ctx-more">
+          <summary><span class="more">Read more</span><span class="less">Show less</span></summary>
+          <div class="ctx-body">The Statutory Exemption for Restoration Projects (PRC §21080.56) was extended from its original 2025 sunset to Jan&nbsp;1, 2030. No acreage cap; requires CDFW Director concurrence.</div>
+        </details>
         <div class="ctx-date">SB 174 (2024)</div>
       </div>
 
       <div class="ctx">
         <div class="ctx-tag amber">Updated · 2024</div>
         <div class="ctx-title">AB 2276 reshaped Forest Practice exemptions</div>
-        <div class="ctx-body">Repealed the Small Timberland Owner Exemption. Renamed Forest Fire Prevention as the <strong>Forest Resilience Exemption</strong> and extended it to Jan&nbsp;1, 2031. Revised the Oak Woodland Exemption (14 CCR §1038(e)) to allow larger conifer removal (Board of Forestry rulemaking in progress).</div>
+        <p class="ctx-sum">Repealed the Small Timberland Owner Exemption, renamed Forest Fire Prevention as the Forest Resilience Exemption (extended to 2031), and revised the Oak Woodland Exemption.</p>
+        <details class="ctx-more">
+          <summary><span class="more">Read more</span><span class="less">Show less</span></summary>
+          <div class="ctx-body">Repealed the Small Timberland Owner Exemption. Renamed Forest Fire Prevention as the <strong>Forest Resilience Exemption</strong> and extended it to Jan&nbsp;1, 2031. Revised the Oak Woodland Exemption (14 CCR §1038(e)) to allow conifer removal up to 30″ DBH (rule text operative Jan&nbsp;15, 2025 by emergency rulemaking).</div>
+        </details>
         <div class="ctx-date">AB 2276 (Wood, 2024)</div>
-      </div>
-
-      <div class="ctx">
-        <div class="ctx-tag green">Enacted · Sept 29, 2026 · takes effect Jan 1, 2027</div>
-        <div class="ctx-title">SB 1370 codifies the emergency fuels-streamlining process</div>
-        <div class="ctx-body"><strong>SB 1370 (Stern; Ch.&nbsp;777, Stats. 2026)</strong> adds PRC §§4240–4243: a <strong>single consolidated state review</strong> (CNRA in coordination with CalEPA, through a CAL&nbsp;FIRE-led project review team) for <em>covered wildfire mitigation projects</em> — hazard-tree removal, strategic fuel breaks (≤300&nbsp;ft wide), defensible space (≤200&nbsp;ft from a structure), evacuation-route clearance (≤100&nbsp;ft from centerline), forest resilience treatments, nonnative removal in shrublands and grasslands, fuel-break maintenance, utility vegetation management, and prescribed or cultural fire in fire-deficit ecosystems (excluding chaparral and coastal sage scrub). A project must be required by law, or identified in a utility wildfire mitigation plan, a community wildfire preparedness plan, a plan adopted by a local agency, or a CAL&nbsp;FIRE plan. <strong>CEQA does not apply</strong> to projects authorized under the chapter (§4240(d)), and an <em>expedited authorization</em> can waive other state requirements within CNRA/CalEPA jurisdiction — but <strong>not</strong> Clean Water Act–delegated permits or water-rights requirements (Water Code Div.&nbsp;2), not the Forest Practice Act for timber operations, and not local ordinances. Projects that use pesticides, or that would need a CESA or Native Plant Protection Act take permit, are ineligible. Size caps: &lt;1,000&nbsp;ac for forest projects, &lt;3,000&nbsp;ac for utility right-of-way, &lt;50&nbsp;ac for shrubland nonnative-grass removal. The agencies post each application for a 20-day public comment period and must decide within 60 days of a complete application; work must finish within 2&nbsp;years (5 for prescribed fire). Compliance with the Statewide Fuels Reduction Environmental Protection Plan is mandatory, with civil penalties up to $10,000 per violation. <strong>Authority to issue expedited authorizations ends Jan&nbsp;1, 2029</strong>; the chapter is repealed Jan&nbsp;1, 2034. SB&nbsp;1370 also directs the Board of Forestry to build a <strong>Nontimber Vegetation Management Program</strong> as a CEQA certified regulatory program (emergency regulations due by July&nbsp;1, 2028). Agencies have not yet posted the application process.</div>
-        <div class="ctx-date">SB 1370 (Stern, 2026)</div>
       </div>
 
       <div class="ctx">
         <div class="ctx-tag green">Enacted · Sept 2026</div>
         <div class="ctx-title">Good Fire Act adds a CAL FIRE burn-assistance exemption; FPA plan caps rise</div>
-        <div class="ctx-body"><strong>AB 1699 (Rogers; Ch.&nbsp;761, Stats. 2026)</strong>, an urgency statute in effect since it was signed Sept&nbsp;29, 2026, adds <strong>PRC §21080.49.1</strong>: CEQA does not apply to actions CAL&nbsp;FIRE takes to <em>assist</em> prescribed fire or cultural burning projects that do not otherwise require CEQA compliance (this codifies the EO&nbsp;N-35-25 suspension). It also makes the Prescribed Fire Liability Pilot Program permanent, moves burn-boss recertification to no sooner than every 3&nbsp;years, and lets CAL&nbsp;FIRE waive burn-permit site inspections for specified burners. Its change to PRC §4799.05 affects only grant advance-payment reporting, so the federal-NEPA exemption’s <strong>Jan&nbsp;1, 2028 sunset is unchanged</strong>. Separately, <strong>AB 442 (Hadwick; Ch.&nbsp;504, Stats. 2026)</strong> raises NTMP caps to 4,000&nbsp;ac and WFMP caps to 15,000&nbsp;ac, and drops the single-hydrologic-area limit on WFMP harvest areas.</div>
+        <p class="ctx-sum">CEQA no longer applies to CAL&nbsp;FIRE’s assistance on prescribed and cultural burns (PRC §21080.49.1). A separate bill raises NTMP and WFMP acreage caps.</p>
+        <details class="ctx-more">
+          <summary><span class="more">Read more</span><span class="less">Show less</span></summary>
+          <div class="ctx-body"><strong>AB 1699 (Rogers; Ch.&nbsp;761, Stats. 2026)</strong>, an urgency statute in effect since it was signed Sept&nbsp;29, 2026, adds <strong>PRC §21080.49.1</strong>: CEQA does not apply to actions CAL&nbsp;FIRE takes to <em>assist</em> prescribed fire or cultural burning projects that do not otherwise require CEQA compliance (this codifies the EO&nbsp;N-35-25 suspension). It also makes the Prescribed Fire Liability Pilot Program permanent, moves burn-boss recertification to no sooner than every 3&nbsp;years, and lets CAL&nbsp;FIRE waive burn-permit site inspections for specified burners. Its change to PRC §4799.05 affects only grant advance-payment reporting, so the federal-NEPA exemption’s <strong>Jan&nbsp;1, 2028 sunset is unchanged</strong>. Separately, <strong>AB 442 (Hadwick; Ch.&nbsp;504, Stats. 2026)</strong> raises NTMP caps to 4,000&nbsp;ac and WFMP caps to 15,000&nbsp;ac, and drops the single-hydrologic-area limit on WFMP harvest areas.</div>
+        </details>
         <div class="ctx-date">AB 1699 · AB 442 (2026)</div>
       </div>
 
       <div class="ctx">
         <div class="ctx-tag blue">Session wrap · 2025–26</div>
         <div class="ctx-title">Fuels-reduction CEQA exemption bills that did not pass</div>
-        <div class="ctx-body">The 2025–26 session’s final-passage deadline (Aug&nbsp;31, 2026) has passed, and <strong>SB&nbsp;1370</strong> (above) became the enacted vehicle. These bills did not reach the Governor: <strong>AB 2410 (Ellis)</strong> — would have exempted critical fuels reduction projects in high fire threat districts / Very High FHSZ until Jan&nbsp;1, 2030, with a parallel Coastal Act permit waiver; it passed the Assembly May&nbsp;27, 2026 but was <strong>held under submission in Senate Appropriations</strong> Aug&nbsp;13, 2026, with no recorded action since. <strong>AB 1227 (Ellis)</strong> — VHFHSZ fuels-reduction exemption through Jan 1, 2028; <strong>held under submission in Senate Appropriations</strong> (Aug&nbsp;2025), no recorded action since. <strong>SB 375 (Grove)</strong> — <strong>failed</strong> (returned to the Secretary of the Senate under Joint Rule 56, Feb 2026). <strong>AB 2102 (DeMaio)</strong> — private-property fuel reduction regardless of acreage; referred to Assembly Natural Resources and Emergency Management Mar&nbsp;9, 2026, <strong>no recorded action since</strong>. <strong>None of these is law.</strong> A new session convenes in Dec&nbsp;2026, so expect new bill numbers.</div>
+        <p class="ctx-sum">AB&nbsp;2410, AB&nbsp;1227, SB&nbsp;375 and AB&nbsp;2102 did not reach the Governor. <strong>None of these is law.</strong> A new session convenes in Dec&nbsp;2026.</p>
+        <details class="ctx-more">
+          <summary><span class="more">Read more</span><span class="less">Show less</span></summary>
+          <div class="ctx-body">The 2025–26 session’s final-passage deadline (Aug&nbsp;31, 2026) has passed, and <strong>SB&nbsp;1370</strong> (above) became the enacted vehicle. These bills did not reach the Governor: <strong>AB 2410 (Ellis)</strong> — would have exempted critical fuels reduction projects in high fire threat districts / Very High FHSZ until Jan&nbsp;1, 2030, with a parallel Coastal Act permit waiver; it passed the Assembly May&nbsp;27, 2026 but was <strong>held under submission in Senate Appropriations</strong> Aug&nbsp;13, 2026, with no recorded action since. <strong>AB 1227 (Ellis)</strong> — VHFHSZ fuels-reduction exemption through Jan 1, 2028; <strong>held under submission in Senate Appropriations</strong> (Aug&nbsp;2025), no recorded action since. <strong>SB 375 (Grove)</strong> — <strong>failed</strong> (returned to the Secretary of the Senate under Joint Rule 56, Feb 2026). <strong>AB 2102 (DeMaio)</strong> — private-property fuel reduction regardless of acreage; referred to Assembly Natural Resources and Emergency Management Mar&nbsp;9, 2026, <strong>no recorded action since</strong>. <strong>None of these is law.</strong> A new session convenes in Dec&nbsp;2026, so expect new bill numbers.</div>
+        </details>
         <div class="ctx-date">2025–26 session</div>
       </div>
 
       <div class="ctx">
         <div class="ctx-tag blue">In progress · 2026</div>
         <div class="ctx-title">CNRA institutionalizing Cutting Green Tape</div>
-        <div class="ctx-body">February 2026 Secretarial Memo directs Natural Resources Agency departments to embed CGT permitting and CEQA-streamlining improvements as standard practice. Implementation progress report due <strong>Sept&nbsp;1, 2026</strong>. Watch for expanded use of SERP, RMP, and SRGO programmatic pathways.</div>
+        <p class="ctx-sum">A Feb 2026 CNRA memo makes Cutting Green Tape permitting and CEQA streamlining standard practice. Watch for wider use of SERP, RMP and SRGO.</p>
+        <details class="ctx-more">
+          <summary><span class="more">Read more</span><span class="less">Show less</span></summary>
+          <div class="ctx-body">February 2026 Secretarial Memo directs Natural Resources Agency departments to embed CGT permitting and CEQA-streamlining improvements as standard practice. Implementation progress report due <strong>Sept&nbsp;1, 2026</strong>. Watch for expanded use of SERP, RMP, and SRGO programmatic pathways.</div>
+        </details>
         <div class="ctx-date">CNRA Secretarial Memo (Feb 2026)</div>
-      </div>
-
-      <div class="ctx">
-        <div class="ctx-tag blue">Proposed · June 2026 draft Action Plan</div>
-        <div class="ctx-title">A durable replacement for the emergency streamlining process</div>
-        <div class="ctx-body">The Task Force's draft 2026–2031 Action Plan (Key Action 3.7) directs CNRA, CalEPA, and the Board of Forestry to explore a <strong>durable framework</strong> for streamlined approval of fuel reduction, beneficial fire, and other resilience projects — modeled on the March 2025 emergency process that expired May&nbsp;1, 2026, and noted as likely to <strong>require new legislation</strong>. The plan also backs expanded federal streamlining (3.9): categorical exclusions, programmatic NEPA, and time-bounded reviews. <strong>Proposed, not yet law.</strong> The draft was released June 5, 2026; the partner-review period closed Aug 7, 2026, and the final plan is expected fall 2026 (not yet released as of Oct&nbsp;1, 2026). <strong>SB&nbsp;1370 (2026)</strong> has since enacted a time-limited version of that streamlined process for a defined set of project types.</div>
-        <div class="ctx-date">Draft Action Plan (June 2026)</div>
       </div>
 
       <div class="ctx">
         <div class="ctx-tag blue">In progress · 2026</div>
         <div class="ctx-title">CalVTP PEIR update underway</div>
-        <div class="ctx-body">AB 52 tribal consultations opened June&nbsp;22, 2025; type-conversion analysis is being added per the May&nbsp;30, 2025 Court of Appeal decision. The current PEIR <strong>remains in effect</strong> for new PSAs in the meantime — <strong>except for chaparral and coastal sage scrub treatments</strong>, which the Court directed may not proceed during the Update except for a narrow set of critical safety projects. The June&nbsp;2026 draft Action Plan (Key Action 3.6) proposes the update may also <strong>extend CalVTP to the Local Responsibility Area</strong>, expand automatic permit enrollments, reach the coastal zone, enable combined CDFW approvals, cover projects with biomass cost-recovery, and add non-forested / shrubland provisions. The update is being processed as a <strong>Subsequent Program EIR (SPEIR)</strong> — the re-issued Notice of Preparation opened scoping Jan&nbsp;9, 2026 and closed Feb&nbsp;26, 2026. In the meantime the Board has published <strong>Update SPR CHAP-CSS-1</strong>, a Standard Project Requirement carrying the writ’s chaparral / coastal sage scrub limits, for use on projects approved after May&nbsp;30, 2025 that rely on the 2019 PEIR.</div>
+        <p class="ctx-sum">The current CalVTP PEIR stays in effect during its update, except for chaparral and coastal sage scrub treatments. The draft Action Plan proposes the update may also extend CalVTP to the Local Responsibility Area.</p>
+        <details class="ctx-more">
+          <summary><span class="more">Read more</span><span class="less">Show less</span></summary>
+          <div class="ctx-body">AB 52 tribal consultations opened June&nbsp;22, 2025; type-conversion analysis is being added per the May&nbsp;30, 2025 Court of Appeal decision. The current PEIR <strong>remains in effect</strong> for new PSAs in the meantime — <strong>except for chaparral and coastal sage scrub treatments</strong>, which the Court directed may not proceed during the Update except for a narrow set of critical safety projects. The June&nbsp;2026 draft Action Plan (Key Action 3.6) proposes the update may also <strong>extend CalVTP to the Local Responsibility Area</strong>, expand automatic permit enrollments, reach the coastal zone, enable combined CDFW approvals, cover projects with biomass cost-recovery, and add non-forested / shrubland provisions. The update is being processed as a <strong>Subsequent Program EIR (SPEIR)</strong> — the re-issued Notice of Preparation opened scoping Jan&nbsp;9, 2026 and closed Feb&nbsp;26, 2026. In the meantime the Board has published <strong>Update SPR CHAP-CSS-1</strong>, a Standard Project Requirement carrying the writ’s chaparral / coastal sage scrub limits, for use on projects approved after May&nbsp;30, 2025 that rely on the 2019 PEIR.</div>
+        </details>
         <div class="ctx-date">Board of Forestry</div>
       </div>
-
     </div>
   </div>
 </div>
@@ -812,9 +1002,9 @@ footer .colophon {
 <section id="tree">
   <div class="wrap">
     <div class="section-head">
-      <div class="section-num">§ 01 · Master decision tree</div>
-      <h2>Walk the decision tree.</h2>
-      <p class="section-lede">Answer the questions in order. Each click narrows the path; the recommended pathway appears on the right. The tree captures the master flow only — see the exemption menu below for the full detail on each statutory and categorical option.</p>
+      <div class="section-num">§ 01 · Pathway finder</div>
+      <h2>Build the project profile; see which exemptions fit.</h2>
+      <p class="section-lede">Answer the questions in order — who is driving the work, where it is, what it involves, how big, how close to homes, what resources are nearby, and when it starts. The panel on the right ranks every statutory, categorical, programmatic and Forest Practice pathway as a <strong>likely</strong>, <strong>possible</strong> or <strong>unlikely</strong> fit, lists the conditions each one still needs confirmed, and names the pathway to lead with. Click any pathway name to jump to its card in the exemption menu.</p>
     </div>
 
     <div class="tree-shell">
@@ -823,7 +1013,7 @@ footer .colophon {
 
       <!-- right: result card -->
       <aside class="result" id="result" aria-live="polite">
-        <div class="result-empty">Your recommended pathway will appear here as you answer the questions to the left.</div>
+        <div class="result-empty">Your recommended pathway — and how well each exemption fits — will appear here as you build the project profile on the left.</div>
       </aside>
     </div>
 
@@ -877,7 +1067,7 @@ footer .colophon {
   <div class="exemptions">
 
     <!-- ① PRC §4799.05(d) — SB 901 / AB 211 -->
-    <article class="ex">
+    <article class="ex" id="ex-1">
       <div class="ex-row1">
         <span class="ex-num">①</span>
         <span class="ex-chip streamlined">Statutory · sunset Jan 1, 2028</span>
@@ -899,7 +1089,7 @@ footer .colophon {
     </article>
 
     <!-- ② SB 131 / PRC §21080.49 -->
-    <article class="ex">
+    <article class="ex" id="ex-2">
       <div class="ex-row1">
         <span class="ex-num">②</span>
         <span class="ex-chip streamlined">Statutory · no sunset</span>
@@ -924,7 +1114,7 @@ footer .colophon {
     </article>
 
     <!-- ③ SERP / PRC §21080.56 -->
-    <article class="ex">
+    <article class="ex" id="ex-3">
       <div class="ex-row1">
         <span class="ex-num">③</span>
         <span class="ex-chip streamlined">Statutory · sunset Jan 1, 2030</span>
@@ -935,17 +1125,17 @@ footer .colophon {
       <div class="ex-sub">No acreage cap. No location-based exceptions.</div>
       <div class="ex-body">
         <p><strong>Eligible activities.</strong> Projects to conserve, restore, protect, or enhance California native fish, wildlife, and their habitat — or to restore or provide such habitat.</p>
-        <p><strong>“Exclusively” requirement.</strong> Project must be exclusively restoration. Incidental public benefits (access, recreation) allowed; construction must be solely habitat-related.</p>
+        <p><strong>“Exclusively” requirement.</strong> The project as a whole must be exclusively restoration — a test of purpose and design, not of the tools used. Thinning, mastication, prescribed fire and herbicide have all been concurred where the project is designed to restore the vegetation density and fire regime native species co-evolved with, with wildfire-risk reduction to lives and property treated as the <em>incidental public benefit</em> under subdivision (b). Construction must be solely habitat-related.</p>
         <p><strong>Process.</strong> Lead agency findings (subdivisions a–d) → CDFW Director concurrence → file NOE with OPR within 48 hours. CDFW target: <strong>60 days</strong>.</p>
       </div>
       <div class="ex-foot">
-        <span>Recent precedent: SNC CHIRP fuels-reduction grant amendment, Oct 2025</span>
+        <a href="https://ceqanet.lci.ca.gov/2023080762" target="_blank" rel="noopener">Nevada County precedent: Sierra Foothill Forest Climate Resilience (WCB / Sierra Streams Institute) — 625 ac thinning, prescribed fire, invasive control; CDFW concurrence 21080.56-2023-034-R2, Aug 2023</a>
         <a href="https://wildlife.ca.gov/Conservation/Cutting-Green-Tape" target="_blank" rel="noopener">CDFW SERP program</a>
       </div>
     </article>
 
     <!-- ④ Class 4 — Minor Alterations -->
-    <article class="ex">
+    <article class="ex" id="ex-4">
       <div class="ex-row1">
         <span class="ex-num">④</span>
         <span class="ex-chip streamlined">Categorical · §15300.2 applies</span>
@@ -970,7 +1160,7 @@ footer .colophon {
     </article>
 
     <!-- ⑤ Other Categorical -->
-    <article class="ex">
+    <article class="ex" id="ex-5">
       <div class="ex-row1">
         <span class="ex-num">⑤</span>
         <span class="ex-chip streamlined">Categorical · §15300.2 applies</span>
@@ -993,7 +1183,7 @@ footer .colophon {
     </article>
 
     <!-- ⑥ March 2025 Emergency Proclamation -->
-    <article class="ex">
+    <article class="ex" id="ex-6">
       <div class="ex-row1">
         <span class="ex-num">⑥</span>
         <span class="ex-chip expired">Closed to new apps · May 1, 2026</span>
@@ -1015,7 +1205,7 @@ footer .colophon {
     </article>
 
     <!-- ⑦ Oak / Emergency / Planning -->
-    <article class="ex">
+    <article class="ex" id="ex-7">
       <div class="ex-row1">
         <span class="ex-num">⑦</span>
         <span class="ex-chip streamlined">Special considerations &amp; narrow-use exemptions</span>
@@ -1040,7 +1230,7 @@ footer .colophon {
     </article>
 
     <!-- ⑧ Forest Practice Act -->
-    <article class="ex">
+    <article class="ex" id="ex-8">
       <div class="ex-row1">
         <span class="ex-num">⑧</span>
         <span class="ex-chip programmatic">Forest Practice · CAL FIRE</span>
@@ -1051,10 +1241,11 @@ footer .colophon {
       <div class="ex-sub">Functional CEQA equivalent for commercial timber projects.</div>
       <div class="ex-body">
         <dl>
-          <dt>§1038(c)</dt><dd><strong>Structure Protection.</strong> Trees within 150 ft of an approved &amp; legally permitted structure. No clearcut / seed tree / shelterwood removal.</dd>
+          <dt>§1038(c)</dt><dd><strong>Structure Protection.</strong> Trees within 150 ft of an approved &amp; legally permitted structure. No clearcut / seed tree / shelterwood removal. Subsection (c)(6) reaches <strong>150–300 ft</strong> from a habitable structure where the post-harvest stand meets stocking standards, QMD increases, and an RPF certifies more moderate fire behavior.</dd>
           <dt>§1038(b) / (d)</dt><dd><strong>Dead, Dying, or Diseased / Drought Mortality.</strong> Up to 10% of volume per acre, or only trees affected by drought mortality (RPF stump-mark certification required).</dd>
-          <dt>§1038(e)</dt><dd><strong>Oak Woodland Exemption.</strong> Cutting/removal of trees to restore and conserve California black oak (<em>Quercus kelloggii</em>) or Oregon white oak (<em>Quercus garryana</em>) woodlands and associated grasslands. ≤300 ac per ownership per planning watershed per 5-year period. Stand must have ≥35 ft²/ac of living oak basal area; post-harvest conifer stocking &lt;25% of total; harvested conifers within 300 ft of a qualifying oak ≥4″ DBH. <strong>AB 2276 (Wood, 2024)</strong> revised the exemption — conifer diameter limit increased toward 30″ DBH (Board of Forestry rulemaking in progress).</dd>
-          <dt>§1038.3</dt><dd><strong>Forest Resilience Exemption</strong> (formerly Forest Fire Prevention). Up to 300 ac in Moderate/High/Very High FHSZ. Renamed and extended to Jan&nbsp;1, 2031 by AB 2276.</dd>
+          <dt>§1038(e)</dt><dd><strong>Oak Woodland Exemption.</strong> Cutting/removal of trees to restore and conserve California black oak (<em>Quercus kelloggii</em>) or Oregon white oak (<em>Quercus garryana</em>) woodlands and associated grasslands. ≤300 ac per ownership per planning watershed per 5-year period. Stand must have ≥35 ft²/ac of living oak basal area; post-harvest conifer stocking &lt;25% of total; harvested conifers within 300 ft of a qualifying oak ≥4″ DBH. <strong>AB 2276 (Wood, 2024)</strong> revised the exemption; the current rule text (operative Jan&nbsp;15, 2025 by emergency rulemaking) allows removal of conifers up to <strong>30″ DBH</strong> — larger only where necessary for restoration, with written RPF justification and consultation with the Director — and requires retaining ≥80% of pre-treatment oak basal area.</dd>
+          <dt>§1038(g)</dt><dd><strong>Wildfire-killed trees.</strong> Dead or dying trees within 300 ft of an approved structure (or a structure the fire damaged), under a current emergency proclamation or within three years of the fire with RPF certification.</dd>
+          <dt>§1038.3</dt><dd><strong>Forest Resilience Exemption</strong> (formerly Forest Fire Prevention). Harvest area up to <strong>500 ac</strong> of timberland rated Moderate / High / Very High on the FHSZ map; only trees <strong>under 30″ DBH</strong> (dead or dying to 36″, ≤10% of volume); retain the six largest trees per acre and ≥30% canopy on 80% of the area; temporary roads only; RPF prepares the notice and marks the trees. Renamed by AB 2276 and extended to <strong>Jan&nbsp;1, 2031</strong>.</dd>
         </dl>
         <p style="margin-top:10px"><strong>For non-exempt commercial work:</strong> THP (5-yr), NTMP (≤2,500 ac), or PTEIR.</p>
         <p style="margin-top:8px;font-size:12.5px;color:var(--ink-mute);">The FPA program is a Certified Regulatory Program under PRC §21080.5 — THP/NTMP review is the functional equivalent of an EIR.</p>
@@ -1091,7 +1282,7 @@ footer .colophon {
           <div>
             <span class="tag">Restoration-primary</span>
             <h4>SERP is now the strongest tool for exclusively-restoration work.</h4>
-            <p>No acreage cap, no §15300.2 exceptions. Requires CDFW Director concurrence (60-day target). Recent Sierra Nevada Conservancy grant amendments for fuels-reduction-with-restoration objectives have used SERP. For projects ≤5 acres, Class 33 is the lighter-weight categorical alternative.</p>
+            <p>No acreage cap, no §15300.2 exceptions. Requires CDFW Director concurrence (60-day target). The Sierra Foothill Forest Climate Resilience Project (Wildlife Conservation Board lead, Sierra Streams Institute, Jones Bar Firewise community) carried 625 ac of thinning, mastication, prescribed fire and Scotch broom control through SERP in 2023 by designing it as foothill-forest habitat restoration, with wildfire-risk reduction as the incidental public benefit. The design did the work — heterogeneous clumps, retained snags and corridors, a topographic-wetness thinning plan, named beneficiary species, BMPs, monitoring and landowner maintenance agreements — so pre-consult CDFW before assuming a fuels grant can be reframed. For projects ≤5 acres, Class 33 is the lighter-weight categorical alternative.</p>
           </div>
         </div>
         <div class="note">
@@ -1243,190 +1434,844 @@ footer .colophon {
   </div>
 </footer>
 
-<!-- ============ DECISION TREE LOGIC ============ -->
+<!-- ============ PATHWAY FINDER LOGIC ============ -->
 <script>
 (function () {
-  // ----- tree definition -----
-  // Each step has a question, optional sub, and yes/no edges (next: id) or a terminal result.
-  const STEPS = [
+  'use strict';
+
+  // =====================================================================
+  //  PROJECT PROFILE — the questions
+  //  type 'single' picks one option; 'multi' toggles any number and needs
+  //  "Continue" to confirm. `when(p)` gates whether a question is asked.
+  //  The engine never truncates later answers when an earlier one changes;
+  //  rules only read questions that are currently applicable.
+  // =====================================================================
+  const QUESTIONS = [
     {
-      id: 'commercial',
-      q: 'Commercial sale of timber or biomass?',
-      sub: 'On private or state land — triggers Forest Practice Act / Rules under CAL FIRE jurisdiction, regardless of CEQA status.',
-      yes: { result: 'forest-practice' },
-      no:  'project'
+      id: 'trigger', type: 'single',
+      q: 'Who approves, funds, or carries out the work?',
+      sub: 'CEQA only reaches “projects” — activities a public agency carries out, funds, or approves with a discretionary decision. The answer also decides who the lead agency is.',
+      stack: true,
+      opts: [
+        { v: 'state', l: 'A state agency leads or funds it', d: 'CAL FIRE, Sierra Nevada Conservancy, State Parks, Wildlife Conservation Board, Caltrans — including pass-through grants' },
+        { v: 'local', l: 'A local agency leads or funds it', d: 'County, city, fire district, RCD, water or park district, or a locally administered grant' },
+        { v: 'regulatory', l: 'A regulatory agency acting under its own authority', d: 'CDFW, a Regional Water Board, an air district, the Coastal Commission — uncommon for fuels work' },
+        { v: 'none', l: 'No public money and no discretionary approval', d: 'Private landowner, land trust, HOA or tribe using private funds and only ministerial permits' },
+        { v: 'unsure', l: 'Not sure yet', d: 'Treat it as a CEQA project until the funding and approvals are pinned down' }
+      ]
     },
     {
-      id: 'project',
-      q: 'Is this a “project” under CEQA?',
-      sub: '“Projects” include discretionary activity by a public agency, a private activity that receives any public funding, or activities that involve the public agency’s issuance of a discretionary approval.',
-      yes: 'federal',
-      no:  { result: 'not-ceqa' }
+      id: 'land', type: 'single',
+      q: 'Whose land is it?',
+      sub: 'Land status decides whether the federal-NEPA exemption, the Forest Practice Act, or the CalVTP treatable landscape can apply.',
+      opts: [
+        { v: 'federal', l: 'Federal (USFS / BLM)' },
+        { v: 'private', l: 'Private' },
+        { v: 'public', l: 'State or local public land' },
+        { v: 'mixed', l: 'Mixed federal and non-federal' }
+      ]
     },
     {
-      id: 'federal',
-      q: 'On federal land with NEPA review complete?',
-      sub: 'Prescribed fire, thinning, fuel reduction, reforestation, or habitat restoration with a ROD, FONSI, or CatEx.',
-      yes: { result: 'ab404' },
-      no:  'exemption'
+      id: 'nepa', type: 'single',
+      when: p => p.land === 'federal' || p.land === 'mixed',
+      q: 'Where does NEPA review stand for the federal portion?',
+      sub: 'The PRC §4799.05(d) exemption needs a completed NEPA decision — Record of Decision, FONSI, or Categorical Exclusion.',
+      opts: [
+        { v: 'complete', l: 'Complete — ROD, FONSI or CE signed' },
+        { v: 'underway', l: 'Underway' },
+        { v: 'none', l: 'Not started' }
+      ]
     },
     {
-      id: 'exemption',
-      q: 'Does the project fit a statutory or categorical exemption?',
-      sub: 'See the exemption menu below for the full set — SB 131 wildfire, SERP, Class 4, Class 33, declared emergency, planning study, common-sense.',
-      yes: { result: 'noe' },
-      no:  'peir'
+      id: 'activities', type: 'multi',
+      q: 'What work is planned?',
+      sub: 'Select everything that applies. Each exemption is written around specific activities, so this is the biggest driver of fit.',
+      stack: true,
+      opts: [
+        { v: 'thin', l: 'Thinning / ladder-fuel removal (no sale)', d: 'Hand or mechanical fuel reduction where cut material is chipped, piled, burned or left' },
+        { v: 'commercial', l: 'Commercial timber or biomass removal', d: 'Any trees sold, bartered or exchanged — triggers the Forest Practice Act on non-federal land' },
+        { v: 'rxfire', l: 'Prescribed or cultural fire', d: 'Broadcast or understory burning, cultural burning; pile burning alone counts as slash treatment, not here' },
+        { v: 'defspace', l: 'Defensible space / home hardening', d: 'Work keyed to structures — PRC §4291 zones, ember-resistant retrofits' },
+        { v: 'roadside', l: 'Roadside / evacuation-route clearance', d: 'Vegetation along public roads that serve as egress routes' },
+        { v: 'fuelbreak', l: 'Fuel break construction or maintenance', d: 'Shaded or non-shaded linear or community fuel breaks' },
+        { v: 'restoration', l: 'Habitat or ecological restoration', d: 'Meadow, aspen, riparian, oak-woodland release, native revegetation' },
+        { v: 'hazard', l: 'Hazard-tree removal', d: 'Dead, dying or diseased trees near roads, structures or infrastructure' },
+        { v: 'herbicide', l: 'Herbicide use', d: 'Any pesticide application, including cut-stump or resprout control' },
+        { v: 'roads', l: 'New permanent roads or major grading', d: 'Beyond temporary access and minor landing work' },
+        { v: 'planning', l: 'A plan or study only', d: 'CWPP, strategic plan, feasibility study — no ground work yet' }
+      ]
     },
     {
-      id: 'peir',
-      q: 'Within the scope of a Program EIR (PEIR)?',
-      sub: 'CalVTP PEIR (up to 20.3M ac in SRA), an active CAL FIRE VMP project in your area, or a local/agency PEIR with jurisdiction over your site.',
-      yes: { result: 'peir-tier' },
-      no:  { result: 'standard-ceqa' }
+      id: 'acres', type: 'single',
+      when: p => !onlyPlanning(p),
+      q: 'Treatment footprint',
+      sub: 'Acres actually treated, not the planning area. The thresholds below are the ones that appear in the statutes and rules.',
+      opts: [
+        { v: 'lt5', l: 'Under 5 ac' },
+        { v: 'a5_50', l: '5 – 50 ac' },
+        { v: 'a50_300', l: '50 – 300 ac' },
+        { v: 'a300_500', l: '300 – 500 ac' },
+        { v: 'a500_1000', l: '500 – 1,000 ac' },
+        { v: 'a1000_3000', l: '1,000 – 3,000 ac' },
+        { v: 'gt3000', l: 'Over 3,000 ac' }
+      ]
+    },
+    {
+      id: 'structures', type: 'single',
+      when: p => !onlyPlanning(p),
+      q: 'How close to legal structures is the bulk of the work?',
+      sub: 'Several exemptions are measured from a legally permitted structure: 30 / 100 ft (Class 4), 150 / 300 ft (Forest Practice §1038(c)), 200 ft (SB 131).',
+      opts: [
+        { v: 'lt30', l: 'Within 30 ft' },
+        { v: 'lt100', l: '30 – 100 ft' },
+        { v: 'lt150', l: '100 – 150 ft' },
+        { v: 'lt200', l: '150 – 200 ft' },
+        { v: 'lt300', l: '200 – 300 ft' },
+        { v: 'far', l: 'Farther, or not structure-focused' }
+      ]
+    },
+    {
+      id: 'dbh', type: 'single',
+      when: p => any(p, 'activities', ['thin', 'commercial', 'fuelbreak', 'roadside', 'defspace', 'hazard']),
+      q: 'Largest trees to be cut',
+      sub: 'SB 131’s roadside and fuel-break categories stop at 12 in. DBH; the Forest Resilience Exemption and the oak-woodland exemption stop at 30 in.',
+      opts: [
+        { v: 'lt12', l: 'All under 12 in. DBH' },
+        { v: 'lt30', l: 'Some 12 – 30 in. DBH' },
+        { v: 'gt30', l: 'Some over 30 in. DBH' },
+        { v: 'unknown', l: 'Not marked yet' }
+      ]
+    },
+    {
+      id: 'community', type: 'multi',
+      when: p => !onlyPlanning(p),
+      q: 'Community setting',
+      sub: 'Select all that apply. SB 131 keys two of its categories to a 30-dwelling-unit community.',
+      stack: true,
+      opts: [
+        { v: 'evac', l: 'Along a public evacuation route', d: 'Within 100 ft of the centerline of a public road identified as the egress / evacuation route for 30+ dwelling units' },
+        { v: 'subdiv', l: 'Within ½ mile of a 30+ unit subdivision', d: 'Measured from the treatment area to the subdivision boundary' },
+        { v: 'wui', l: 'Mapped wildland-urban interface', d: 'Inside a WUI designation used by the county, CAL FIRE or CalVTP' },
+        { v: 'remote', l: 'None of these — landscape setting', d: 'Backcountry, large ownerships, or watershed-scale work away from communities' }
+      ]
+    },
+    {
+      id: 'hazard', type: 'single',
+      when: p => !onlyPlanning(p),
+      q: 'Fire Hazard Severity Zone and responsibility area',
+      sub: 'Read both from the OSFM FHSZ viewer (link in Resources). SRA vs LRA matters for CalVTP; the zone rating matters for SB 131(c) and the Forest Resilience Exemption.',
+      stack: true,
+      opts: [
+        { v: 'vh-sra', l: 'Very High · SRA', d: 'State Responsibility Area, Very High zone' },
+        { v: 'high-sra', l: 'High · SRA' },
+        { v: 'mod-sra', l: 'Moderate · SRA' },
+        { v: 'vh-lra', l: 'Very High or High · LRA', d: 'Local Responsibility Area — city or county fire protection' },
+        { v: 'low-lra', l: 'Moderate or unzoned · LRA' },
+        { v: 'fra', l: 'Federal Responsibility Area' },
+        { v: 'unknown', l: 'Not sure' }
+      ]
+    },
+    {
+      id: 'resources', type: 'multi',
+      when: p => !onlyPlanning(p),
+      q: 'Known sensitive resources on or near the site',
+      sub: 'Select all that apply. These drive the §15300.2 exceptions that defeat categorical exemptions, and the habitat carve-outs in the statutory ones.',
+      stack: true,
+      opts: [
+        { v: 'listed', l: 'Listed species or mapped critical habitat', d: 'CNDDB occurrences, designated critical habitat, PACs, nesting rookeries, maternity roosts' },
+        { v: 'riparian', l: 'Streams, wetlands, meadows or WLPZs', d: 'Any work in or beside watercourses or wetlands' },
+        { v: 'chaparral', l: 'Chaparral or coastal sage scrub', d: 'Shrubland types singled out by SB 131(a), SB 1370 and the CalVTP writ' },
+        { v: 'cultural', l: 'Known cultural, tribal or historic resources', d: 'Recorded sites, listed historic resources, tribal cultural resources' },
+        { v: 'scenic', l: 'Officially designated state scenic highway' },
+        { v: 'cortese', l: 'Cortese-list hazardous site' },
+        { v: 'steep', l: 'Slopes over 50 % with ground-based equipment' },
+        { v: 'unsurveyed', l: 'Not checked yet', d: 'No CNDDB / CHRIS review done' },
+        { v: 'none', l: 'None known after a records check', d: 'CNDDB, BIOS and CHRIS reviewed; nothing mapped on or adjacent to the site' }
+      ]
+    },
+    {
+      id: 'purpose', type: 'single',
+      when: p => any(p, 'activities', ['thin', 'rxfire', 'fuelbreak', 'herbicide', 'restoration']),
+      q: 'Can the project be designed and described as habitat restoration for native fish and wildlife?',
+      sub: 'SERP (PRC §21080.56) turns on the word “exclusively”, but the test is purpose and design, not the tools. CDFW has concurred on thinning, prescribed fire and herbicide work framed as restoring the vegetation density and fire regime native species co-evolved with, with wildfire-risk reduction as the incidental public benefit.',
+      stack: true,
+      opts: [
+        { v: 'designed', l: 'Yes — it is designed that way', d: 'Ecological objectives drive the prescriptions: heterogeneity, retained snags and corridors, named beneficiary species, monitoring, landowner maintenance. Fuels and safety benefits are incidental' },
+        { v: 'reframe', l: 'Fuels-driven, but could be redesigned around habitat', d: 'The grant or plan describes fuel reduction; ecological prescriptions could be added and the purpose restated' },
+        { v: 'no', l: 'No — structure protection, defensible space or an evacuation corridor', d: 'The wildfire-safety benefit is the fundamental purpose, not incidental' }
+      ]
+    },
+    {
+      id: 'plans', type: 'multi',
+      q: 'Program context',
+      sub: 'Select all that apply. Plan identification opens SB 1370; an existing CEQA document may already cover you.',
+      stack: true,
+      opts: [
+        { v: 'cwpp', l: 'Identified as a specific project in an adopted plan', d: 'CWPP, a plan adopted by a local agency, a utility wildfire mitigation plan, or a CAL FIRE plan — required for SB 1370' },
+        { v: 'covered', l: 'Already inside an adopted CEQA document', d: 'An approved CalVTP PSA, a local or agency PEIR, or a prior MND / EIR whose scope includes this work' },
+        { v: 'maintenance', l: 'Maintenance of a previously treated area', d: 'Re-treating an existing fuel break or a completed project footprint with no expansion' },
+        { v: 'emergency', l: 'Covered by a current declared emergency', d: 'A Governor’s proclamation or local emergency that names this kind of work' },
+        { v: 'nocontext', l: 'None of these' }
+      ]
+    },
+    {
+      id: 'timing', type: 'single',
+      q: 'When will on-the-ground work start?',
+      sub: 'Several pathways have a shelf life: SB 1370 opens Jan 1, 2027 and closes Jan 1, 2029; §4799.05(d) sunsets Jan 1, 2028; SERP Jan 1, 2030; the Forest Resilience Exemption Jan 1, 2031.',
+      opts: [
+        { v: '2026', l: 'Before Jan 1, 2027' },
+        { v: '2027', l: 'During 2027' },
+        { v: '2028', l: 'During 2028' },
+        { v: '2029', l: '2029 or later' }
+      ]
+    },
+    {
+      id: 'timber', type: 'multi',
+      when: p => has(p, 'activities', 'commercial') && p.land !== 'federal',
+      q: 'For the commercial harvest — which describe the stand?',
+      sub: 'Select all that apply. These map to the 14 CCR §1038 notice exemptions that avoid a full THP.',
+      stack: true,
+      opts: [
+        { v: 'oak', l: 'Conifer-encroached black oak / Oregon white oak woodland', d: '≥ 35 ft² per acre of living oak basal area; harvest is conifer release' },
+        { v: 'deaddying', l: 'Mostly dead, dying or diseased trees', d: 'Under 10 % of average stand volume per acre' },
+        { v: 'drought', l: 'Drought or beetle mortality on substantially damaged timberland', d: 'RPF-certified mortality salvage' },
+        { v: 'firekilled', l: 'Fire-killed trees within 300 ft of structures', d: 'Wildfire within the last three years, or under a current proclamation' },
+        { v: 'plan', l: 'An approved THP, NTMP or WFMP already covers it' },
+        { v: 'other', l: 'None of these' }
+      ]
     }
   ];
 
-  // ----- terminal results -----
-  const RESULTS = {
-    'not-ceqa': {
-      tag: 'none', tagLabel: 'Not subject to CEQA',
-      title: 'Not a CEQA project.',
-      body: '<p>If the action is purely federal, or is a planning study under <code>§15262</code> that does not commit the agency to physical action, CEQA does not apply. Document the basis with a memo to file.</p>',
-      next: '→ See §15262 in the exemption menu'
+  // ---------- profile helpers ----------
+  function has (p, id, v) { return Array.isArray(p[id]) && p[id].indexOf(v) !== -1; }
+  function any (p, id, list) { return list.some(v => has(p, id, v)); }
+  function onlyPlanning (p) {
+    return Array.isArray(p.activities) && p.activities.length === 1 && p.activities[0] === 'planning';
+  }
+  const ACRE_MAX = { lt5: 5, a5_50: 50, a50_300: 300, a300_500: 500, a500_1000: 1000, a1000_3000: 3000, gt3000: Infinity };
+  const DIST_MAX = { lt30: 30, lt100: 100, lt150: 150, lt200: 200, lt300: 300, far: Infinity };
+  // true / false / null (unknown)
+  function acresLE (p, n) { return p.acres ? ACRE_MAX[p.acres] <= n : null; }
+  function withinFt (p, n) { return p.structures ? DIST_MAX[p.structures] <= n : null; }
+  function zone (p) {
+    if (!p.hazard || p.hazard === 'unknown') return null;
+    if (p.hazard === 'fra') return 'fra';
+    return p.hazard.split('-')[0]; // vh | high | mod | low
+  }
+  function area (p) {
+    if (!p.hazard || p.hazard === 'unknown') return null;
+    return p.hazard === 'fra' ? 'fra' : p.hazard.split('-')[1]; // sra | lra
+  }
+  function dbhLE (p, n) { // true / false / null
+    if (!p.dbh || p.dbh === 'unknown') return null;
+    const max = { lt12: 12, lt30: 30, gt30: 99 }[p.dbh];
+    return max <= n;
+  }
+  function startYear (p) { return p.timing ? Number(p.timing) : null; } // 2029 = "2029 or later"
+  function isCeqaProject (p) { return p.trigger ? p.trigger !== 'none' : null; }
+  function isPublicLead (p) { return !!p.trigger && p.trigger !== 'none' && p.trigger !== 'unsure'; }
+  function fpaApplies (p) { return has(p, 'activities', 'commercial') && (p.land === 'private' || p.land === 'public' || p.land === 'mixed'); }
+
+  // finding constructors: ok (meets), chk (confirm), no (fails)
+  const ok  = t => ({ s: 'ok', t });
+  const chk = t => ({ s: 'chk', t });
+  const no  = t => ({ s: 'no', t });
+  const doc = t => ({ s: 'doc', t });
+  // tri-state → finding
+  function tri (val, okText, chkText, noText) { return val === true ? ok(okText) : val === false ? no(noText) : chk(chkText); }
+
+  // =====================================================================
+  //  PATHWAYS — each `test(p)` returns findings; `gate(p)` returns false
+  //  when the pathway is simply not relevant to this profile (hidden in
+  //  the "not relevant" fold rather than scored).
+  //  kind: statutory | categorical | programmatic | forest | standard
+  // =====================================================================
+  const PATHWAYS = [
+    {
+      id: 'nepa', kind: 'statutory', tag: 'streamlined', card: '#ex-1',
+      name: 'Federal-NEPA exemption', cite: 'PRC §4799.05(d) · SB 901 / AB 211',
+      gate: p => p.land === 'federal' || p.land === 'mixed',
+      test: p => {
+        const f = [];
+        f.push(p.land === 'federal' ? ok('Work is on federal land') : chk('Covers the federal portion only — the non-federal acres need their own pathway'));
+        f.push(p.nepa === 'complete' ? ok('NEPA decision is signed') : p.nepa === 'underway' ? chk('NEPA must be complete (ROD, FONSI or CE) before the agency relies on this') : no('No NEPA review — the exemption rides on a completed NEPA decision'));
+        f.push(isPublicLead(p) ? ok('State / local agency role is funding, staffing, or Good Neighbor Authority') : chk('Confirm the state or local agency’s primary role is funding or staffing, or a GNA / stewardship agreement'));
+        if (any(p, 'activities', ['rxfire', 'thin', 'fuelbreak', 'restoration', 'hazard', 'defspace', 'roadside', 'commercial'])) f.push(ok('Prescribed fire, thinning, fuel reduction, reforestation or habitat restoration'));
+        if (has(p, 'activities', 'roads')) f.push(chk('New roads must be a related activity inside the NEPA project description'));
+        const y = startYear(p);
+        f.push(y === null ? chk('Sunsets Jan 1, 2028 — AB 404 (2025), which would have removed the sunset, failed') : y < 2028 ? ok('Approve and file the NOE before the Jan 1, 2028 sunset') : no('Inoperative from Jan 1, 2028 — later approvals cannot rely on it'));
+        f.push(doc('Post the NOE online with a pointer to the NEPA analysis; non-CAL FIRE leads also send it to CAL FIRE (§4799.05(d)(4))'));
+        return f;
+      }
     },
-    'ab404': {
-      tag: 'streamlined', tagLabel: 'Streamlined · §4799.05(d)',
-      title: 'PRC §4799.05(d) federal-NEPA statutory exemption.',
-      body: '<p>NEPA-reviewed federal forest projects (prescribed fire, thinning, fuel reduction, reforestation, habitat restoration). Created by SB 901 (2018); sunset extended to Jan 1, 2028 by AB 211 (2022).</p><p><strong>Sunset: Jan 1, 2028</strong> — a 2025 bill to remove it (AB 404, Sanchez) failed. NEPA-EIS impacts must be avoided or mitigated. §15300.2 exceptions do not apply.</p>',
-      next: '→ See ① in the exemption menu'
+    {
+      id: 'sb131c', kind: 'statutory', tag: 'streamlined', card: '#ex-2',
+      name: 'SB 131 (c) — home hardening / defensible space', cite: 'PRC §21080.49(c)',
+      gate: p => any(p, 'activities', ['defspace', 'thin', 'fuelbreak', 'hazard']),
+      test: p => {
+        const f = [];
+        f.push(has(p, 'activities', 'defspace') ? ok('Residential home hardening or defensible space') : chk('Frame the work as establishing or enhancing defensible space around residences'));
+        f.push(tri(withinFt(p, 200), 'Within 200 ft of a legal structure', 'Confirm all work is within 200 ft of a legally permitted structure', 'Work extends beyond 200 ft of structures'));
+        const z = zone(p);
+        f.push(z === null ? chk('Structure must sit in a High or Very High FHSZ (SRA or LRA)') : (z === 'vh' || z === 'high') ? ok('High / Very High Fire Hazard Severity Zone') : no('Not in a High or Very High FHSZ — use category (d) instead, which has no zone test'));
+        f.push(doc('Statutory — the §15300.2 exceptions do not apply, but the project must comply with all other laws, ordinances and zoning'));
+        return f;
+      }
     },
-    'noe': {
-      tag: 'streamlined', tagLabel: 'Streamlined · Notice of Exemption',
-      title: 'File a Notice of Exemption.',
-      body: '<p>Apply the most protective / durable exemption first — statutory ahead of categorical. For categorical exemptions, check the <code>§15300.2</code> exceptions (cumulative impact, unusual circumstances, historical resources). These exceptions <strong>do not</strong> apply to statutory exemptions.</p>',
-      next: '→ See the full exemption menu ↓'
+    {
+      id: 'sb131d', kind: 'statutory', tag: 'streamlined', card: '#ex-2',
+      name: 'SB 131 (d) — 200-ft fuel break', cite: 'PRC §21080.49(d)',
+      gate: p => any(p, 'activities', ['fuelbreak', 'thin', 'defspace', 'hazard']),
+      test: p => {
+        const f = [];
+        f.push(has(p, 'activities', 'fuelbreak') ? ok('Fuel-break work') : chk('Describe the treatment as a fuel break around structures'));
+        f.push(tri(withinFt(p, 200), 'Within 200 ft of structures', 'Confirm the fuel break stays within 200 ft of structures', 'Beyond 200 ft of structures — outside category (d)'));
+        f.push(tri(dbhLE(p, 12), 'Flammable vegetation and trees under 12 in. DBH', 'Removal is limited to flammable vegetation and trees under 12 in. DBH — confirm the marking', 'Trees 12 in. DBH and larger are outside this category'));
+        f.push(ok('No FHSZ requirement — works outside mapped severity zones'));
+        if (has(p, 'activities', 'commercial')) f.push(doc('A commercial sale still triggers the Forest Practice Act on non-federal land'));
+        return f;
+      }
     },
-    'peir-tier': {
-      tag: 'programmatic', tagLabel: 'Programmatic · tier from PEIR',
-      title: 'Tier from a Program EIR.',
-      body: '<p>For the CalVTP PEIR: prepare a Project-Specific Analysis (PSA), apply SPRs and mitigation measures, and file an NOD.</p><p>Other Program EIR pathways: the <strong>1981 CAL FIRE VMP EIR</strong> remains in use but is Unit-driven — proponents should check whether an active VMP project (through NEU for our region) already covers their planning area rather than initiate one; the <strong>State Water Board SRGO Program EIR</strong> (paired with the Statewide Restoration General Order) is a separate §15168 Program EIR worth checking when watershed projects include riparian, stream, or wetland restoration components; and some jurisdictions have local or agency PEIRs (e.g. fire district or park district vegetation management plans) that can be tiered from within their boundaries.</p><p><strong>Note:</strong> CalVTP PEIR Update (technically a Subsequent Program EIR) is underway following the March 2025 Emergency Proclamation and the May 30, 2025 Court of Appeal decision. The current PEIR remains in effect for PSAs in the meantime, <strong>except for chaparral and coastal sage scrub treatments</strong>, which the Court directed may not proceed during the Update except for a narrow set of critical safety projects.</p><p><em>PTEIR is also a programmatic document, but it lives under the Forest Practice Act — see the Forest Practice pathway.</em></p>',
-      next: '→ Board of Forestry CalVTP page'
+    {
+      id: 'sb131b', kind: 'statutory', tag: 'streamlined', card: '#ex-2',
+      name: 'SB 131 (b) — evacuation-route clearance', cite: 'PRC §21080.49(b)',
+      gate: p => has(p, 'activities', 'roadside'),
+      test: p => {
+        const f = [];
+        f.push(ok('Roadside clearance'));
+        f.push(has(p, 'community', 'evac') ? ok('Public road identified as the egress / evacuation route for a 30+ unit community') : has(p, 'community', 'remote') || (p.community && p.community.length) ? no('Road must be an identified evacuation route serving 30 or more dwelling units') : chk('Confirm the road is an identified egress / evacuation route serving 30+ dwelling units'));
+        f.push(tri(dbhLE(p, 12), 'Flammable vegetation and trees under 12 in. DBH, within 100 ft of centerline', 'Clearance limited to 100 ft from the roadway centerline; flammable vegetation and trees under 12 in. DBH only', 'Trees 12 in. DBH and larger are outside this category'));
+        f.push(ok('No acreage cap — the corridor width is the limit'));
+        return f;
+      }
     },
-    'forest-practice': {
-      tag: 'programmatic', tagLabel: 'Forest Practice pathway',
-      title: 'Forest Practice Act document.',
-      body: '<p>The applicable CEQA-functional-equivalent document depends on scale and ownership:</p><p><strong>THP</strong> (5-yr) · <strong>NTMP</strong> (≤2,500 ac) · <strong>PTEIR</strong> (multi-owner) · <strong>FPR Exemption</strong> (14 CCR §1038).</p><p>Commercial timber projects may also use SB 131 wildfire categories if otherwise qualifying.</p><p><strong>Engage an RPF early.</strong> A Registered Professional Forester is required to prepare or co-sign FPA documents and must stump-mark harvests under most §1038 exemptions.</p>',
-      next: '→ See ⑧ in the exemption menu'
+    {
+      id: 'sb131a', kind: 'statutory', tag: 'streamlined', card: '#ex-2',
+      name: 'SB 131 (a) — small prescribed fire / fuel reduction', cite: 'PRC §21080.49(a)',
+      gate: p => any(p, 'activities', ['rxfire', 'thin', 'fuelbreak']),
+      test: p => {
+        const f = [];
+        f.push(has(p, 'activities', 'rxfire') ? ok('Prescribed fire to re-establish the fire return interval') : chk('Fuel reduction qualifies when it is framed as re-establishing the fire return interval'));
+        f.push(tri(acresLE(p, 50), '50 contiguous acres or less', 'Confirm the footprint is 50 contiguous acres or less', 'Over 50 contiguous acres'));
+        f.push(has(p, 'community', 'subdiv') ? ok('Within ½ mile of a 30+ unit subdivision') : (p.community && p.community.length) ? no('Must be within ½ mile of a subdivision of 30 or more dwelling units') : chk('Confirm the site is within ½ mile of a 30+ unit subdivision'));
+        f.push(has(p, 'resources', 'chaparral') ? no('Excluded on coastal sage scrub and other sensitive habitat') : has(p, 'resources', 'listed') ? chk('Excluded on “sensitive habitat” — a listed-species site needs CDFW’s view before you rely on this') : ok('Not on coastal sage scrub or other sensitive habitat'));
+        f.push(doc('Lead agency must consult CDFW on rare / listed species and wildlife nursery sites'));
+        if (has(p, 'resources', 'riparian')) f.push(doc('Avoid riparian impacts; sediment and erosion controls on any control lines'));
+        f.push(doc('Identify and protect tribal cultural resources — CHRIS and Sacred Lands File review, or tribal consultation'));
+        return f;
+      }
     },
-    'standard-ceqa': {
-      tag: 'standard', tagLabel: 'Standard CEQA document',
-      title: 'Prepare a project-specific CEQA document.',
-      body: '<p>Initial Study → Negative Declaration, Mitigated Negative Declaration, or Environmental Impact Report. Lead agency files a Notice of Determination on adoption.</p>',
-      next: '→ CEQAnet for filing'
+    {
+      id: 'serp', kind: 'statutory', tag: 'streamlined', card: '#ex-3',
+      name: 'SERP — restoration exemption', cite: 'PRC §21080.56 · Cutting the Green Tape',
+      gate: p => any(p, 'activities', ['thin', 'rxfire', 'fuelbreak', 'herbicide', 'restoration']),
+      test: p => {
+        const f = [];
+        f.push(p.purpose === 'designed' ? ok('Designed and described as habitat restoration — wildfire-safety benefits are incidental (§21080.56(b))') : p.purpose === 'reframe' ? chk('CDFW concurred on 625 ac of foothill thinning, prescribed fire and invasive control near Nevada City framed this way (Sierra Foothill Forest Climate Resilience, concurrence 21080.56-2023-034-R2, Aug 2023) — but the redesign has to be real: ecological prescriptions, beneficiary species, monitoring, maintenance. Four later concurrences follow the same pattern — State Parks’ Lodge Road (54 ac, mechanical thinning to 24 in. DBH, 2024) and Wildwood Canyon (161 ac, 2025) wildfire-resilience projects, and two CAL FIRE-led beneficial-fire projects (1,173 ac on the Yurok Reservation, 2024; 6 ac at Parker Creek, 2026) — each naming beneficiary species, restoring a fire regime, and treating public safety as the incidental benefit. Pre-consult CDFW before relying on it') : p.purpose === 'no' ? no('Structure protection, defensible space or evacuation-route work makes wildfire safety the fundamental purpose — fails the “exclusively” test') : chk('Confirm the project can be designed and described as exclusively habitat restoration'));
+        if (p.purpose !== 'no' && any(p, 'activities', ['defspace', 'roadside'])) f.push(chk('Defensible-space or roadside components must be written into the restoration design (Wildwood Canyon’s concurrence covered infrastructure-protection clearing that way) — or carved out and covered by SB 131'));
+        f.push(ok('No acreage cap and no §15300.2 exceptions'));
+        f.push(doc('Findings: long-term net benefit to climate resilience, biodiversity and sensitive-species recovery; ongoing environmental-protection procedures; no construction except habitat-related'));
+        if (has(p, 'activities', 'roads')) f.push(no('New permanent roads are construction unrelated to habitat restoration'));
+        if (has(p, 'activities', 'commercial')) f.push(chk('A commercial sale invites the question whether the project is exclusively restoration — expect scrutiny'));
+        f.push(doc('CDFW Director concurrence (60-day target), then file the NOE with OPR within 48 hours'));
+        const y = startYear(p);
+        f.push(y !== null && y >= 2029 ? chk('Repealed Jan 1, 2030 — determinations must be made before then') : ok('In effect through Dec 31, 2029'));
+        return f;
+      }
+    },
+    {
+      id: 'existing', kind: 'programmatic', tag: 'programmatic', card: '#tree',
+      name: 'Already covered — rely on the adopted document', cite: 'Guidelines §15162 / §15164 / §15168',
+      gate: p => has(p, 'plans', 'covered'),
+      test: p => [
+        ok('An adopted CalVTP PSA, PEIR, MND or EIR already covers this work'),
+        doc('Check the new work against the adopted scope — a consistency memo to file, or an addendum if details changed (§15164)'),
+        chk('No new or substantially more severe impacts, and no new feasible mitigation (§15162) — otherwise a supplement')
+      ]
+    },
+    {
+      id: 'class33', kind: 'categorical', tag: 'streamlined', card: '#ex-5',
+      name: 'Class 33 — small habitat restoration', cite: 'Guidelines §15333',
+      gate: p => has(p, 'activities', 'restoration'),
+      test: p => {
+        const f = [];
+        f.push(tri(acresLE(p, 5), 'Five acres or less', 'Confirm the project is 5 acres or less', 'Over 5 acres — Class 33 caps at 5'));
+        f.push(p.purpose === 'designed' ? ok('Habitat maintenance, restoration or enhancement is the purpose') : p.purpose === 'reframe' ? chk('Class 33 needs a habitat purpose too — the same redesign question as SERP, with the 5-ac cap on top') : p.purpose === 'no' ? no('Structure protection, defensible space or evacuation-route work is not a habitat purpose') : chk('Confirm the purpose is to maintain, restore, enhance or protect habitat'));
+        f.push(has(p, 'resources', 'listed') ? chk('No significant adverse impact on listed species or their habitat — presence alone is not disqualifying (2021 Crowfoot memo)') : ok('No significant adverse impact on listed species'));
+        f.push(has(p, 'resources', 'cortese') ? no('Hazardous materials at the site defeat Class 33') : ok('No hazardous materials to disturb'));
+        f.push(doc('Document that impacts are not significant when viewed with past, current and probable future projects'));
+        return f;
+      }
+    },
+    {
+      id: 'class4', kind: 'categorical', tag: 'streamlined', card: '#ex-4',
+      name: 'Class 4 — minor alterations to land', cite: 'Guidelines §15304',
+      gate: p => any(p, 'activities', ['thin', 'defspace', 'roadside', 'fuelbreak', 'hazard', 'restoration', 'rxfire', 'herbicide']),
+      test: p => {
+        const f = [];
+        if (any(p, 'activities', ['thin', 'defspace', 'roadside', 'fuelbreak', 'hazard', 'restoration'])) f.push(ok('Minor alteration of vegetation — thinning, brushing, fuel-break maintenance'));
+        if (has(p, 'activities', 'rxfire') && !any(p, 'activities', ['thin', 'defspace', 'roadside', 'fuelbreak', 'hazard'])) f.push(chk('Class 4 is rarely the basis for broadcast burning — look to SB 131(a), the CalVTP PEIR or a CAL FIRE VMP agreement'));
+        if (has(p, 'activities', 'roads')) f.push(no('New permanent roads or major grading are outside Class 4'));
+        if (has(p, 'activities', 'herbicide')) f.push(chk('Herbicide use is not addressed by Class 4 — many agencies pair it with a separate analysis or avoid Class 4'));
+        const a = acresLE(p, 50);
+        f.push(a === true ? ok('Small footprint') : acresLE(p, 300) ? chk('No acreage cap, but 50 – 300 ac invites challenge — document why overall impact stays minor') : p.acres ? no('At this scale a “minor alteration” finding is hard to defend — CalVTP or a standard document fits better') : chk('Scale matters — large footprints weaken the “minor” finding'));
+        const w = withinFt(p, 100);
+        f.push(w === true ? ok('Fits the §15304(i) fuel-management example (30 ft, or 100 ft where the fire agency requires it)') : doc('Beyond the §15304(i) 30 / 100-ft example — rely on the general minor-alteration language and the forestry carve-out, with RPF attestation (PRC §753)'));
+        // §15300.2 exceptions
+        if (has(p, 'resources', 'listed')) f.push(no('§15300.2(a) location exception — mapped critical habitat or documented listed species make Class 4 unavailable unless the agency can show no impact'));
+        if (has(p, 'resources', 'scenic')) f.push(no('§15300.2(d) — scenic resources in a designated state scenic highway'));
+        if (has(p, 'resources', 'cortese')) f.push(no('§15300.2(e) — Cortese-list site'));
+        if (has(p, 'resources', 'cultural')) f.push(chk('§15300.2(f) — must avoid a substantial adverse change to any historical resource; document avoidance'));
+        if (has(p, 'resources', 'riparian')) f.push(chk('§15300.2(c) unusual circumstances — riparian work needs documented avoidance plus the 1602 / 401 permits'));
+        if (has(p, 'resources', 'steep')) f.push(chk('§15300.2(c) — steep-slope erosion from equipment is the classic unusual circumstance; document BMPs'));
+        if (has(p, 'resources', 'unsurveyed')) f.push(chk('Run CNDDB / BIOS and a CHRIS records search before relying on any categorical exemption'));
+        if (has(p, 'resources', 'none')) f.push(ok('Records check clean — address each §15300.2 exception in the NOE'));
+        f.push(doc('Address §15300.2(b) cumulative impact in the NOE — individually minor phases on the same landscape can fail collectively'));
+        if (has(p, 'activities', 'commercial')) f.push(doc('Healthy mature tree removal is allowed only for forestry or agricultural purposes — RPF attestation citing PRC §753'));
+        return f;
+      }
+    },
+    {
+      id: 'class1', kind: 'categorical', tag: 'streamlined', card: '#ex-5',
+      name: 'Class 1 — existing facilities (maintenance)', cite: 'Guidelines §15301(c), (h)',
+      gate: p => has(p, 'plans', 'maintenance') || any(p, 'activities', ['fuelbreak', 'roadside']),
+      test: p => {
+        const f = [];
+        f.push(has(p, 'plans', 'maintenance') ? ok('Maintenance of a previously treated area or existing fuel break') : no('Only for maintenance of an existing treatment, fuel break or roadway with negligible expansion'));
+        if (has(p, 'activities', 'herbicide')) f.push(no('§15301(h) excludes pesticide use'));
+        if (has(p, 'activities', 'roads')) f.push(no('New roads are an expansion, not maintenance'));
+        if (has(p, 'resources', 'scenic')) f.push(no('§15300.2(d) scenic-highway exception'));
+        if (has(p, 'resources', 'cortese')) f.push(no('§15300.2(e) Cortese-list exception'));
+        if (has(p, 'resources', 'cultural')) f.push(chk('§15300.2(f) — avoid substantial adverse change to historical resources'));
+        if (has(p, 'resources', 'listed')) f.push(chk('The location exception does not apply to Class 1, but unusual circumstances (§15300.2(c)) still can'));
+        f.push(doc('Document the original treatment footprint and that the re-treatment does not expand it'));
+        return f;
+      }
+    },
+    {
+      id: 'class78', kind: 'categorical', tag: 'streamlined', card: '#ex-5',
+      name: 'Class 7 / 8 — regulatory agency actions', cite: 'Guidelines §15307 / §15308',
+      gate: p => p.trigger === 'regulatory' || has(p, 'activities', 'restoration'),
+      test: p => {
+        const f = [];
+        f.push(p.trigger === 'regulatory' ? ok('Regulatory agency acting under its own authority') : no('Only for regulatory agencies acting under state law or local ordinance — not for grant-funded or agency-implemented fuels work'));
+        f.push(chk('“Construction activities” are excluded — ground-disturbing treatment is read narrowly by the courts'));
+        if (has(p, 'activities', 'roads')) f.push(no('Road construction is excluded'));
+        f.push(doc('The §15300.2 exceptions (b)–(f) still apply'));
+        return f;
+      }
+    },
+    {
+      id: 'emergency', kind: 'statutory', tag: 'streamlined', card: '#ex-7',
+      name: 'Declared emergency', cite: 'Guidelines §15269 · PRC §21080(b)(4)',
+      gate: p => has(p, 'plans', 'emergency') || has(p, 'activities', 'hazard'),
+      test: p => {
+        const f = [];
+        f.push(has(p, 'plans', 'emergency') ? ok('A current emergency declaration names this kind of work') : no('No declared emergency applies — hazard trees alone do not make one'));
+        f.push(chk('Must be an action to prevent or mitigate the emergency, not a long-term project (§15269(c))'));
+        f.push(doc('Keep the proclamation or local declaration in the file and tie each activity to it'));
+        return f;
+      }
+    },
+    {
+      id: 'planning', kind: 'statutory', tag: 'streamlined', card: '#ex-7',
+      name: 'Feasibility / planning study', cite: 'Guidelines §15262',
+      gate: p => has(p, 'activities', 'planning'),
+      test: p => {
+        const f = [];
+        f.push(ok('Plan or study that does not commit the agency to physical action'));
+        if (!onlyPlanning(p)) f.push(doc('Covers the planning document only — the on-the-ground work needs its own pathway'));
+        f.push(doc('Consider environmental factors in the study and keep the memo to file'));
+        return f;
+      }
+    },
+    {
+      id: 'sb1370', kind: 'statutory', tag: 'streamlined', card: '#ex-6',
+      name: 'SB 1370 consolidated review (from Jan 2027)', cite: 'PRC §§4240–4243 · Ch. 777, Stats. 2026',
+      gate: p => !onlyPlanning(p),
+      test: p => {
+        const f = [];
+        const y = startYear(p);
+        f.push(y === null ? chk('Authorizations run Jan 1, 2027 – Jan 1, 2029') : y === 2026 ? chk('Process opens Jan 1, 2027 — useful for later phases or maintenance, not for work starting now') : y <= 2028 ? ok('Start date falls inside the Jan 1, 2027 – Jan 1, 2029 authorization window') : no('Authority to issue expedited authorizations ends Jan 1, 2029'));
+        f.push(has(p, 'plans', 'cwpp') ? ok('Identified in an adopted plan') : has(p, 'plans', 'nocontext') ? no('Must be required by law or identified in a utility WMP, CWPP, local-agency plan or CAL FIRE plan') : chk('Must be identified in an adopted plan — whether CWPP priority areas count is an open question; ask CAL FIRE / CNRA'));
+        if (has(p, 'activities', 'herbicide')) f.push(no('Projects that use pesticides are ineligible'));
+        if (has(p, 'resources', 'listed')) f.push(chk('Ineligible if a CESA or Native Plant Protection Act take permit would be needed'));
+        if (has(p, 'activities', 'rxfire') && has(p, 'resources', 'chaparral')) f.push(no('Prescribed fire is covered only in fire-deficit ecosystems — chaparral and coastal sage scrub are excluded'));
+        const a = acresLE(p, 1000);
+        f.push(a === true ? ok('Under the 1,000-ac cap for forest projects') : a === false ? no('Forest projects must be under 1,000 ac (3,000 for utility rights-of-way)') : chk('Forest projects must be under 1,000 ac'));
+        if (has(p, 'activities', 'fuelbreak')) f.push(chk('Strategic fuel breaks must be 300 ft wide or less'));
+        if (has(p, 'activities', 'defspace')) f.push(tri(withinFt(p, 200), 'Defensible space within 200 ft of a structure', 'Defensible space limited to 200 ft from a structure', 'Defensible-space work beyond 200 ft of structures is outside the covered types'));
+        if (has(p, 'activities', 'roadside')) f.push(has(p, 'community', 'evac') ? ok('Evacuation-route clearance within 100 ft of centerline') : chk('Evacuation-route clearance limited to 100 ft from centerline'));
+        if (has(p, 'activities', 'commercial')) f.push(doc('The Forest Practice Act still governs any timber operations'));
+        if (p.land === 'federal') f.push(chk('A state process — federal land still needs NEPA, and the federal-NEPA exemption is usually the better fit'));
+        f.push(doc('20-day public posting, decision within 60 days of a complete application, work done within 2 years (5 for prescribed fire); Statewide Fuels Reduction EPP compliance is mandatory. Application process not yet posted'));
+        return f;
+      }
+    },
+    {
+      id: 'calvtp', kind: 'programmatic', tag: 'programmatic', card: '#tree',
+      name: 'CalVTP Program EIR — Project-Specific Analysis', cite: 'Board of Forestry · 2019 PEIR / 2026 update',
+      gate: p => !onlyPlanning(p) && p.land !== 'federal',
+      test: p => {
+        const f = [];
+        f.push(isPublicLead(p) ? ok('Public-agency project proponent') : chk('The proponent must be a public agency that funds, owns, manages or regulates in the treatable landscape — private landowners work through one'));
+        const ar = area(p);
+        f.push(ar === 'sra' ? ok('Inside the SRA treatable landscape') : ar === 'lra' ? chk('The 2019 PEIR covers the SRA; the Subsequent PEIR proposes to add the LRA — until it is certified, LRA sites need another pathway') : ar === 'fra' ? no('Federal land is outside the treatable landscape') : chk('Confirm the site is in the SRA treatable landscape'));
+        if (any(p, 'activities', ['rxfire', 'thin', 'fuelbreak', 'defspace', 'roadside', 'restoration', 'herbicide'])) f.push(ok('WUI fuel reduction, fuel break or ecological restoration using prescribed fire, mechanical, manual, herbivory or herbicide treatments'));
+        if (has(p, 'activities', 'commercial')) f.push(chk('The 2019 PEIR does not cover commercial timber operations (the update proposes biomass cost-recovery) — a sale needs a Forest Practice document regardless'));
+        if (has(p, 'activities', 'roads')) f.push(chk('New permanent roads are outside the PEIR’s treatment activities'));
+        if (has(p, 'resources', 'chaparral')) f.push(chk('Chaparral / coastal sage scrub limited by the May 2025 writ to narrow categories — apply Update SPR CHAP-CSS-1'));
+        if (acresLE(p, 5) === true) f.push(doc('A PSA is heavy for a tiny project — Class 4, Class 33 or SB 131 are lighter'));
+        if (acresLE(p, 50) === false || p.acres === undefined) f.push(ok('Best fit for 50 – 3,000+ ac landscape work'));
+        f.push(doc('Prepare the PSA, apply the Standard Project Requirements and mitigation, file an NOD'));
+        return f;
+      }
+    },
+    {
+      id: 'standard', kind: 'standard', tag: 'standard', card: '#tree',
+      name: 'Standard CEQA document', cite: 'Initial Study → ND / MND / EIR',
+      gate: () => true, fixedFit: 'fallback',
+      test: () => [ok('Always available'), doc('Initial Study → Negative Declaration, MND or EIR; Notice of Determination on adoption')]
+    },
+
+    // ---------------- Forest Practice (CEQA functional equivalent) ----------------
+    {
+      id: 'fpa-c', kind: 'forest', tag: 'programmatic', card: '#ex-8',
+      name: 'FPR §1038(c) — 150-ft structure protection', cite: '14 CCR §1038(c) · PRC §§4290–4291',
+      gate: p => fpaApplies(p),
+      test: p => {
+        const f = [];
+        const w = withinFt(p, 150);
+        f.push(w === true ? ok('Trees within 150 ft of an approved, permitted structure') : p.structures === 'lt300' ? chk('§1038(c)(6) reaches 150 – 300 ft from a habitable structure, with stocking, QMD-increase and RPF fire-behavior certification') : w === false ? no('Beyond 300 ft of structures') : chk('Confirm distance to a legally permitted structure'));
+        f.push(doc('No clearcut, seed-tree removal or shelterwood removal; surface fuels within 150 ft treated within 45 days'));
+        f.push(doc('Certify the city / county was contacted on general-plan and zoning conformance'));
+        return f;
+      }
+    },
+    {
+      id: 'fpa-b', kind: 'forest', tag: 'programmatic', card: '#ex-8',
+      name: 'FPR §1038(b) — dead, dying or diseased', cite: '14 CCR §1038(b)',
+      gate: p => fpaApplies(p) && (has(p, 'timber', 'deaddying') || has(p, 'activities', 'hazard')),
+      test: p => [
+        has(p, 'timber', 'deaddying') ? ok('Dead, dying or diseased trees under 10 % of average stand volume per acre') : chk('Only dead, dying or diseased trees qualify, under 10 % of average stand volume per acre'),
+        doc('Slash and debris removal outside WLPZs; LTO notice to CAL FIRE')
+      ]
+    },
+    {
+      id: 'fpa-d', kind: 'forest', tag: 'programmatic', card: '#ex-8',
+      name: 'FPR §1038(d) — drought mortality', cite: '14 CCR §1038(d)',
+      gate: p => fpaApplies(p) && has(p, 'timber', 'drought'),
+      test: p => [
+        ok('Drought / beetle mortality on substantially damaged timberland'),
+        tri(acresLE(p, 500), 'Within the 500-ac harvest-area cap', 'Harvest area capped at 500 ac', 'Over the 500-ac cap'),
+        doc('RPF certifies substantially damaged timberland; trees dead, ≥ 50 % fading crown, or RPF stump-marked as likely to die within a year')
+      ]
+    },
+    {
+      id: 'fpa-e', kind: 'forest', tag: 'programmatic', card: '#ex-8',
+      name: 'FPR §1038(e) — oak woodland restoration', cite: '14 CCR §1038(e) · AB 2276',
+      gate: p => fpaApplies(p) && (has(p, 'timber', 'oak') || has(p, 'activities', 'restoration')),
+      test: p => [
+        has(p, 'timber', 'oak') ? ok('Conifer-encroached black oak / Oregon white oak woodland') : chk('Stand must be black oak or Oregon white oak woodland with ≥ 35 ft²/ac living oak basal area'),
+        tri(acresLE(p, 300), 'Within 300 ac per ownership per planning watershed per 5 years', 'Capped at 300 ac per ownership per planning watershed per 5 years', 'Over the 300-ac / 5-year cap'),
+        dbhLE(p, 30) === true ? ok('Conifers under 30 in. DBH') : chk('Conifers over 30 in. DBH may be removed only where necessary for restoration — RPF must justify in writing and consult the Director before felling'),
+        doc('Retain ≥ 80 % of oak basal area; post-harvest conifers < 25 % of stocking; harvested conifers within 300 ft of an oak ≥ 4 in. DBH')
+      ]
+    },
+    {
+      id: 'fpa-fre', kind: 'forest', tag: 'programmatic', card: '#ex-8',
+      name: 'FPR §1038.3 — Forest Resilience Exemption', cite: '14 CCR §1038.3 · sunset Jan 1, 2031',
+      gate: p => fpaApplies(p),
+      test: p => {
+        const f = [];
+        const z = zone(p);
+        f.push(z === null ? chk('Timberland must be rated Moderate, High or Very High on the FHSZ map') : (z === 'vh' || z === 'high' || z === 'mod') ? ok('Moderate / High / Very High FHSZ timberland') : no('Site is not in a mapped Moderate, High or Very High zone'));
+        f.push(tri(acresLE(p, 500), 'Within the 500-ac harvest-area cap', 'Harvest area capped at 500 ac', 'Over the 500-ac cap'));
+        f.push(tri(dbhLE(p, 30), 'Trees under 30 in. DBH', 'Only trees under 30 in. DBH (dead or dying to 36 in., ≤ 10 % of volume) — confirm the marking', has(p, 'timber', 'deaddying') ? 'Live trees over 30 in. DBH cannot be cut; dead or dying trees may go to 36 in.' : 'Trees over 30 in. DBH cannot be cut under this exemption'));
+        f.push(doc('Keep the six largest trees per acre, ≥ 30 % canopy on 80 % of the area, and a rising QMD; RPF prepares the notice and marks the trees; temporary roads only; slash to ≤ 18 in.; 8-ft vertical clearance'));
+        const y = startYear(p);
+        f.push(y !== null && y >= 2029 ? chk('Expires Jan 1, 2031') : ok('In effect through 2030'));
+        return f;
+      }
+    },
+    {
+      id: 'fpa-g', kind: 'forest', tag: 'programmatic', card: '#ex-8',
+      name: 'FPR §1038(g) — fire-killed trees near structures', cite: '14 CCR §1038(g)',
+      gate: p => fpaApplies(p) && has(p, 'timber', 'firekilled'),
+      test: () => [
+        ok('Dead or dying trees from wildfire within 300 ft of an approved structure'),
+        doc('Wildfire within the last three years with RPF certification, or a current emergency proclamation attached')
+      ]
+    },
+    {
+      id: 'fpa-plan', kind: 'forest', tag: 'programmatic', card: '#ex-8',
+      name: 'THP / NTMP / WFMP / PTEIR', cite: 'Forest Practice Act · PRC §21080.5 certified regulatory program',
+      gate: p => fpaApplies(p),
+      test: p => [
+        has(p, 'timber', 'plan') ? ok('An approved plan already covers the harvest — operate under it') : chk('If no §1038 notice exemption fits: THP (5-yr), NTMP (≤ 2,500 ac; 4,000 from Jan 1, 2027 under AB 442), WFMP (≤ 15,000 ac from 2027) or a multi-owner PTEIR'),
+        doc('The THP / NTMP review is the CEQA functional equivalent; a funding agency may still file its own exemption for the grant decision'),
+        ok('Engage an RPF early — required to prepare or co-sign every FPA document')
+      ]
     }
-  };
+  ];
 
-  // ----- state -----
-  const state = {
-    answers: {},       // {stepId: 'yes' | 'no'}
-    revealed: ['commercial'], // ids in order
-    resolution: null   // result key when terminal reached
-  };
+  // Headline preference when several pathways tie on fit.
+  const HEADLINE_ORDER = ['nepa', 'sb131c', 'sb131d', 'sb131b', 'sb131a', 'serp', 'existing', 'class33', 'class4', 'class1', 'class78', 'emergency', 'planning', 'sb1370', 'calvtp', 'standard'];
 
-  // ----- render -----
+  // Fit is decided by conditions only: an unmet condition → unlikely; an
+  // unverifiable one → possible; `doc` items are follow-through, not fit.
+  function scoreFit (findings) {
+    if (findings.some(x => x.s === 'no')) return 'unlikely';
+    if (findings.some(x => x.s === 'chk')) return 'possible';
+    return 'likely';
+  }
+  const FIT_RANK = { likely: 0, possible: 1, unlikely: 2, fallback: 3 };
+  const FIT_LABEL = { likely: 'Likely fit', possible: 'Possible — confirm', unlikely: 'Unlikely', fallback: 'Fallback' };
+
+  function evaluate (p) {
+    const ceqa = isCeqaProject(p);
+    const rows = PATHWAYS.map(pw => {
+      const relevant = pw.gate(p) && (pw.kind === 'forest' || ceqa !== false);
+      if (!relevant) return { pw, relevant: false };
+      const findings = pw.test(p);
+      const fit = pw.fixedFit || scoreFit(findings);
+      return { pw, relevant: true, findings, fit };
+    });
+    const ceqaRows = rows.filter(r => r.relevant && r.pw.kind !== 'forest' && r.pw.id !== 'standard');
+    const forestRows = rows.filter(r => r.relevant && r.pw.kind === 'forest');
+    const sortRows = list => list.slice().sort((a, b) => (FIT_RANK[a.fit] - FIT_RANK[b.fit]) || (HEADLINE_ORDER.indexOf(a.pw.id) - HEADLINE_ORDER.indexOf(b.pw.id)));
+    return { ceqa, ceqaRows: sortRows(ceqaRows), forestRows: sortRows(forestRows), hidden: rows.filter(r => !r.relevant) };
+  }
+
+  // Side notes that hold regardless of pathway.
+  function sideNotes (p) {
+    const n = [];
+    if (has(p, 'activities', 'commercial')) n.push(p.land === 'federal' ? 'Federal timber sales run under NEPA and federal contracting — the Forest Practice Act does not apply on federal land.' : '<strong>Engage an RPF early.</strong> A Registered Professional Forester must prepare or co-sign every Forest Practice document and stump-mark most §1038 exemptions.');
+    if (has(p, 'activities', 'rxfire')) n.push('Burn permits, smoke-management plans and air-district approvals are separate from CEQA. <strong>AB 1699 (PRC §21080.49.1)</strong> exempts CAL FIRE’s own actions assisting a burn; it does not exempt your burn.');
+    if (has(p, 'resources', 'riparian')) n.push('Expect a CDFW §1602 agreement and a Water Board 401 / WDR (the SRGO general order for restoration) whatever the CEQA pathway.');
+    if (has(p, 'resources', 'listed')) n.push('CESA take authorization is separate from CEQA. Where take is likely, SB 1370 is unavailable and Class 33 / Class 4 become hard to defend.');
+    if (has(p, 'resources', 'unsurveyed')) n.push('Run a CNDDB / BIOS query and a CHRIS records search before committing to a categorical exemption — the §15300.2 exceptions turn on what is mapped.');
+    if (has(p, 'timber', 'oak') || (has(p, 'activities', 'restoration') && !has(p, 'activities', 'commercial'))) n.push('<strong>PRC §21083.4 oak-woodland check:</strong> thinning encroaching conifers to maintain the woodland is generally not “conversion”; confirm against the county oak ordinance.');
+    if (has(p, 'activities', 'herbicide')) n.push('Herbicide closes two doors: Class 1 (§15301(h)) and SB 1370 both exclude pesticide use. CalVTP covers herbicide as a treatment activity.');
+    if (has(p, 'plans', 'maintenance')) n.push('Projects approved under the March 2025 Emergency Proclamation lost their CEQA cover for maintenance when the window closed — this profile is the place to pick the successor pathway.');
+    n.push('Whatever the basis, <strong>document it with a memo to file and file the Notice of Exemption</strong> (OPR or county clerk) to start the 35-day limitations period.');
+    return n;
+  }
+
+  // =====================================================================
+  //  STATE + RENDER
+  // =====================================================================
+  const state = { answers: {}, confirmed: {} };
   const flowEl = document.getElementById('treeFlow');
   const resultEl = document.getElementById('result');
 
+  function profile () { return state.answers; }
+  function applicable () { return QUESTIONS.filter(q => !q.when || q.when(profile())); }
+  function answered (q) {
+    const a = state.answers[q.id];
+    if (q.type === 'single') return a !== undefined;
+    return Array.isArray(a) && a.length > 0 && !!state.confirmed[q.id];
+  }
+  function visibleQuestions () {
+    const list = applicable();
+    const out = [];
+    for (const q of list) { out.push(q); if (!answered(q)) break; }
+    return out;
+  }
+  function esc (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
   function renderFlow () {
+    const vis = visibleQuestions();
     flowEl.innerHTML = '';
-    state.revealed.forEach((id, idx) => {
-      const step = STEPS.find(s => s.id === id);
-      const ans = state.answers[id];
-      const isActive = !ans && idx === state.revealed.length - 1 && !state.resolution;
+    vis.forEach((q, idx) => {
+      const a = state.answers[q.id];
+      const done = answered(q);
       const node = document.createElement('div');
       node.className = 'node';
-      node.dataset.state = isActive ? 'active' : (ans ? 'resolved' : '');
+      node.dataset.state = done ? 'resolved' : 'active';
+      const picked = v => q.type === 'single' ? a === v : (Array.isArray(a) && a.indexOf(v) !== -1);
+      const btns = q.opts.map(o => `
+        <button class="choice${q.stack ? ' stack' : ''}" type="button" data-q="${q.id}" data-v="${o.v}" data-picked="${picked(o.v) ? 'yes' : 'no'}" aria-pressed="${picked(o.v) ? 'true' : 'false'}">
+          <span class="choice-l">${esc(o.l)}</span>${o.d ? `<span class="choice-d">${esc(o.d)}</span>` : ''}
+        </button>`).join('');
+      const multiCta = q.type === 'multi' ? `<div class="node-cta"><button class="choice next" type="button" data-next="${q.id}" ${Array.isArray(a) && a.length ? '' : 'disabled'}>${done ? 'Update' : 'Continue'} →</button><span class="node-hint">${q.type === 'multi' ? 'Select all that apply, then continue' : ''}</span></div>` : '';
       node.innerHTML = `
-        <div class="node-step">Step ${String(idx + 1).padStart(2, '0')}</div>
-        <div class="node-q">${step.q}</div>
-        <div class="node-sub">${step.sub}</div>
-        <div class="node-choices">
-          <button class="choice" data-id="${id}" data-pick="yes" data-picked="${ans === 'yes' ? 'yes' : 'no'}">Yes</button>
-          <button class="choice" data-id="${id}" data-pick="no"  data-picked="${ans === 'no'  ? 'yes' : 'no'}">No</button>
-        </div>
-      `;
+        <div class="node-step">Step ${String(idx + 1).padStart(2, '0')} · ${esc(q.type === 'multi' ? 'choose any' : 'choose one')}</div>
+        <div class="node-q">${esc(q.q)}</div>
+        <div class="node-sub">${q.sub}</div>
+        <div class="node-choices${q.stack ? ' stack' : ''}">${btns}</div>
+        ${multiCta}`;
       flowEl.appendChild(node);
     });
-
-    flowEl.querySelectorAll('.choice').forEach(btn => {
-      btn.addEventListener('click', () => pick(btn.dataset.id, btn.dataset.pick));
-    });
+    flowEl.querySelectorAll('.choice[data-v]').forEach(b => b.addEventListener('click', () => pick(b.dataset.q, b.dataset.v)));
+    flowEl.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', () => { state.confirmed[b.dataset.next] = true; render(); }));
+    // scroll the newest active node into view on small screens
+    const active = flowEl.querySelector('.node[data-state="active"]');
+    if (active && window.innerWidth < 880 && vis.length > 1) active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  function pick (stepId, answer) {
-    // truncate downstream history if user revisits an earlier step
-    const idx = state.revealed.indexOf(stepId);
-    state.revealed = state.revealed.slice(0, idx + 1);
-    Object.keys(state.answers).forEach(k => {
-      if (state.revealed.indexOf(k) === -1 || k === stepId) {
-        if (k !== stepId) delete state.answers[k];
-      }
-    });
-    state.resolution = null;
-
-    state.answers[stepId] = answer;
-    const step = STEPS.find(s => s.id === stepId);
-    const edge = answer === 'yes' ? step.yes : step.no;
-
-    if (typeof edge === 'string') {
-      // next question
-      if (state.revealed.indexOf(edge) === -1) state.revealed.push(edge);
-    } else if (edge && edge.result) {
-      state.resolution = edge.result;
+  function pick (qid, v) {
+    const q = QUESTIONS.find(x => x.id === qid);
+    if (q.type === 'single') {
+      state.answers[qid] = v;
+    } else {
+      const cur = Array.isArray(state.answers[qid]) ? state.answers[qid].slice() : [];
+      const exclusive = { community: ['remote'], resources: ['none', 'unsurveyed'], plans: ['nocontext'], timber: ['other'], activities: ['planning'] }[qid] || [];
+      let next;
+      if (cur.indexOf(v) !== -1) next = cur.filter(x => x !== v);
+      else if (exclusive.indexOf(v) !== -1) next = [v];
+      else next = cur.filter(x => exclusive.indexOf(x) === -1).concat([v]);
+      state.answers[qid] = next;
+      state.confirmed[qid] = false;
     }
-    renderFlow();
-    renderResult();
+    render();
+  }
+
+  // ---------- result ----------
+  function fitChip (fit) { return `<span class="fit-chip ${fit}">${FIT_LABEL[fit] || 'Fallback'}</span>`; }
+  function findingsList (findings, open) {
+    return `<details class="fit-more"${open ? ' open' : ''}><summary>Why · ${findings.filter(x => x.s === 'ok').length} met · ${findings.filter(x => x.s === 'chk').length} to confirm · ${findings.filter(x => x.s === 'no').length} unmet · ${findings.filter(x => x.s === 'doc').length} to do</summary><ul class="fit-why">${findings.map(x => `<li data-s="${x.s}">${x.t}</li>`).join('')}</ul></details>`;
+  }
+  function rowHtml (r, open) {
+    return `<li class="fit" data-fit="${r.fit}">
+      <div class="fit-head"><a href="${r.pw.card}" class="fit-name">${esc(r.pw.name)}</a>${fitChip(r.fit)}</div>
+      <div class="fit-cite">${esc(r.pw.cite)}</div>
+      ${findingsList(r.findings, open)}
+    </li>`;
+  }
+
+  function headline (ev, p) {
+    if (ev.ceqa === false) {
+      return { tag: 'none', tagLabel: 'Not subject to CEQA', title: 'Not a CEQA project.',
+        body: `<p>With no public money and no discretionary approval, CEQA does not reach the work. Keep a short memo to file explaining why.${fpaApplies(p) ? ' <strong>The Forest Practice Act still applies</strong> to the commercial component on non-federal land — see the Forest Practice fits below.' : ''}${has(p, 'activities', 'rxfire') ? ' If CAL FIRE assists the burn, its assistance is exempt under PRC §21080.49.1 (AB 1699).' : ''}</p>` };
+    }
+    const best = ev.ceqaRows.find(r => r.fit === 'likely') || ev.ceqaRows.find(r => r.fit === 'possible');
+    const forest = fpaApplies(p) ? (ev.forestRows.find(r => r.fit === 'likely') || ev.forestRows.find(r => r.fit === 'possible') || ev.forestRows[0]) : null;
+    if (!best) {
+      return { tag: 'standard', tagLabel: 'Standard CEQA document', title: 'Nothing streamlined fits cleanly — plan on an Initial Study.',
+        body: `<p>No exemption or programmatic tier survives this profile. Prepare an Initial Study leading to a Negative Declaration, MND or EIR, and file a Notice of Determination.${forest ? ` <strong>The commercial component runs under the Forest Practice Act</strong> — lead with ${esc(forest.pw.name)}.` : ''}</p>` };
+    }
+    const verb = best.fit === 'likely' ? 'Lead with' : 'Test';
+    const kindWord = { statutory: 'Statutory exemption', categorical: 'Categorical exemption', programmatic: 'Programmatic tier', standard: 'Standard document' }[best.pw.kind];
+    let body = `<p><strong>${esc(kindWord)}</strong> · ${esc(best.pw.cite)}. ${best.fit === 'likely' ? 'Every condition the profile can check is met; the remaining items are documentation.' : 'No condition is unmet, but items below still need confirming before you rely on it.'}</p>`;
+    if (forest) body += `<p><strong>Forest Practice is the foundation</strong> for the commercial component — ${esc(forest.pw.name)} is the closest fit; the CEQA exemption layers on top for the public agency’s decision.</p>`;
+    const alt = ev.ceqaRows.filter(r => r !== best && r.fit !== 'unlikely').slice(0, 2);
+    if (alt.length) body += `<p class="result-alt">Also in play: ${alt.map(r => `<a href="${r.pw.card}">${esc(r.pw.name)}</a>`).join(' · ')}.</p>`;
+    return { tag: best.pw.tag, tagLabel: `${best.fit === 'likely' ? 'Recommended' : 'Candidate'} · ${kindWord}`, title: `${verb} ${best.pw.name}.`, body };
+  }
+
+  function shelfLife (p) {
+    const y = startYear(p);
+    if (y === null) return '';
+    const items = [];
+    if ((p.land === 'federal' || p.land === 'mixed')) items.push(y < 2028 ? '§4799.05(d) sunsets Jan 1, 2028 — file before then' : '§4799.05(d) has sunset');
+    items.push(y < 2027 ? 'SB 1370 opens Jan 1, 2027' : y <= 2028 ? 'SB 1370 window closes Jan 1, 2029' : 'SB 1370 window closed Jan 1, 2029');
+    if (has(p, 'activities', 'restoration')) items.push('SERP repealed Jan 1, 2030');
+    if (fpaApplies(p)) items.push('Forest Resilience Exemption expires Jan 1, 2031');
+    return `<div class="result-shelf"><span class="mono">Shelf life</span> ${items.map(esc).join(' · ')}</div>`;
   }
 
   function renderResult () {
-    if (!state.resolution) {
-      const answered = Object.keys(state.answers).length;
-      const total = state.revealed.length;
-      if (answered === 0) {
-        resultEl.innerHTML = `<div class="result-empty">Your recommended pathway will appear here as you answer the questions to the left.</div>`;
-        return;
-      }
-      resultEl.innerHTML = `
-        <span class="result-tag none">In progress · ${answered} / ${total} answered</span>
-        <h3>Keep going.</h3>
-        <div class="result-body"><p>Answer the remaining question${total - answered === 1 ? '' : 's'} to land on a pathway recommendation.</p></div>
-        <button class="result-reset" type="button">Reset</button>
-      `;
-      resultEl.querySelector('.result-reset').addEventListener('click', reset);
+    const p = profile();
+    const vis = applicable();
+    const done = vis.filter(answered).length;
+    const total = vis.length;
+    const started = answered(QUESTIONS[0]);
+    if (!started) {
+      resultEl.innerHTML = '<div class="result-empty">Your recommended pathway — and how well each exemption fits — will appear here as you build the project profile on the left.</div>';
       return;
     }
-    const r = RESULTS[state.resolution];
-    resultEl.innerHTML = `
-      <span class="result-tag ${r.tag}">${r.tagLabel}</span>
-      <h3>${r.title}</h3>
-      <div class="result-body">${r.body}</div>
-      <div class="result-next">${r.next}</div>
-      <button class="result-reset" type="button">Reset and start over</button>
-    `;
-    resultEl.querySelector('.result-reset').addEventListener('click', reset);
+    const ev = evaluate(p);
+    const complete = done === total;
+    const enough = state.answers.activities && state.confirmed.activities;
+    let html = '';
+    if (!complete) {
+      html += `<span class="result-tag none">${enough ? 'Preliminary' : 'In progress'} · ${done} / ${total} answered</span>`;
+    }
+    if (enough || ev.ceqa === false) {
+      const h = headline(ev, p);
+      if (complete) html += `<span class="result-tag ${h.tag}">${h.tagLabel}</span>`;
+      html += `<h3>${h.title}</h3><div class="result-body">${h.body}</div>`;
+      if (!complete) html += `<p class="result-progress">Answer the remaining ${total - done === 1 ? 'question' : total - done + ' questions'} to firm this up — unanswered items show as “confirm”.</p>`;
+      html += shelfLife(p);
+      if (ev.ceqaRows.length) {
+        html += `<div class="fit-group"><div class="fit-group-title">CEQA pathway fit for this profile</div><ol class="fit-list">${ev.ceqaRows.map((r, i) => rowHtml(r, i === 0 && complete)).join('')}</ol></div>`;
+      }
+      if (ev.forestRows.length) {
+        html += `<div class="fit-group"><div class="fit-group-title">Forest Practice fit · commercial component</div><ol class="fit-list">${ev.forestRows.map((r, i) => rowHtml(r, false)).join('')}</ol></div>`;
+      }
+      if (ev.ceqa !== false) {
+        const std = PATHWAYS.find(x => x.id === 'standard');
+        html += `<div class="fit-fallback">Fallback · <a href="${std.card}">${esc(std.name)}</a> — always available if the fits above fall through.</div>`;
+      }
+      html += `<div class="result-notes"><div class="fit-group-title">Also keep in mind</div><ul>${sideNotes(p).map(n => `<li>${n}</li>`).join('')}</ul></div>`;
+    } else {
+      html += `<h3>Keep going.</h3><div class="result-body"><p>Pick the activities to see a first ranking of the exemptions. Every later answer tightens it.</p></div>`;
+    }
+    html += `<div class="result-actions"><button class="result-reset" type="button" data-act="reset">Reset and start over</button>${enough ? '<button class="result-reset" type="button" data-act="copy">Copy summary for memo to file</button>' : ''}</div>`;
+    resultEl.innerHTML = html;
+    resultEl.querySelector('[data-act="reset"]').addEventListener('click', reset);
+    const copyBtn = resultEl.querySelector('[data-act="copy"]');
+    if (copyBtn) copyBtn.addEventListener('click', () => copySummary(ev, p, copyBtn));
   }
 
-  function reset () {
-    state.answers = {};
-    state.revealed = ['project'];
-    state.resolution = null;
-    renderFlow();
-    renderResult();
+  function summaryText (ev, p) {
+    const lines = ['CEQA pathway profile — Nevada County QWSG reference (' + new Date().toLocaleDateString('en-US') + ')', ''];
+    applicable().forEach(q => {
+      const a = state.answers[q.id];
+      if (a === undefined || (Array.isArray(a) && !a.length)) return;
+      const label = v => { const o = q.opts.find(x => x.v === v); return o ? o.l : v; };
+      lines.push(q.q + ' ' + (Array.isArray(a) ? a.map(label).join('; ') : label(a)));
+    });
+    lines.push('');
+    const h = headline(ev, p);
+    lines.push('Recommendation: ' + h.title.replace(/<[^>]+>/g, ''));
+    const dump = (title, rows) => {
+      if (!rows.length) return;
+      lines.push('', title);
+      rows.forEach(r => {
+        lines.push(`- ${r.pw.name} (${r.pw.cite}) — ${FIT_LABEL[r.fit]}`);
+        r.findings.forEach(x => lines.push(`    ${{ ok: '[met]', chk: '[confirm]', no: '[unmet]', doc: '[to do]' }[x.s]} ${x.t.replace(/<[^>]+>/g, '')}`));
+      });
+    };
+    dump('CEQA pathways:', ev.ceqaRows);
+    dump('Forest Practice:', ev.forestRows);
+    lines.push('', 'Not legal advice. Verify current statute text before relying on any pathway.');
+    return lines.join('\n');
+  }
+  function copySummary (ev, p, btn) {
+    const text = summaryText(ev, p);
+    const done = () => { btn.textContent = 'Copied'; setTimeout(() => { btn.textContent = 'Copy summary for memo to file'; }, 1800); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
+    else fallbackCopy(text, done);
+  }
+  function fallbackCopy (text, done) {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+    document.body.removeChild(ta); done();
   }
 
-  // initial paint
-  renderFlow();
-  renderResult();
+  function reset () { state.answers = {}; state.confirmed = {}; render(); }
+  function render () { renderFlow(); renderResult(); }
+
+  render();
+})();
+</script>
+<script>
+// Print the full text of every "What changed recently" card: open the
+// collapsed "Read more" panels before printing and close them again after.
+(function () {
+  var opened = [];
+  window.addEventListener('beforeprint', function () {
+    opened = Array.prototype.slice.call(document.querySelectorAll('details.ctx-more:not([open])'));
+    opened.forEach(function (d) { d.open = true; });
+  });
+  window.addEventListener('afterprint', function () {
+    opened.forEach(function (d) { d.open = false; });
+    opened = [];
+  });
 })();
 </script>
 

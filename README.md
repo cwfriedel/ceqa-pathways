@@ -16,7 +16,7 @@ A single-page web reference that maps every available CEQA pathway for forest he
 
 The page replaces a dense two-page PDF reference with something easier to read, easier to share, and easier to navigate:
 
-- **Interactive decision tree** — answer five Yes/No questions and the right-hand panel recommends a pathway
+- **Pathway finder** — describe your project (who approves or funds it, land, activities, acreage, setting, resources, timing) and the right-hand panel scores each pathway as a likely, possible, or unlikely fit, with the reasons, and can copy a summary for a memo to file
 - **Exemption menu** — the eight statutory, categorical, programmatic, and special-purpose pathways as full cards with eligibility, triggers, common uses, and links to the underlying statute
 - **Working notes** — practitioner-level guidance on how each pathway maps to the kinds of projects QWSG participants are actually running
 - **Resources** — direct outbound links to the Public Resources Code, CEQA Guidelines, 2025 bill text, CalVTP PEIR, CDFW SERP program, FHSZ maps, and CEQAnet
@@ -38,11 +38,12 @@ If you're outside Nevada County, most of the content still applies statewide; on
 .
 ├── README.md                              ← you are here
 ├── index.html                             ← the live site (entry point)
+├── fonts/                                 ← self-hosted woff2 fonts
 ├── CEQA Pathways Reference-print.html     ← print-optimized variant (auto-opens print dialog)
 └── ...
 ```
 
-The site is one self-contained HTML file. The only external dependency is Google Fonts (Newsreader, IBM Plex Sans, IBM Plex Mono). No build step, no framework, no package manager.
+The site is one self-contained HTML file plus self-hosted fonts (Newsreader, IBM Plex Sans, IBM Plex Mono) in `fonts/`. No external dependencies, no build step, no framework, no package manager.
 
 ## Running locally
 
@@ -106,13 +107,15 @@ The HTML is hand-written and structured for direct editing — no templating, no
 | What you want to change | Where to edit |
 |---|---|
 | The "Current as of" date | Three places: hero eyebrow, `hero-meta` Status field, and footer colophon |
-| The "What changed recently" cards | `<div class="context-grid">` near the top |
-| A decision tree question or recommendation | The `STEPS` and `RESULTS` objects inside the `<script>` at the bottom |
+| The "What changed recently" cards | The `<div class="ctx">` blocks in `.context-grid` (keep the "*…* updates that reshape the menu" count in step) |
+| A pathway-finder question or a pathway's fit rules | The `QUESTIONS[]` and `PATHWAYS[]` arrays inside the `<script>` at the bottom |
 | An exemption card | The `<div class="exemptions">` grid; each card is an `<article class="ex">` |
 | A working note | The `<div class="notes-list">` inside the `#notes` section |
 | Outbound link URLs | The `<section id="resources">` block, and the various `.ex-foot` links inside each card |
 
 Preview by opening `index.html` in a browser. Commit and push to redeploy.
+
+> The canonical copy now lives in the Yuba Watershed Institute site repo (`cwfriedel/ywi-nextjs`, under `public/ceqa-pathways/`). Edit there first, then mirror `index.html` and `fonts/` here.
 
 ## Contributing
 
@@ -122,7 +125,7 @@ Updates from QWSG members and partner agencies are welcome. The preferred workfl
 2. **Submit a pull request** for review by the Environmental Compliance Subcommittee
 3. **Subcommittee approval** before merging — content changes touch a public-facing reference, so review is intentional
 
-For non-trivial changes (new pathway, restructured tree, major reframing), please flag it at the next Subcommittee meeting before opening the PR.
+For non-trivial changes (new pathway, restructured pathway finder, major reframing), please flag it at the next Subcommittee meeting before opening the PR.
 
 ## Credits & license
 

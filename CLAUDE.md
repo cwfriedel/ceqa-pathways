@@ -14,15 +14,14 @@ This subcommittee deliverable feeds the larger QWSG effort. For full collaborati
 
 ## Architecture
 
-One self-contained, **hand-written `index.html`** — no build step, framework, or package manager. The only external dependency is Google Fonts (Newsreader, IBM Plex Sans, IBM Plex Mono).
+One self-contained, **hand-written `index.html`** — no build step, framework, or package manager, and no external dependencies. Fonts (Newsreader, IBM Plex Sans, IBM Plex Mono) are self-hosted latin-subset woff2 files in `fonts/`, declared with `@font-face` at the top of the page's `<style>`.
 
 - `index.html` — the live site (entry point)
 - `CEQA Pathways Reference-print.html` — print-optimized variant: strips interactive chrome, renders the decision tree as a static flowchart, prints full URLs alongside link text, and auto-opens the print dialog. Used to produce a US-Letter PDF handout for QWSG meeting packets.
 
 ## Three main parts
 
-1. **Interactive decision tree** — 5 Yes/No questions that recommend a pathway:
-   commercial timber/biomass sale? → is it a CEQA "project"? → federal land with NEPA complete? → fits a statutory/categorical exemption? → within a Program EIR scope?
+1. **Pathway finder** — a project-profile questionnaire (who approves/funds the work, land ownership, NEPA status, planned activities, footprint, distance to structures, tree size, community setting, FHSZ, sensitive resources, restoration purpose, program context, start date, and stand details for commercial harvest). Questions reveal as they become relevant. The right-hand panel scores every pathway as *Likely fit* / *Possible — confirm* / *Unlikely*, lists the findings behind each score, and can copy a summary for a memo to file.
 2. **Exemption menu** — 8 pathway cards (eligibility, triggers, common uses, statute links).
 3. **Working notes** (locally framed practitioner guidance) + **Resources** (outbound links: PRC, CEQA Guidelines, 2025 bill text, CalVTP PEIR, CDFW SERP, FHSZ maps, CEQAnet).
 
@@ -44,14 +43,16 @@ Content is hand-edited directly in `index.html` — no templating or markdown so
 | What to change | Where |
 |---|---|
 | "Current as of" date | three places: hero eyebrow, `hero-meta` Status field, footer colophon |
-| "What changed recently" cards | `<div class="context-grid">` near the top |
-| A decision-tree question or recommendation | `STEPS` and `RESULTS` objects in the `<script>` at the bottom |
+| "What changed recently" cards | `<div class="ctx">` blocks in `.context-grid` (at most one `ctx ctx-feature`). Each has a short `.ctx-sum` plus full text in `<details class="ctx-more">`. The spelled-out count in "*…* updates that reshape the menu" must match the number of cards. |
+| A pathway-finder question, or a pathway's fit rules | `QUESTIONS[]` and `PATHWAYS[]` in the inline `<script>` at the bottom. Findings are `ok` / `chk` / `no` / `doc`; only the first three change the fit tier (`doc` is follow-through). Each pathway's `card` must point at its `#ex-N` exemption card. Sunset years appear in the `timing` question, the pathway `test` functions, `shelfLife()` and the card: move them together. Run `node --check` on the script afterwards, then click through a full profile in a browser. |
 | An exemption card | `<article class="ex">` blocks in the `#exemptions` grid |
 | A working note | `<div class="notes-list">` in `#notes` |
 | Outbound link URLs | `#resources` block + `.ex-foot` links in each card |
 
 Preview by opening `index.html` in a browser. **Commit and push to redeploy.**
 
+**Source of truth:** the canonical copy now lives in the Yuba Watershed Institute site repo (`cwfriedel/ywi-nextjs`, `public/ceqa-pathways/`). This repo is a mirror: make edits there first, then copy `index.html` and `fonts/` here.
+
 ## Contributing
 
-Updates from QWSG members and partner agencies welcome: open a GitHub issue → submit a PR → **subcommittee review before merge** (it's a public-facing reference, so review is intentional). Flag non-trivial changes (new pathway, restructured tree, major reframing) at the next subcommittee meeting before opening the PR.
+Updates from QWSG members and partner agencies welcome: open a GitHub issue → submit a PR → **subcommittee review before merge** (it's a public-facing reference, so review is intentional). Flag non-trivial changes (new pathway, restructured pathway finder, major reframing) at the next subcommittee meeting before opening the PR.
