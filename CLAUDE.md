@@ -8,7 +8,7 @@ A single-page web reference, **"CEQA Decision Pathways,"** mapping every availab
 
 - **Live site:** https://ceqa-pathways.vercel.app (Vercel; the static HTML also deploys to Netlify Drop / GitHub Pages)
 - **GitHub:** cwfriedel/ceqa-pathways
-- **Current as of:** May 2026 — updated for the 2025 legislative session (SB 131, AB 404, March 2025 Emergency Proclamation)
+- **Current as of:** October 2026 — updated through the 2025–26 legislative session (SB 131, March 2025 Emergency Proclamation and its successor SB 1370, AB 1699, AB 442)
 
 This subcommittee deliverable feeds the larger QWSG effort. For full collaborative context (people, governance, portfolio process, related work), see the QWSG project memory in the Yuba Watershed Institute shared drive (`collaborations/QWSG/CLAUDE.md`).
 
@@ -28,7 +28,7 @@ One self-contained, **hand-written `index.html`** — no build step, framework, 
 
 ## The 8 pathways
 
-1. **AB 404 / PRC §4799.05(d)** — NEPA-reviewed federal (BLM/USFS) projects. Statutory; sunsets Jan 1 2028.
+1. **PRC §4799.05(d)** (SB 901, 2018; extended by AB 211, 2022) — NEPA-reviewed federal (BLM/USFS) projects. Statutory; sunsets Jan 1 2028. (AB 404 (Sanchez, 2025) failed; never describe it as operative.)
 2. **SB 131 / PRC §21080.49** — wildfire risk reduction, 4 categories, urban-interface-focused. Statutory; no sunset; new in 2025.
 3. **SERP / PRC §21080.56** ("Cutting the Green Tape") — habitat restoration, no acreage cap. Statutory; sunsets Jan 1 2030.
 4. **Class 4 / §15304** — Minor Alterations to Land; the workhorse for small fuels/forestry. Categorical; §15300.2 exceptions apply.
@@ -43,7 +43,7 @@ Content is hand-edited directly in `index.html` — no templating or markdown so
 
 | What to change | Where |
 |---|---|
-| "Current as of" date | hero eyebrow (top of `<body>`) + footer colophon |
+| "Current as of" date | three places: hero eyebrow, `hero-meta` Status field, footer colophon |
 | "What changed recently" cards | `<div class="context-grid">` near the top |
 | A decision-tree question or recommendation | `STEPS` and `RESULTS` objects in the `<script>` at the bottom |
 | An exemption card | `<article class="ex">` blocks in the `#exemptions` grid |

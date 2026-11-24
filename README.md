@@ -6,13 +6,13 @@ Prepared by the Environmental Compliance Subcommittee of the **Nevada County Qua
 
 🌐 **Live site:** https://ceqa-pathways.vercel.app
 📄 **Printable PDF:** see [Print handout](#print--pdf-handout) below
-📅 **Current as of:** May 2026
+📅 **Current as of:** October 2026
 
 ---
 
 ## What this is
 
-A single-page web reference that maps every available CEQA pathway for forest health and fuels reduction projects — streamlined exemptions, programmatic tiers, Forest Practice documents, and the standard Initial Study → ND/MND/EIR route. It's updated for the 2025 legislative session, including **SB 131**, **AB 404**, and the **March 2025 Emergency Proclamation** framework.
+A single-page web reference that maps every available CEQA pathway for forest health and fuels reduction projects — streamlined exemptions, programmatic tiers, Forest Practice documents, and the standard Initial Study → ND/MND/EIR route. It's updated through the 2025–26 legislative session, including **SB 131**, the **March 2025 Emergency Proclamation** framework and its 2026 statutory successor **SB 1370**, and the June 2026 draft state Wildfire and Landscape Resilience Action Plan.
 
 The page replaces a dense two-page PDF reference with something easier to read, easier to share, and easier to navigate:
 
@@ -105,7 +105,7 @@ The HTML is hand-written and structured for direct editing — no templating, no
 
 | What you want to change | Where to edit |
 |---|---|
-| The "Current as of" date | Hero eyebrow (top of `<body>`) and footer colophon |
+| The "Current as of" date | Three places: hero eyebrow, `hero-meta` Status field, and footer colophon |
 | The "What changed recently" cards | `<div class="context-grid">` near the top |
 | A decision tree question or recommendation | The `STEPS` and `RESULTS` objects inside the `<script>` at the bottom |
 | An exemption card | The `<div class="exemptions">` grid; each card is an `<article class="ex">` |
