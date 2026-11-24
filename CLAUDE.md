@@ -6,29 +6,35 @@ A single-page web reference, **"CEQA Decision Pathways,"** mapping every availab
 
 **Work in progress — updated periodically.** Framed as a working summary, **not legal advice**.
 
-- **Live site:** https://ceqa-pathways.vercel.app (Vercel; the static HTML also deploys to Netlify Drop / GitHub Pages)
-- **GitHub:** cwfriedel/ceqa-pathways
-- **Current as of:** May 2026 — updated for the 2025 legislative session (SB 131, AB 404, March 2025 Emergency Proclamation)
+- **Live site:** https://ceqa-pathways.vercel.app (Vercel project `ceqa-pathways`), proxied by the YWI website at `https://www.yubawatershedinstitute.org/ceqa-pathways/index.html` and embedded at `/resources/ceqa-decision-pathways`
+- **GitHub:** cwfriedel/ceqa-pathways (**public**, and the **source of truth**). The YWI site repo (`cwfriedel/ywi-nextjs`, private) holds no copy; its `next.config.js` rewrites `/ceqa-pathways/*` to this deployment. Edit here, never there.
+- **Current as of:** October 2026 — updated through the 2025–26 legislative session (SB 131, March 2025 Emergency Proclamation and its successor SB 1370, AB 1699, AB 442)
 
 This subcommittee deliverable feeds the larger QWSG effort. For full collaborative context (people, governance, portfolio process, related work), see the QWSG project memory in the Yuba Watershed Institute shared drive (`collaborations/QWSG/CLAUDE.md`).
 
 ## Architecture
 
-One self-contained, **hand-written `index.html`** — no build step, framework, or package manager. The only external dependency is Google Fonts (Newsreader, IBM Plex Sans, IBM Plex Mono).
+One self-contained, **hand-written `index.html`** — no build step, framework, or package manager, and no external dependencies. Fonts (Newsreader, IBM Plex Sans, IBM Plex Mono) are self-hosted latin-subset woff2 files in `fonts/`, declared with `@font-face` at the top of the page's `<style>`.
 
-- `index.html` — the live site (entry point)
-- `CEQA Pathways Reference-print.html` — print-optimized variant: strips interactive chrome, renders the decision tree as a static flowchart, prints full URLs alongside link text, and auto-opens the print dialog. Used to produce a US-Letter PDF handout for QWSG meeting packets.
+- `index.html` — the live site (entry point). Printing is handled by its own print CSS plus a small `beforeprint` script that expands the "Read more" panels; keep it.
+- `fonts/` — self-hosted fonts. Keep them self-hosted: the YWI site CSP is `font-src 'self'`, so a Google Fonts `<link>` would break on the proxied page.
+- `docs/pathway-finder-redesign.md` — design notes and the rule matrix for the pathway finder.
+- `LICENSE` (MIT, code) + `LICENSE-CONTENT.md` (CC BY 4.0, content); `CONTRIBUTING.md`; `.github/ISSUE_TEMPLATE/`.
+
+Things in `index.html` that exist for the hosting setup, don't remove them:
+- `<link rel="canonical">` pointing at the YWI URL (avoids duplicate-content competition with ceqa-pathways.vercel.app).
+- The draft-banner script at the end of `<body>`: shows a "Draft for subcommittee review" bar on any `*.vercel.app` host other than `ceqa-pathways.vercel.app`, i.e. on preview deployments.
+- Root-relative `/_vercel/insights/script.js` (Vercel Analytics). Keep other asset URLs **relative** (`fonts/…`, `favicon.svg`) so they resolve under the YWI `/ceqa-pathways/` proxy path.
 
 ## Three main parts
 
-1. **Interactive decision tree** — 5 Yes/No questions that recommend a pathway:
-   commercial timber/biomass sale? → is it a CEQA "project"? → federal land with NEPA complete? → fits a statutory/categorical exemption? → within a Program EIR scope?
+1. **Pathway finder** — a project-profile questionnaire (who approves/funds the work, land ownership, NEPA status, planned activities, footprint, distance to structures, tree size, community setting, FHSZ, sensitive resources, restoration purpose, program context, start date, and stand details for commercial harvest). Questions reveal as they become relevant. The right-hand panel scores every pathway as *Likely fit* / *Possible — confirm* / *Unlikely*, lists the findings behind each score, and can copy a summary for a memo to file.
 2. **Exemption menu** — 8 pathway cards (eligibility, triggers, common uses, statute links).
 3. **Working notes** (locally framed practitioner guidance) + **Resources** (outbound links: PRC, CEQA Guidelines, 2025 bill text, CalVTP PEIR, CDFW SERP, FHSZ maps, CEQAnet).
 
 ## The 8 pathways
 
-1. **AB 404 / PRC §4799.05(d)** — NEPA-reviewed federal (BLM/USFS) projects. Statutory; sunsets Jan 1 2028.
+1. **PRC §4799.05(d)** (SB 901, 2018; extended by AB 211, 2022) — NEPA-reviewed federal (BLM/USFS) projects. Statutory; sunsets Jan 1 2028. (AB 404 (Sanchez, 2025) failed; never describe it as operative.)
 2. **SB 131 / PRC §21080.49** — wildfire risk reduction, 4 categories, urban-interface-focused. Statutory; no sunset; new in 2025.
 3. **SERP / PRC §21080.56** ("Cutting the Green Tape") — habitat restoration, no acreage cap. Statutory; sunsets Jan 1 2030.
 4. **Class 4 / §15304** — Minor Alterations to Land; the workhorse for small fuels/forestry. Categorical; §15300.2 exceptions apply.
@@ -43,15 +49,30 @@ Content is hand-edited directly in `index.html` — no templating or markdown so
 
 | What to change | Where |
 |---|---|
-| "Current as of" date | hero eyebrow (top of `<body>`) + footer colophon |
-| "What changed recently" cards | `<div class="context-grid">` near the top |
-| A decision-tree question or recommendation | `STEPS` and `RESULTS` objects in the `<script>` at the bottom |
+| "Current as of" date | three places: hero eyebrow, `hero-meta` Status field, footer colophon |
+| "What changed recently" cards | `<div class="ctx">` blocks in `.context-grid` (at most one `ctx ctx-feature`). Each has a short `.ctx-sum` plus full text in `<details class="ctx-more">`. The spelled-out count in "*…* updates that reshape the menu" must match the number of cards. |
+| A pathway-finder question, or a pathway's fit rules | `QUESTIONS[]` and `PATHWAYS[]` in the inline `<script>` at the bottom. Findings are `ok` / `chk` / `no` / `doc`; only the first three change the fit tier (`doc` is follow-through). Each pathway's `card` must point at its `#ex-N` exemption card. Sunset years appear in the `timing` question, the pathway `test` functions, `shelfLife()` and the card: move them together. Run `node --check` on the script afterwards, then click through a full profile in a browser. |
 | An exemption card | `<article class="ex">` blocks in the `#exemptions` grid |
 | A working note | `<div class="notes-list">` in `#notes` |
 | Outbound link URLs | `#resources` block + `.ex-foot` links in each card |
 
-Preview by opening `index.html` in a browser. **Commit and push to redeploy.**
+Preview by opening `index.html` in a browser. Never push to `main` directly: branch, open a PR, and stop. Merging to `main` publishes to the live site and the YWI website at once.
 
-## Contributing
+## Contributing and review
 
-Updates from QWSG members and partner agencies welcome: open a GitHub issue → submit a PR → **subcommittee review before merge** (it's a public-facing reference, so review is intentional). Flag non-trivial changes (new pathway, restructured tree, major reframing) at the next subcommittee meeting before opening the PR.
+Public repo: anyone can open an issue (templates in `.github/ISSUE_TEMPLATE/`) or a PR. **Subcommittee
+review before merge.** Subcommittee members don't use GitHub, so review happens on the PR's Vercel
+**preview link** (draft banner shown), which the maintainer emails to them; the maintainer records
+the sign-off on the PR and merges. Vercel Authentication is turned off for this project so preview
+links open without a Vercel login. See `CONTRIBUTING.md`. Flag non-trivial changes (new pathway,
+restructured pathway finder, major reframing) at the next subcommittee meeting before opening the PR.
+
+**Accuracy guardrails** (errors that have been fixed before, don't reintroduce them):
+- The federal-NEPA CEQA exemption is PRC §4799.05(d), created by SB 901 (2018) and extended to a
+  Jan 1, 2028 sunset by AB 211 (2022). AB 404 (Sanchez, 2025) failed; never describe it as operative.
+- Distinguish enacted law from pending bills ("pending, not yet law"). Prefer "no recorded action
+  since <date>" over asserting a bill is dead. Verify every status against a primary source.
+- Keep the "not legal advice" framing (footer disclaimer + the "verify at the source" line in `#resources`).
+
+**Maintenance:** a monthly scheduled task ("Ceqa pathways monthly legislation scan") scans for new CA
+CEQA forestry/fuels legislation and drafts edits against this repo for review.

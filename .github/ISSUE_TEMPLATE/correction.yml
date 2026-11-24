@@ -1,0 +1,28 @@
+name: Correction
+description: Something on the page is wrong or out of date (a statute, bill status, date, link, or fit rule).
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! Corrections are reviewed by the QWSG Permitting & Environmental Compliance Subcommittee before they go live.
+  - type: textarea
+    id: where
+    attributes:
+      label: Where on the page?
+      description: Section, card, or pathway-finder question. Quote the text if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What should it say instead?
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Primary source
+      description: Link to the bill text, statute, regulation, or agency page that supports the change.
+    validations:
+      required: true
